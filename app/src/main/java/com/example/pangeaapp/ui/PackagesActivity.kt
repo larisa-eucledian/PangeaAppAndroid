@@ -1,5 +1,6 @@
 package com.example.pangeaapp.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -56,6 +57,39 @@ class PackagesActivity : AppCompatActivity() {
 
         binding.recyclerPackages.layoutManager = LinearLayoutManager(this)
         binding.recyclerPackages.adapter = adapter
+
+        val bottom = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNav)
+        bottom.selectedItemId = R.id.nav_explore
+
+        bottom.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_explore -> {
+                    // Ya estás en Explore (Packages). No hacer nada.
+                    true
+                }
+                R.id.nav_esims -> {
+                    startActivity(
+                        Intent(this, EsimsSettingsActivity::class.java)
+                            .putExtra("tab", "esims") // usa el mismo extra que ya manejas
+                            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                    )
+                    finish()
+                    true
+                }
+                R.id.nav_settings -> {
+                    startActivity(
+                        Intent(this, EsimsSettingsActivity::class.java)
+                            .putExtra("tab", "settings") // usa el mismo extra que ya manejas
+                            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                    )
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
+
+
 
         binding.edtSearchPackages.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

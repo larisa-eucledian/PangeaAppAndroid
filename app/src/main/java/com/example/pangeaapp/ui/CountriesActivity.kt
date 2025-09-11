@@ -4,10 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pangeaapp.R
 import com.example.pangeaapp.core.CountryArg
@@ -48,6 +45,37 @@ class CountriesActivity : AppCompatActivity() {
 
         binding.recyclerCountries.layoutManager = LinearLayoutManager(this)
         binding.recyclerCountries.adapter = adapter
+
+        val bottom = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNav)
+        bottom.selectedItemId = R.id.nav_explore
+
+        bottom.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_explore -> {
+                    // Ya estás en Explore (Packages). No hacer nada.
+                    true
+                }
+                R.id.nav_esims -> {
+                    startActivity(
+                        Intent(this, EsimsSettingsActivity::class.java)
+                            .putExtra("tab", "esims") // usa el mismo extra que ya manejas
+                            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                    )
+                    finish()
+                    true
+                }
+                R.id.nav_settings -> {
+                    startActivity(
+                        Intent(this, EsimsSettingsActivity::class.java)
+                            .putExtra("tab", "settings") // usa el mismo extra que ya manejas
+                            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                    )
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
 
         binding.edtSearchCountries.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -120,8 +148,7 @@ class CountriesActivity : AppCompatActivity() {
         if (row.region?.contains(nq, ignoreCase = true) == true) return true
         if (row.countryCode.contains(nq, ignoreCase = true)) return true
         val localized = displayNameForCode(row.countryCode.uppercase(), locale)
-        if (localized.contains(nq, ignoreCase = true)) return true
-        return false
+        return localized.contains(nq, ignoreCase = true)
     }
 
     private fun matchesRegion(row: CountryRow, q: String, locale: Locale): Boolean {

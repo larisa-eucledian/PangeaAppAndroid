@@ -1,23 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+    <!-- Titles -->
     <string name="app_name">Pangea App</string>
-    <string name="title_countries">Explore Destinations</string>
+    <string name="title_countries">Explore</string>
     <string name="title_packages">Packages</string>
+    <string name="title_my_esims">My eSIMs</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_explore">Explore</string>
+    <string name="nav_esims">eSIMs</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Search / empty -->
     <string name="hint_search_countries">Search countries</string>
     <string name="hint_search_packages">Search packages</string>
+    <string name="empty_countries">No countries found</string>
+    <string name="empty_packages">No packages found</string>
+    <string name="empty_view">No Information</string>
+
+    <!-- Toggle One/Multiple -->
     <string name="toggle_one_country">One Country</string>
     <string name="toggle_multiple">Multiple Countries</string>
 
-    <plurals name="countries_count">
-        <item quantity="one">%d country</item>
-        <item quantity="other">%d countries</item>
-    </plurals>
+    <!-- Quick filters -->
+    <string name="filter_only_data">Only Data</string>
+    <string name="filter_data_calls">Data &amp; Calls</string>
+    <string name="filter_unlimited">Unlimited</string>
 
+    <!-- Features -->
     <string name="feature_calls">Calls</string>
     <string name="feature_sms">SMS</string>
     <string name="feature_hotspot">Hotspot</string>
     <string name="unlimited">Unlimited Data</string>
-    <string name="filter_only_data">Only Data</string>
-    <string name="filter_data_calls">Data &amp; Calls</string>
-    <string name="filter_unlimited">Unlimited</string>
+
+    <!-- Plurals -->
+    <plurals name="countries_count">
+        <item quantity="one">%d country</item>
+        <item quantity="other">%d countries</item>
+    </plurals>
 
 </resources>

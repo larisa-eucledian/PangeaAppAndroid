@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Titel -->
     <string name="app_name">PangeaApp</string>
-    <string name="title_countries">Reiseziele Entdecken</string>
+    <string name="title_countries">Entdecken</string>
     <string name="title_packages">Pakete</string>
+    <string name="title_my_esims">Meine eSIMs</string>
+    <string name="title_settings">Einstellungen</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_explore">Entdecken</string>
+    <string name="nav_esims">eSIMs</string>
+    <string name="nav_settings">Einstellungen</string>
+
+    <!-- Suche / leer -->
     <string name="hint_search_countries">Länder suchen</string>
     <string name="hint_search_packages">Pakete suchen</string>
+    <string name="empty_countries">Keine Länder gefunden</string>
+    <string name="empty_packages">Keine Pakete gefunden</string>
+    <string name="empty_view">Keine Informationen</string>
+
+    <!-- Toggle Ein/Mehrere -->
     <string name="toggle_one_country">Ein Land</string>
     <string name="toggle_multiple">Mehrere Länder</string>
 
+    <!-- Schnellfilter -->
+    <string name="filter_only_data">Nur Daten</string>
+    <string name="filter_data_calls">Daten &amp; Anrufe</string>
+    <string name="filter_unlimited">Unbegrenzt</string>
+
+    <!-- Features -->
+    <string name="feature_calls">Anrufe</string>
+    <string name="feature_sms">SMS</string>
+    <string name="feature_hotspot">Hotspot</string>
+    <string name="unlimited">Unbegrenzt Daten</string>
+
+    <!-- Plurals -->
     <plurals name="countries_count">
         <item quantity="one">%d Land</item>
         <item quantity="other">%d Länder</item>
     </plurals>
-
-    <string name="feature_calls">Anrufe</string>
-    <string name="feature_sms">SMS</string>
-    <string name="feature_hotspot">Hotspot</string>
-    <string name="unlimited">Unbegrenzt Data</string>
-    <string name="filter_only_data">Nur Data</string>
-    <string name="filter_data_calls">Data &amp; Anrufens</string>
-    <string name="filter_unlimited">Unbegrenzt</string>
 </resources>
+

@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+    <!-- Títulos -->
     <string name="app_name">PangeaApp</string>
-    <string name="title_countries">Explora Destinos</string>
+    <string name="title_countries">Explora</string>
     <string name="title_packages">Paquetes</string>
+    <string name="title_my_esims">Mis eSIMs</string>
+    <string name="title_settings">Ajustes</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_explore">Explora</string>
+    <string name="nav_esims">eSIMs</string>
+    <string name="nav_settings">Ajustes</string>
+
+    <!-- Búsqueda / vacíos -->
     <string name="hint_search_countries">Buscar países</string>
     <string name="hint_search_packages">Buscar paquetes</string>
-    <string name="toggle_one_country">Un País</string>
-    <string name="toggle_multiple">Varios Países</string>
+    <string name="empty_countries">No se encontraron países</string>
+    <string name="empty_packages">No se encontraron paquetes</string>
+    <string name="empty_view">Sin Información</string>
 
-    <plurals name="countries_count">
-        <item quantity="one">%d país</item>
-        <item quantity="other">%d países</item>
-    </plurals>
+    <!-- Toggle Uno/Múltiples -->
+    <string name="toggle_one_country">Un país</string>
+    <string name="toggle_multiple">Varios países</string>
 
+    <!-- Filtros rápidos -->
+    <string name="filter_only_data">Solo datos</string>
+    <string name="filter_data_calls">Datos y llamadas</string>
+    <string name="filter_unlimited">Ilimitado</string>
+
+    <!-- Features -->
     <string name="feature_calls">Llamadas</string>
     <string name="feature_sms">SMS</string>
     <string name="feature_hotspot">Comparte Internet</string>
     <string name="unlimited">Datos Ilimitados</string>
-    <string name="filter_only_data">Sólo Datos</string>
-    <string name="filter_data_calls">Datos &amp; Llamadas</string>
-    <string name="filter_unlimited">Ilimitado</string>
+
+    <!-- Plurals -->
+    <plurals name="countries_count">
+        <item quantity="one">%d país</item>
+        <item quantity="other">%d países</item>
+    </plurals>
 </resources>
