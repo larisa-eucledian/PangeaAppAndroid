@@ -16,4 +16,8 @@
     <string name="feature_calls">Anrufe</string>
     <string name="feature_sms">SMS</string>
     <string name="feature_hotspot">Hotspot</string>
+    <string name="unlimited">Unbegrenzt Data</string>
+    <string name="filter_only_data">Nur Data</string>
+    <string name="filter_data_calls">Data &amp; Anrufens</string>
+    <string name="filter_unlimited">Unbegrenzt</string>
 </resources>

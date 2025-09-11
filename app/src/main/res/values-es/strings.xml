@@ -15,5 +15,9 @@
 
     <string name="feature_calls">Llamadas</string>
     <string name="feature_sms">SMS</string>
-    <string name="feature_hotspot">Hotspot</string>
+    <string name="feature_hotspot">Comparte Internet</string>
+    <string name="unlimited">Datos Ilimitados</string>
+    <string name="filter_only_data">Sólo Datos</string>
+    <string name="filter_data_calls">Datos &amp; Llamadas</string>
+    <string name="filter_unlimited">Ilimitado</string>
 </resources>

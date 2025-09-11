@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="12dp"
     android:layout_width="match_parent"
@@ -12,6 +13,44 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface"
         android:titleTextColor="?android:textColorPrimary"/>
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOnlyData"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:text="@string/filter_only_data"
+            android:checkable="true"
+            app:backgroundTint="@color/toggle_bg"
+            android:textColor="@color/toggle_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDataCalls"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:text="@string/filter_data_calls"
+            android:checkable="true"
+            app:backgroundTint="@color/toggle_bg"
+            android:textColor="@color/toggle_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUnlimited"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:text="@string/filter_unlimited"
+            android:checkable="true"
+            app:backgroundTint="@color/toggle_bg"
+            android:textColor="@color/toggle_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
 
     <EditText
         android:id="@+id/edtSearchPackages"

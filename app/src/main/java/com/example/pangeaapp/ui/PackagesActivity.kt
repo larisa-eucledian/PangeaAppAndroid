@@ -1,5 +1,6 @@
 package com.example.pangeaapp.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,15 +18,19 @@ class PackagesActivity : AppCompatActivity() {
 
     companion object { const val EXTRA_COUNTRY_ARG = "EXTRA_COUNTRY_ARG" }
 
+    private enum class PackageFilter { NONE, ONLY_DATA, DATA_CALLS, UNLIMITED }
+
     private lateinit var binding: ActivityPackagesBinding
     private lateinit var repo: PlansRepository
     private val uiScope = CoroutineScope(Dispatchers.Main + Job())
+
+    private lateinit var prefs: SharedPreferences
+    private var currentFilter = PackageFilter.NONE
 
     private val adapter = PackageAdapter()
     private var all: List<PackageRow> = emptyList()
     private var filtered: List<PackageRow> = emptyList()
 
-    // ← usa propiedades (no locales) para que loadPackages las vea
     private var countryCode: String? = null
     private var countryName: String? = null
     private var coverageCodes: List<String> = emptyList()
@@ -36,6 +41,7 @@ class PackagesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         repo = AppDependencies.plansRepository
+        prefs = getSharedPreferences("pangea_prefs", MODE_PRIVATE)
 
         val arg = intent.getParcelableExtra<CountryArg>(EXTRA_COUNTRY_ARG)
         countryCode = arg?.countryCode
@@ -59,6 +65,32 @@ class PackagesActivity : AppCompatActivity() {
             }
         })
 
+        // restaurar filtro
+        currentFilter = when (prefs.getString("pkg_filter", "NONE")) {
+            "ONLY_DATA" -> PackageFilter.ONLY_DATA
+            "DATA_CALLS" -> PackageFilter.DATA_CALLS
+            "UNLIMITED" -> PackageFilter.UNLIMITED
+            else -> PackageFilter.NONE
+        }
+        when (currentFilter) {
+            PackageFilter.ONLY_DATA -> binding.toggleFilters.check(R.id.btnOnlyData)
+            PackageFilter.DATA_CALLS -> binding.toggleFilters.check(R.id.btnDataCalls)
+            PackageFilter.UNLIMITED -> binding.toggleFilters.check(R.id.btnUnlimited)
+            PackageFilter.NONE -> binding.toggleFilters.clearChecked()
+        }
+
+        binding.toggleFilters.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (!isChecked) return@addOnButtonCheckedListener
+            currentFilter = when (checkedId) {
+                R.id.btnOnlyData -> PackageFilter.ONLY_DATA
+                R.id.btnDataCalls -> PackageFilter.DATA_CALLS
+                R.id.btnUnlimited -> PackageFilter.UNLIMITED
+                else -> PackageFilter.NONE
+            }
+            prefs.edit().putString("pkg_filter", currentFilter.name).apply()
+            applyFilters(binding.edtSearchPackages.text?.toString().orEmpty())
+        }
+
         uiScope.launch { loadPackages() }
     }
 
@@ -72,6 +104,7 @@ class PackagesActivity : AppCompatActivity() {
 
         val code = countryCode?.uppercase()
         val name = countryName
+
         val byName = name?.let { n ->
             allPkgs.filter { p -> p.countryName.equals(n, ignoreCase = true) }
         } ?: emptyList()
@@ -82,13 +115,28 @@ class PackagesActivity : AppCompatActivity() {
 
         all = if (byName.isNotEmpty()) byName else byCode
         filtered = all
-        adapter.submitList(filtered)
+        renderPackages(filtered)
     }
 
+    private fun isUnlimited(p: PackageRow): Boolean =
+        p.dataAmount.equals("unlimited", true) || p.dataAmount == "9007199254740991"
+
     private fun applyFilters(q: String) {
-        filtered = if (q.isBlank()) all
-        else all.filter { p -> p.`package`.contains(q, true) }
-        adapter.submitList(filtered)
+        var base = if (q.isBlank()) all else all.filter { it.`package`.contains(q, true) }
+
+        base = when (currentFilter) {
+            PackageFilter.ONLY_DATA   -> base.filter { !isUnlimited(it) && it.withCall != true }
+            PackageFilter.DATA_CALLS  -> base.filter { !isUnlimited(it) && it.withCall == true }
+            PackageFilter.UNLIMITED   -> base.filter { isUnlimited(it) }
+            PackageFilter.NONE        -> base
+        }
+
+        filtered = base
+        renderPackages(filtered)
+    }
+
+    private fun renderPackages(list: List<PackageRow>) {
+        adapter.submitList(list)
     }
 
     override fun onDestroy() {

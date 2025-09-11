@@ -30,15 +30,20 @@ class PackageAdapter : ListAdapter<PackageRow, PackageAdapter.VH>(Diff) {
         holder.b.txtCountryName.text = p.countryName
         holder.b.txtPackageName.text = p.`package`
 
-        val parts = mutableListOf<String>()
-        parts += "${p.dataAmount} ${p.dataUnit}"
-        if (p.withCall == true)    parts += ctx.getString(R.string.feature_calls)
-        if (p.withSMS == true)     parts += ctx.getString(R.string.feature_sms)
-        if (p.withHotspot == true) parts += ctx.getString(R.string.feature_hotspot)
-        holder.b.txtPackageFeatures.text = parts.joinToString(" • ")
+        val localized = p.featuresList().map { token ->
+            when (token.lowercase()) {
+                "unlimited" -> ctx.getString(R.string.unlimited)
+                "calls"     -> ctx.getString(R.string.feature_calls)
+                "sms"       -> ctx.getString(R.string.feature_sms)
+                "hotspot"   -> ctx.getString(R.string.feature_hotspot)
+                else        -> token
+            }
+        }
+        holder.b.txtPackageFeatures.text = localized.joinToString(" • ")
 
-        val amount = java.lang.String.format(java.util.Locale.getDefault(), "%.2f", p.pricePublic)
+        val amount = String.format(java.util.Locale.getDefault(), "%.2f", p.pricePublic)
         val currency = p.currency.orEmpty()
         holder.b.txtPackagePrice.text = if (currency.isNotEmpty()) "$currency $amount" else amount
     }
+
 }
