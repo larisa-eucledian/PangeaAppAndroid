@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PangeaApp</string>
+    <string name="title_countries">Explora Destinos</string>
+    <string name="title_packages">Paquetes</string>
+    <string name="hint_search_countries">Buscar países</string>
+    <string name="hint_search_packages">Buscar paquetes</string>
+    <string name="toggle_one_country">Un País</string>
+    <string name="toggle_multiple">Varios Países</string>
+
+    <plurals name="countries_count">
+        <item quantity="one">%d país</item>
+        <item quantity="other">%d países</item>
+    </plurals>
+
+    <string name="feature_calls">Llamadas</string>
+    <string name="feature_sms">SMS</string>
+    <string name="feature_hotspot">Hotspot</string>
+</resources>
