@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
     id("kotlin-parcelize")
 }
 
@@ -42,9 +44,12 @@ android {
         jvmTarget = "11"
     }
 }
+ksp {
+    arg("dagger.hilt.android.internal.disableAndroidSuperclassValidation", "true")
+}
 
 dependencies {
-
+    implementation(libs.androidx.datastore.preferences.v100)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -57,6 +62,22 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.room.common.jvm)
+    ksp(libs.hilt.compiler)
+    implementation(libs.tink.android)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.room.ktx.v281)
+    ksp(libs.room.compiler)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.glide)
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
+
+
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.activity.compose)
     testImplementation(libs.junit)

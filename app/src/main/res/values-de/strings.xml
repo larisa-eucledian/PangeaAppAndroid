@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="offline_message">No internet connection</string>
     <!-- Titel -->
     <string name="app_name">PangeaApp</string>
     <string name="title_countries">Entdecken</string>
     <string name="title_packages">Pakete</string>
     <string name="title_my_esims">Meine eSIMs</string>
     <string name="title_settings">Einstellungen</string>
+    <string name="title_esims">eSIMs</string>
 
     <!-- Bottom nav -->
     <string name="nav_explore">Entdecken</string>

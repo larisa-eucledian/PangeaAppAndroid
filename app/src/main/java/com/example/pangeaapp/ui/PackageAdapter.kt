@@ -28,7 +28,7 @@ class PackageAdapter : ListAdapter<PackageRow, PackageAdapter.VH>(Diff) {
         val ctx = holder.itemView.context
 
         holder.b.txtCountryName.text = p.countryName
-        holder.b.txtPackageName.text = p.`package`
+        holder.b.txtPackageName.text = p.packageName
 
         val localized = p.featuresList().map { token ->
             when (token.lowercase()) {

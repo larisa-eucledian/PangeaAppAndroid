@@ -156,7 +156,7 @@ class PackagesActivity : AppCompatActivity() {
         p.dataAmount.equals("unlimited", true) || p.dataAmount == "9007199254740991"
 
     private fun applyFilters(q: String) {
-        var base = if (q.isBlank()) all else all.filter { it.`package`.contains(q, true) }
+        var base = if (q.isBlank()) all else all.filter { it.packageName.contains(q, true) }
 
         base = when (currentFilter) {
             PackageFilter.ONLY_DATA   -> base.filter { !isUnlimited(it) && it.withCall != true }

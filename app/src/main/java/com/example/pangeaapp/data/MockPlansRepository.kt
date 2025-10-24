@@ -5,6 +5,8 @@ import com.example.pangeaapp.core.CountryRow
 import com.example.pangeaapp.core.Geography
 import com.example.pangeaapp.core.PackageRow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
@@ -109,7 +111,7 @@ class MockPlansRepository(private val context: Context) : PlansRepository {
             id = o.getInt("id"),
             documentId = o.getString("documentId"),
             packageId = o.getString("package_id"),
-            `package` = o.getString("package"),
+            packageName = o.getString("package"),
             validityDays = o.getInt("validity_days"),
             pricePublic = o.getDouble("price_public"),
             dataAmount = o.getString("dataAmount"),
@@ -126,5 +128,41 @@ class MockPlansRepository(private val context: Context) : PlansRepository {
             },
             countryName = o.getString("country_name")
         )
+
+    }
+    override fun getCountriesFlow(): Flow<Resource<List<CountryRow>>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val countries = getCountries()
+                emit(Resource.Success(countries))
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message ?: "Unknown error"))
+            }
+        }
+    }
+
+    override fun getPackagesFlow(): Flow<Resource<List<PackageRow>>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val packages = getPackages()
+                emit(Resource.Success(packages))
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message ?: "Unknown error"))
+            }
+        }
+    }
+
+    override fun getPackagesByCountryFlow(code: String): Flow<Resource<List<PackageRow>>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val packages = getPackagesByCountry(code)
+                emit(Resource.Success(packages))
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message ?: "Unknown error"))
+            }
+        }
     }
 }

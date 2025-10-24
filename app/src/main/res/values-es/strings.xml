@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+    <string name="offline_message">Sin conexión - mostrando datos guardados</string>
+
     <!-- Títulos -->
     <string name="app_name">PangeaApp</string>
     <string name="title_countries">Explora</string>
     <string name="title_packages">Paquetes</string>
     <string name="title_my_esims">Mis eSIMs</string>
     <string name="title_settings">Ajustes</string>
+    <string name="title_esims">eSIMs</string>
 
     <!-- Bottom nav -->
     <string name="nav_explore">Explora</string>
