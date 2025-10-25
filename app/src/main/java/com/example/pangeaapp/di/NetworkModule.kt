@@ -13,6 +13,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.example.pangeaapp.core.network.DataUnwrapTypeAdapterFactory
 
 /**
  * NetworkModule provee dependencias de red (Retrofit, OkHttp, etc)
@@ -54,11 +57,11 @@ object NetworkModule {
      */
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Config.BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 
@@ -70,4 +73,11 @@ object NetworkModule {
     fun providePangeaApiService(retrofit: Retrofit): PangeaApiService {
         return retrofit.create(PangeaApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson =
+        GsonBuilder()
+            .registerTypeAdapterFactory(DataUnwrapTypeAdapterFactory())
+            .create()
 }

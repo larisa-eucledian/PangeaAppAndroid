@@ -32,7 +32,8 @@ class RealPlansRepository @Inject constructor(
                 apiService.getCountries()
             },
             saveFetchResult = { dtos ->
-                val entities = dtos.map { it.toEntity() }
+                val entities = dtos
+                    .map { it.toEntity() }
                 countryDao.deleteAll()
                 countryDao.insertAll(entities)
             },

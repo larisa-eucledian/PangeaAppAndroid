@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pangeaapp.R
@@ -87,23 +89,27 @@ class CountriesFragment : Fragment() {
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.countries.collect { countries ->
-                adapter.submitList(countries)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.countries.collect { countries ->
+                    adapter.submitList(countries)
 
-                // Mostrar empty state si no hay países
-                if (countries.isEmpty()) {
-                    binding.emptyView.root.visibility = View.VISIBLE
-                    binding.recyclerCountries.visibility = View.GONE
-                } else {
-                    binding.emptyView.root.visibility = View.GONE
-                    binding.recyclerCountries.visibility = View.VISIBLE
+                    // Mostrar empty state si no hay países
+                    if (countries.isEmpty()) {
+                        binding.emptyView.root.visibility = View.VISIBLE
+                        binding.recyclerCountries.visibility = View.GONE
+                    } else {
+                        binding.emptyView.root.visibility = View.GONE
+                        binding.recyclerCountries.visibility = View.VISIBLE
+                    }
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isLoading.collect { isLoading ->
-                // TODO: Mostrar loading indicator si es necesario
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoading.collect { isLoading ->
+                    // TODO: Mostrar loading indicator si es necesario
+                }
             }
         }
     }

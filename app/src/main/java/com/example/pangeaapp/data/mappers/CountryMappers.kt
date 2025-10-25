@@ -6,7 +6,7 @@ import com.example.pangeaapp.data.remote.dto.CountryDto
 
 // DTO -> Entity
 fun CountryDto.toEntity() = CountryEntity(
-    id = id,
+    id = id.also { println("🟦 Mapping country: $countryName, geography from DTO: $geography") },
     documentId = documentId,
     countryCode = countryCode,
     countryName = countryName,

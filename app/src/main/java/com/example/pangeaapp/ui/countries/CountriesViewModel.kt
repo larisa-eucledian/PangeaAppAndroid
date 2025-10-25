@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.pangeaapp.core.CountryRow
 import com.example.pangeaapp.core.Geography
 import com.example.pangeaapp.data.PlansRepository
+import com.example.pangeaapp.data.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,17 +43,28 @@ class CountriesViewModel @Inject constructor(
      */
     fun loadCountries() {
         viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                // Usar getCountriesFlow() en lugar de getCountries()
-                plansRepository.getCountriesFlow().collect { countriesList ->
-                    allCountries = countriesList as List<CountryRow>
-                    applyFilters()
-                    _isLoading.value = false
+            plansRepository.getCountriesFlow().collect { res ->
+                // AGREGAR ESTE LOG:
+                println("🔵 CountriesVM: ${res.javaClass.simpleName}")
+
+                when (res) {
+                    is Resource.Loading -> {
+                        println("🟡 Loading...")
+                        _isLoading.value = true
+                    }
+                    is Resource.Success -> {
+                        println("🟢 Success: ${res.data.size} countries")
+                        _isLoading.value = false
+                        allCountries = res.data
+                        applyFilters()
+                    }
+                    is Resource.Error -> {
+                        println("🔴 Error: ${res.message}")
+                        _isLoading.value = false
+                        allCountries = emptyList()
+                        applyFilters()
+                    }
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _isLoading.value = false
             }
         }
     }
@@ -78,7 +90,9 @@ class CountriesViewModel @Inject constructor(
      */
     private fun applyFilters() {
         val locale = Locale.getDefault()
-
+        println("🔵 Total countries: ${allCountries.size}")
+        println("🔵 Current mode: $currentMode")
+        println("🔵 First 3 geographies: ${allCountries.take(3).map { "${it.countryName}: ${it.geography}" }}")
         // Filtrar por modo
         val filteredByMode = when (currentMode) {
             Mode.ONE -> allCountries.filter { it.geography == Geography.local }
