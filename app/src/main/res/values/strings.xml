@@ -42,5 +42,48 @@
         <item quantity="one">%d country</item>
         <item quantity="other">%d countries</item>
     </plurals>
+        <!-- Auth Screens -->
+        <string name="auth_welcome">Welcome to Pangea</string>
+        <string name="auth_login">Login</string>
+        <string name="auth_register">Register</string>
+        <string name="auth_login_subtitle">Sign in to continue</string>
+        <string name="auth_register_subtitle">Create your account</string>
+        <string name="auth_logout">Logout</string>
+
+        <!-- Input Hints -->
+        <string name="auth_identifier_hint">Email or username</string>
+        <string name="auth_username_hint">Username</string>
+        <string name="auth_email_hint">Email</string>
+        <string name="auth_password_hint">Password</string>
+
+        <!-- Actions -->
+        <string name="auth_forgot_password">Forgot password?</string>
+        <string name="auth_no_account">Don\'t have an account?</string>
+        <string name="auth_have_account">Already have an account?</string>
+
+        <!-- Messages -->
+        <string name="auth_password_requirements">At least 8 characters</string>
+        <string name="auth_forgot_password_message">Enter your email to receive password reset instructions</string>
+        <string name="auth_email_sent">Check your email for reset instructions</string>
+        <string name="auth_login_success">Welcome back!</string>
+        <string name="auth_register_success">Account created successfully!</string>
+
+        <!-- Errors -->
+        <string name="auth_error_invalid_credentials">Invalid email/username or password</string>
+        <string name="auth_error_user_exists">User already exists</string>
+        <string name="auth_error_email_not_found">Email not found</string>
+        <string name="auth_error_network">Network error. Please try again</string>
+        <string name="auth_error_invalid_email">Invalid email format</string>
+        <string name="auth_error_password_short">Password must be at least 8 characters</string>
+        <string name="auth_error_username_short">Username must be at least 3 characters</string>
+        <string name="auth_error_required_field">This field is required</string>
+
+        <!-- Common -->
+        <string name="common_cancel">Cancel</string>
+        <string name="common_send">Send</string>
+        <string name="common_ok">OK</string>
+        <string name="common_loading">Loading…</string>
+    <string name="logged_in">Logged in</string>
+    <string name="version_1_0_0">Version 1.0.0</string>
 
 </resources>

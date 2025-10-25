@@ -1,30 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/countriesFragment">
 
+    <!-- Countries Fragment (Explore tab) -->
     <fragment
         android:id="@+id/countriesFragment"
         android:name="com.example.pangeaapp.ui.countries.CountriesFragment"
-        android:label="@string/title_countries" />
+        android:label="@string/title_countries"
+        tools:layout="@layout/fragment_countries">
 
+        <action
+            android:id="@+id/action_countries_to_packages"
+            app:destination="@id/packagesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <!-- Packages Fragment -->
     <fragment
         android:id="@+id/packagesFragment"
         android:name="com.example.pangeaapp.ui.packages.PackagesFragment"
-        android:label="@string/title_packages">
+        android:label="@string/title_packages"
+        tools:layout="@layout/fragment_packages">
+
         <argument
             android:name="countryCode"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="countryName"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="coverageCodes"
+            app:argType="string[]"
+            app:nullable="true" />
     </fragment>
 
+    <!-- eSIMs Fragment (eSIMs tab) -->
     <fragment
         android:id="@+id/esimsFragment"
-        android:name="com.example.pangeaapp.ui.esims.EsimsFragment"
-        android:label="@string/title_esims" />
+        android:name="com.example.pangeaapp.ui.EsimsFragment"
+        android:label="@string/title_esims"
+        tools:layout="@layout/fragment_esims" />
 
+    <!-- Settings Fragment (Settings tab) -->
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.pangeaapp.ui.settings.SettingsFragment"
-        android:label="@string/title_settings" />
+        android:name="com.example.pangeaapp.ui.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+    <!-- Login Fragment -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.pangeaapp.ui.auth.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_login_to_register"
+            app:destination="@id/registerFragment" />
+
+        <action
+            android:id="@+id/action_login_to_countries"
+            app:destination="@id/countriesFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <!-- Register Fragment -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.pangeaapp.ui.auth.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
+
+        <action
+            android:id="@+id/action_register_to_countries"
+            app:destination="@id/countriesFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="false" />
+    </fragment>
+
 </navigation>

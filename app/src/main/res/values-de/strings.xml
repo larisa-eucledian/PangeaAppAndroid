@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="offline_message">No internet connection</string>
-    <!-- Titel -->
-    <string name="app_name">PangeaApp</string>
+    <string name="offline_message">Keine Internetverbindung</string>
+    <!-- Titles -->
+    <string name="app_name">Pangea App</string>
     <string name="title_countries">Entdecken</string>
     <string name="title_packages">Pakete</string>
     <string name="title_my_esims">Meine eSIMs</string>
-    <string name="title_settings">Einstellungen</string>
     <string name="title_esims">eSIMs</string>
+    <string name="title_settings">Einstellungen</string>
 
     <!-- Bottom nav -->
     <string name="nav_explore">Entdecken</string>
     <string name="nav_esims">eSIMs</string>
     <string name="nav_settings">Einstellungen</string>
 
-    <!-- Suche / leer -->
+    <!-- Search / empty -->
     <string name="hint_search_countries">Länder suchen</string>
     <string name="hint_search_packages">Pakete suchen</string>
     <string name="empty_countries">Keine Länder gefunden</string>
     <string name="empty_packages">Keine Pakete gefunden</string>
     <string name="empty_view">Keine Informationen</string>
 
-    <!-- Toggle Ein/Mehrere -->
+    <!-- Toggle One/Multiple -->
     <string name="toggle_one_country">Ein Land</string>
     <string name="toggle_multiple">Mehrere Länder</string>
 
-    <!-- Schnellfilter -->
+    <!-- Quick filters -->
     <string name="filter_only_data">Nur Daten</string>
     <string name="filter_data_calls">Daten &amp; Anrufe</string>
     <string name="filter_unlimited">Unbegrenzt</string>
@@ -34,12 +34,55 @@
     <string name="feature_calls">Anrufe</string>
     <string name="feature_sms">SMS</string>
     <string name="feature_hotspot">Hotspot</string>
-    <string name="unlimited">Unbegrenzt Daten</string>
+    <string name="unlimited">Unbegrenzte Daten</string>
 
     <!-- Plurals -->
     <plurals name="countries_count">
         <item quantity="one">%d Land</item>
         <item quantity="other">%d Länder</item>
     </plurals>
-</resources>
 
+    <!-- Auth Screens -->
+    <string name="auth_welcome">Willkommen bei Pangea</string>
+    <string name="auth_login">Anmelden</string>
+    <string name="auth_register">Registrieren</string>
+    <string name="auth_login_subtitle">Melde dich an, um fortzufahren</string>
+    <string name="auth_register_subtitle">Erstelle dein Konto</string>
+    <string name="auth_logout">Abmelden</string>
+
+    <!-- Input Hints -->
+    <string name="auth_identifier_hint">E-Mail oder Benutzername</string>
+    <string name="auth_username_hint">Benutzername</string>
+    <string name="auth_email_hint">E-Mail</string>
+    <string name="auth_password_hint">Passwort</string>
+
+    <!-- Actions -->
+    <string name="auth_forgot_password">Passwort vergessen?</string>
+    <string name="auth_no_account">Noch kein Konto?</string>
+    <string name="auth_have_account">Bereits ein Konto?</string>
+
+    <!-- Messages -->
+    <string name="auth_password_requirements">Mindestens 8 Zeichen</string>
+    <string name="auth_forgot_password_message">Gib deine E-Mail ein, um Anweisungen zum Zurücksetzen des Passworts zu erhalten</string>
+    <string name="auth_email_sent">Überprüfe deine E-Mail für die Anweisungen</string>
+    <string name="auth_login_success">Willkommen zurück!</string>
+    <string name="auth_register_success">Konto erfolgreich erstellt!</string>
+
+    <!-- Errors -->
+    <string name="auth_error_invalid_credentials">Ungültige E-Mail/Benutzername oder Passwort</string>
+    <string name="auth_error_user_exists">Benutzer existiert bereits</string>
+    <string name="auth_error_email_not_found">E-Mail nicht gefunden</string>
+    <string name="auth_error_network">Netzwerkfehler. Bitte versuche es erneut</string>
+    <string name="auth_error_invalid_email">Ungültiges E-Mail-Format</string>
+    <string name="auth_error_password_short">Das Passwort muss mindestens 8 Zeichen lang sein</string>
+    <string name="auth_error_username_short">Der Benutzername muss mindestens 3 Zeichen lang sein</string>
+    <string name="auth_error_required_field">Dieses Feld ist erforderlich</string>
+
+    <!-- Common -->
+    <string name="common_cancel">Abbrechen</string>
+    <string name="common_send">Senden</string>
+    <string name="common_ok">OK</string>
+    <string name="common_loading">Wird geladen…</string>
+    <string name="logged_in">Angemeldet</string>
+    <string name="version_1_0_0">Version 1.0.0</string>
+</resources>

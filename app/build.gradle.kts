@@ -2,9 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-    id("kotlin-parcelize")
+    alias(libs.plugins.androidx.navigation.safeargs)
 }
 
 android {
@@ -34,6 +35,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig = true
     }
 
     compileOptions {
@@ -49,37 +51,58 @@ ksp {
 }
 
 dependencies {
-    implementation(libs.androidx.datastore.preferences.v100)
+    // AndroidX Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.coil)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Material Design
+    implementation(libs.material)
+
+    // Compose
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.hilt.android)
-    implementation(libs.androidx.room.common.jvm)
-    ksp(libs.hilt.compiler)
-    implementation(libs.tink.android)
-    implementation(libs.androidx.datastore.preferences)
-    implementation(libs.androidx.room.ktx.v281)
-    ksp(libs.room.compiler)
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.glide)
-    implementation (libs.androidx.navigation.fragment.ktx)
-    implementation (libs.androidx.navigation.ui.ktx)
-
-
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.activity.compose)
+
+    // Navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // Networking
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging.interceptor)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+
+    // Security
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.tink.android)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Image Loading
+    implementation(libs.coil)
+    implementation(libs.glide)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
