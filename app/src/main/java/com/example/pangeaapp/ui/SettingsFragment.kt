@@ -15,11 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * SettingsFragment - Pantalla de configuración
- *
- * Por ahora solo tiene Logout, pero puedes agregar más opciones después
- */
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
@@ -37,15 +32,11 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Botón de logout
         view.findViewById<MaterialButton>(R.id.btnLogout)?.setOnClickListener {
             showLogoutConfirmation()
         }
     }
 
-    /**
-     * Muestra confirmación antes de hacer logout
-     */
     private fun showLogoutConfirmation() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Logout")
@@ -57,15 +48,10 @@ class SettingsFragment : Fragment() {
             .show()
     }
 
-    /**
-     * Ejecuta el logout
-     */
     private fun performLogout() {
         lifecycleScope.launch {
-            // Limpiar sesión
             sessionManager.logout()
 
-            // Navegar a login y limpiar backstack
             findNavController().navigate(R.id.loginFragment)
         }
     }

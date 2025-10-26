@@ -18,11 +18,6 @@ import com.example.pangeaapp.ui.PackageAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-/**
- * PackagesFragment muestra los paquetes disponibles para un país/región
- *
- * Migrado de PackagesActivity → Ahora es Fragment
- */
 @AndroidEntryPoint
 class PackagesFragment : Fragment() {
 
@@ -31,7 +26,6 @@ class PackagesFragment : Fragment() {
 
     private val viewModel: PackagesViewModel by viewModels()
 
-    // Safe Args para recibir datos de navegación
     private val args: PackagesFragmentArgs by navArgs()
 
     private val adapter = PackageAdapter()
@@ -54,7 +48,6 @@ class PackagesFragment : Fragment() {
         setupFilters()
         observeViewModel()
 
-        // Cargar paquetes con los args recibidos
         viewModel.loadPackages(
             countryCode = args.countryCode,
             countryName = args.countryName,
@@ -63,16 +56,12 @@ class PackagesFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        // Actualizar título con nombre del país
         val title = if (!args.countryName.isNullOrEmpty()) {
             "${getString(R.string.title_packages)} - ${args.countryName}"
         } else {
             getString(R.string.title_packages)
         }
 
-        // Si usas toolbar en el fragment:
-        // binding.toolbarPackages.title = title
-        // (o puedes setear el título en la Activity)
     }
 
     private fun setupRecyclerView() {
@@ -93,7 +82,6 @@ class PackagesFragment : Fragment() {
     }
 
     private fun setupFilters() {
-        // Restaurar filtro guardado
         val savedFilter = viewModel.getSavedFilter()
         when (savedFilter) {
             PackagesViewModel.PackageFilter.ONLY_DATA ->
@@ -125,7 +113,6 @@ class PackagesFragment : Fragment() {
             viewModel.packages.collect { packages ->
                 adapter.submitList(packages)
 
-                // Mostrar empty state si no hay paquetes
                 if (packages.isEmpty()) {
                     binding.emptyView.root.visibility = View.VISIBLE
                     binding.recyclerPackages.visibility = View.GONE
@@ -138,7 +125,7 @@ class PackagesFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isLoading.collect { isLoading ->
-                // TODO: Mostrar loading indicator si es necesario
+                // TODO: Mostrar loading indicator
             }
         }
     }

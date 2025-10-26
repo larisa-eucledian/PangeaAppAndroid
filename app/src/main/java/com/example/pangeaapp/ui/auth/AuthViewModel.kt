@@ -60,7 +60,6 @@ class AuthViewModel @Inject constructor(
                 authRepository.forgotPassword(email)
                 onSuccess()
             } catch (e: AuthException) {
-                // Handle error
             }
         }
     }

@@ -10,14 +10,6 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-/**
- * RealAuthRepository implementa AuthRepository conectándose al API real.
- *
- * Maneja:
- * - Llamadas a Retrofit
- * - Conversión de errores HTTP a AuthException
- * - Threading con Dispatchers.IO
- */
 class RealAuthRepository @Inject constructor(
     private val apiService: PangeaApiService
 ) : AuthRepository {
@@ -29,10 +21,7 @@ class RealAuthRepository @Inject constructor(
                     identifier = identifier,
                     password = password
                 )
-
                 val response = apiService.login(request)
-
-                // Mapear respuesta del API a AuthSession
                 AuthSession(
                     jwt = response.jwt,
                     user = AuthUser(
@@ -52,7 +41,6 @@ class RealAuthRepository @Inject constructor(
             }
         }
     }
-
     override suspend fun register(
         username: String,
         email: String,
@@ -60,17 +48,13 @@ class RealAuthRepository @Inject constructor(
     ): AuthSession {
         return withContext(Dispatchers.IO) {
             try {
-                // Validación local antes de llamar al API
                 validateRegistration(username, email, password)
-
                 val request = RegisterRequest(
                     username = username,
                     email = email,
                     password = password
                 )
-
                 val response = apiService.register(request)
-
                 AuthSession(
                     jwt = response.jwt,
                     user = AuthUser(
@@ -92,18 +76,14 @@ class RealAuthRepository @Inject constructor(
             }
         }
     }
-
     override suspend fun forgotPassword(email: String): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                // Validación de email
                 if (!isValidEmail(email)) {
                     throw AuthException.ValidationError("email", "Invalid email format")
                 }
-
                 val request = ForgotPasswordRequest(email = email)
                 val response = apiService.forgotPassword(request)
-
                 response.ok
             } catch (e: HttpException) {
                 if (e.code() == 400) {
@@ -123,9 +103,8 @@ class RealAuthRepository @Inject constructor(
             try {
                 val authHeader = "Bearer $jwt"
                 val user = apiService.getCurrentUser(authHeader)
-
                 AuthSession(
-                    jwt = jwt, // Mantener el mismo JWT
+                    jwt = jwt,
                     user = AuthUser(
                         id = user.id,
                         username = user.username,
@@ -146,16 +125,9 @@ class RealAuthRepository @Inject constructor(
             }
         }
     }
-
-    // --- Helper Methods ---
-
-    /**
-     * Convierte HttpException a AuthException apropiado
-     */
     private fun handleHttpException(e: HttpException): AuthException {
         return when (e.code()) {
             400 -> {
-                // Parsear mensaje de error del API si es posible
                 val errorBody = e.response()?.errorBody()?.string()
                 if (errorBody?.contains("already exists", ignoreCase = true) == true) {
                     AuthException.UserAlreadyExists()
@@ -172,11 +144,7 @@ class RealAuthRepository @Inject constructor(
         }
     }
 
-    /**
-     * Validación local de datos de registro
-     */
     private fun validateRegistration(username: String, email: String, password: String) {
-        // Username: 3-50 caracteres alfanuméricos
         if (username.length < 3 || username.length > 50) {
             throw AuthException.ValidationError(
                 "username",
@@ -191,12 +159,10 @@ class RealAuthRepository @Inject constructor(
             )
         }
 
-        // Email: formato válido
         if (!isValidEmail(email)) {
             throw AuthException.ValidationError("email", "Invalid email format")
         }
 
-        // Password: mínimo 8 caracteres
         if (password.length < 8) {
             throw AuthException.ValidationError(
                 "password",
@@ -204,10 +170,6 @@ class RealAuthRepository @Inject constructor(
             )
         }
     }
-
-    /**
-     * Validación simple de formato de email
-     */
     private fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }

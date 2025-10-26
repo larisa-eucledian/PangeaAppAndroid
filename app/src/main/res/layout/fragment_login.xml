@@ -12,19 +12,17 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- Logo -->
         <ImageView
             android:id="@+id/imgLogo"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="48dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/icon"
             android:contentDescription="@string/app_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Welcome Text -->
         <TextView
             android:id="@+id/txtWelcome"
             android:layout_width="wrap_content"
@@ -38,7 +36,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgLogo" />
 
-        <!-- Subtitle -->
         <TextView
             android:id="@+id/txtSubtitle"
             android:layout_width="wrap_content"
@@ -51,7 +48,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtWelcome" />
 
-        <!-- Email/Username Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilIdentifier"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -71,7 +67,6 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPassword"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -92,7 +87,6 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Forgot Password -->
         <TextView
             android:id="@+id/txtForgotPassword"
             android:layout_width="wrap_content"
@@ -106,7 +100,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
-        <!-- Login Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
             android:layout_width="0dp"
@@ -118,7 +111,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtForgotPassword" />
 
-        <!-- Loading Indicator -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -129,7 +121,6 @@
             app:layout_constraintStart_toStartOf="@id/btnLogin"
             app:layout_constraintTop_toTopOf="@id/btnLogin" />
 
-        <!-- Divider -->
         <View
             android:id="@+id/divider"
             android:layout_width="0dp"
@@ -140,7 +131,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnLogin" />
 
-        <!-- Register Text -->
         <TextView
             android:id="@+id/txtRegister"
             android:layout_width="wrap_content"

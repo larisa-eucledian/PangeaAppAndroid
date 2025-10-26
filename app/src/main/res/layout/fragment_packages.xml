@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/bg">
 
-    <!-- Search bar -->
     <EditText
         android:id="@+id/edtSearchPackages"
         android:layout_width="0dp"
@@ -24,7 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Filters Toggle -->
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggleFilters"
         android:layout_width="wrap_content"
@@ -57,7 +55,6 @@
             android:text="@string/filter_unlimited" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPackages"
         android:layout_width="0dp"
@@ -71,7 +68,6 @@
         app:layout_constraintTop_toBottomOf="@id/toggleFilters"
         tools:listitem="@layout/item_package" />
 
-    <!-- Empty state -->
     <include
         android:id="@+id/emptyView"
         layout="@layout/view_empty"

@@ -14,9 +14,6 @@ import com.example.pangeaapp.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-/**
- * LoginFragment - Pantalla de inicio de sesión
- */
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
@@ -41,12 +38,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Botón de login
         binding.btnLogin.setOnClickListener {
             val identifier = binding.edtIdentifier.text.toString().trim()
             val password = binding.edtPassword.text.toString()
 
-            // Validación local
             if (!validateInputs(identifier, password)) {
                 return@setOnClickListener
             }
@@ -54,35 +49,27 @@ class LoginFragment : Fragment() {
             viewModel.login(identifier, password)
         }
 
-        // Link para ir a registro
         binding.btnRegisterLink.setOnClickListener {
             findNavController().navigate(R.id.action_login_to_register)
         }
 
-        // Forgot password dialog
         binding.txtForgotPassword.setOnClickListener {
             ForgotPasswordDialog.newInstance()
                 .show(childFragmentManager, ForgotPasswordDialog.TAG)
         }
     }
 
-    /**
-     * Validación local de inputs
-     */
     private fun validateInputs(identifier: String, password: String): Boolean {
-        // Limpiar errores anteriores
         binding.tilIdentifier.error = null
         binding.tilPassword.error = null
 
         var isValid = true
 
-        // Validar identifier
         if (identifier.isEmpty()) {
             binding.tilIdentifier.error = getString(R.string.auth_error_required_field)
             isValid = false
         }
 
-        // Validar password
         if (password.isEmpty()) {
             binding.tilPassword.error = getString(R.string.auth_error_required_field)
             isValid = false
@@ -90,7 +77,6 @@ class LoginFragment : Fragment() {
 
         return isValid
     }
-
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loginState.collect { state ->
@@ -107,7 +93,6 @@ class LoginFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        // Navegar a countries
                         findNavController().navigate(R.id.action_login_to_countries)
                     }
                     is AuthViewModel.AuthState.Error -> {
@@ -115,7 +100,6 @@ class LoginFragment : Fragment() {
                         binding.btnLogin.isEnabled = true
                         binding.btnLogin.text = getString(R.string.auth_login)
 
-                        // Mostrar error
                         Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
                     }
                     is AuthViewModel.AuthState.Idle -> {

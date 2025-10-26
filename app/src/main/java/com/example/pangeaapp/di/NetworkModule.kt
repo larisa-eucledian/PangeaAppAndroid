@@ -17,24 +17,16 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.example.pangeaapp.core.network.DataUnwrapTypeAdapterFactory
 
-/**
- * NetworkModule provee dependencias de red (Retrofit, OkHttp, etc)
- *
- * ACTUALIZADO para incluir AuthInterceptor
- */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    /**
-     * Provee OkHttpClient con interceptors
-     */
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        authInterceptor: AuthInterceptor  // ← Inyectado automáticamente
+        authInterceptor: AuthInterceptor
     ): OkHttpClient {
-        // Logging interceptor (solo en debug)
+
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = if (Config.DEBUG) {
                 HttpLoggingInterceptor.Level.BODY
@@ -44,17 +36,14 @@ object NetworkModule {
         }
 
         return OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)      // ← Auth + Tenant Key
-            .addInterceptor(loggingInterceptor)   // ← Logging
+            .addInterceptor(authInterceptor)
+            .addInterceptor(loggingInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .build()
     }
 
-    /**
-     * Provee Retrofit con base URL y converters
-     */
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
@@ -65,9 +54,6 @@ object NetworkModule {
             .build()
     }
 
-    /**
-     * Provee PangeaApiService
-     */
     @Provides
     @Singleton
     fun providePangeaApiService(retrofit: Retrofit): PangeaApiService {

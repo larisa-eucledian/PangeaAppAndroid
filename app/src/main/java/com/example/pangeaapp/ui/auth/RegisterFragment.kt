@@ -14,9 +14,6 @@ import com.example.pangeaapp.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-/**
- * RegisterFragment - Pantalla de registro de nuevos usuarios
- */
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
@@ -41,13 +38,11 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Botón de registro
         binding.btnRegister.setOnClickListener {
             val username = binding.edtUsername.text.toString().trim()
             val email = binding.edtEmail.text.toString().trim()
             val password = binding.edtPassword.text.toString()
 
-            // Validación local
             if (!validateInputs(username, email, password)) {
                 return@setOnClickListener
             }
@@ -55,24 +50,18 @@ class RegisterFragment : Fragment() {
             viewModel.register(username, email, password)
         }
 
-        // Link para volver a login
         binding.btnLoginLink.setOnClickListener {
             findNavController().navigateUp()
         }
     }
 
-    /**
-     * Validación local de inputs
-     */
     private fun validateInputs(username: String, email: String, password: String): Boolean {
-        // Limpiar errores anteriores
         binding.tilUsername.error = null
         binding.tilEmail.error = null
         binding.tilPassword.error = null
 
         var isValid = true
 
-        // Validar username
         if (username.isEmpty()) {
             binding.tilUsername.error = getString(R.string.auth_error_required_field)
             isValid = false
@@ -81,7 +70,6 @@ class RegisterFragment : Fragment() {
             isValid = false
         }
 
-        // Validar email
         if (email.isEmpty()) {
             binding.tilEmail.error = getString(R.string.auth_error_required_field)
             isValid = false
@@ -90,7 +78,6 @@ class RegisterFragment : Fragment() {
             isValid = false
         }
 
-        // Validar password
         if (password.isEmpty()) {
             binding.tilPassword.error = getString(R.string.auth_error_required_field)
             isValid = false
@@ -118,15 +105,13 @@ class RegisterFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        // Navegar a countries (ya está logueado)
                         findNavController().navigate(R.id.action_register_to_countries)
                     }
                     is AuthViewModel.AuthState.Error -> {
                         binding.progressBar.visibility = View.GONE
                         binding.btnRegister.isEnabled = true
                         binding.btnRegister.text = getString(R.string.auth_register)
-
-                        // Mostrar error
+                        
                         Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
                     }
                     is AuthViewModel.AuthState.Idle -> {

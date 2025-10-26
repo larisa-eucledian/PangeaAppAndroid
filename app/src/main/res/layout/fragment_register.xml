@@ -12,19 +12,17 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- Logo -->
         <ImageView
             android:id="@+id/imgLogo"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/icon"
             android:contentDescription="@string/app_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Title -->
         <TextView
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
@@ -38,7 +36,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgLogo" />
 
-        <!-- Subtitle -->
         <TextView
             android:id="@+id/txtSubtitle"
             android:layout_width="wrap_content"
@@ -51,7 +48,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtTitle" />
 
-        <!-- Username Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilUsername"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -71,7 +67,6 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Email Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmail"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -91,7 +86,6 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPassword"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -112,7 +106,6 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password Requirements -->
         <TextView
             android:id="@+id/txtPasswordRequirements"
             android:layout_width="0dp"
@@ -125,7 +118,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
-        <!-- Register Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"
             android:layout_width="0dp"
@@ -137,7 +129,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtPasswordRequirements" />
 
-        <!-- Loading Indicator -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -148,7 +139,6 @@
             app:layout_constraintStart_toStartOf="@id/btnRegister"
             app:layout_constraintTop_toTopOf="@id/btnRegister" />
 
-        <!-- Back to Login -->
         <TextView
             android:id="@+id/txtHaveAccount"
             android:layout_width="wrap_content"

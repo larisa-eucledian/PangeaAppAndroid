@@ -5,10 +5,6 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 
-/**
- * Desenvuelve respuestas con raíz { "data": ... } para cualquier tipo T.
- * Si no existe "data", delega normal (retrocompatibilidad).
- */
 class DataUnwrapTypeAdapterFactory : TypeAdapterFactory {
     override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T> {
         val delegate: TypeAdapter<T> = gson.getDelegateAdapter(this, type)

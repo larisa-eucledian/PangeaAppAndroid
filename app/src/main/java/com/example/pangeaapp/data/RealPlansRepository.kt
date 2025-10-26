@@ -75,31 +75,13 @@ class RealPlansRepository @Inject constructor(
             fetch = {
                 apiService.getPackagesByCountry(code)
             },
-            saveFetchResult = { packagesMap ->
-                val packages = packagesMap.values.flatten()
-                val entities = packages.map { it.toEntity() }
+            saveFetchResult = { packagesList ->
+                val entities = packagesList.map { it.toEntity() }
                 packageDao.insertAll(entities)
             },
             shouldFetch = {
                 connectivityObserver.isOnline()
             }
         )
-    }
-
-    // Mantener métodos suspend para compatibilidad temporal
-    override suspend fun getCountries(): List<CountryRow> {
-        TODO("Deprecated - usar getCountriesFlow()")
-    }
-
-    override suspend fun getPackages(): List<PackageRow> {
-        TODO("Deprecated - usar getPackagesFlow()")
-    }
-
-    override suspend fun getPackagesByCountry(code: String): List<PackageRow> {
-        TODO("Deprecated - usar getPackagesByCountryFlow()")
-    }
-
-    override suspend fun getPackagesForCoverage(codes: List<String>): List<PackageRow> {
-        TODO("Refactorizar usando Flow")
     }
 }

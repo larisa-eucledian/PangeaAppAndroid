@@ -8,20 +8,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-/**
- * AuthModule provee las dependencias de autenticación para Hilt
- *
- * SessionManager no necesita binding porque usa @Inject constructor
- */
+
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AuthModule {
 
-    /**
-     * Provee la implementación de AuthRepository
-     *
-     * @Binds es más eficiente que @Provides para interfaces
-     */
     @Binds
     @Singleton
     abstract fun bindAuthRepository(

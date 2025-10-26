@@ -17,14 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * MainActivity - Single Activity Architecture
- *
- * Esta Activity es el único contenedor de la app.
- * Todos los "screens" son Fragments manejados por Navigation Component.
- *
- * ACTUALIZADO con verificación de sesión al inicio
- */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -46,18 +38,13 @@ class MainActivity : AppCompatActivity() {
         checkAuthState()
     }
 
-    /**
-     * Configura Navigation Component con BottomNavigationView
-     */
     private fun setupNavigation() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Conectar BottomNavigationView con NavController
         binding.bottomNav.setupWithNavController(navController)
 
-        // Listener para manejar navegación desde cualquier fragment
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_explore -> {
@@ -76,25 +63,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Listener para ocultar/mostrar bottom nav según el destino
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.loginFragment,
                 R.id.registerFragment -> {
-                    // Ocultar bottom nav en pantallas de auth
                     binding.bottomNav.visibility = android.view.View.GONE
                 }
                 else -> {
-                    // Mostrar bottom nav en el resto de pantallas
                     binding.bottomNav.visibility = android.view.View.VISIBLE
                 }
             }
         }
     }
 
-    /**
-     * Configura Offline Banner usando Compose
-     */
     private fun setupOfflineBanner() {
         binding.composeOfflineBanner.setContent {
             PangeaAppTheme {
@@ -106,32 +87,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Verifica si el usuario está logueado
-     * Si no, navega a LoginFragment
-     */
     private fun checkAuthState() {
         lifecycleScope.launch {
             val isLoggedIn = sessionManager.hasValidSession()
 
             if (!isLoggedIn) {
-                // Usuario NO está logueado → Ir a LoginFragment
+
                 val navHostFragment = supportFragmentManager
                     .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
                 val navController = navHostFragment.navController
 
-                // Navegar a login y limpiar backstack
                 navController.navigate(R.id.loginFragment)
             }
-            // Si está logueado, se queda en el startDestination (countriesFragment)
         }
     }
 
-    /**
-     * Maneja el back button
-     * Si estamos en un top-level destination (Explore, eSIMs, Settings), cierra la app
-     * Si no, navega hacia atrás
-     */
     override fun onSupportNavigateUp(): Boolean {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment

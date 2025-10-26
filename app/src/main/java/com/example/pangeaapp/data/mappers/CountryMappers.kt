@@ -3,10 +3,8 @@ package com.example.pangeaapp.data.mappers
 import com.example.pangeaapp.core.CountryRow
 import com.example.pangeaapp.data.local.entities.CountryEntity
 import com.example.pangeaapp.data.remote.dto.CountryDto
-
-// DTO -> Entity
 fun CountryDto.toEntity() = CountryEntity(
-    id = id.also { println("🟦 Mapping country: $countryName, geography from DTO: $geography") },
+    id = id,
     documentId = documentId,
     countryCode = countryCode,
     countryName = countryName,
@@ -22,7 +20,6 @@ fun CountryDto.toEntity() = CountryEntity(
     packageCount = packageCount
 )
 
-// Entity -> Domain
 fun CountryEntity.toDomain() = CountryRow(
     id = id,
     documentId = documentId,

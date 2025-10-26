@@ -20,11 +20,6 @@ import com.example.pangeaapp.ui.CountryAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-/**
- * CountriesFragment muestra la lista de países/regiones disponibles
- *
- * Migrado de CountriesActivity → Ahora es Fragment
- */
 @AndroidEntryPoint
 class CountriesFragment : Fragment() {
 
@@ -52,7 +47,6 @@ class CountriesFragment : Fragment() {
         setupToggle()
         observeViewModel()
 
-        // Cargar países al inicio
         viewModel.loadCountries()
     }
 
@@ -74,7 +68,6 @@ class CountriesFragment : Fragment() {
     }
 
     private fun setupToggle() {
-        // Iniciar en modo "One Country"
         binding.toggleMode.check(R.id.btnSingle)
 
         binding.toggleMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
@@ -93,7 +86,6 @@ class CountriesFragment : Fragment() {
                 viewModel.countries.collect { countries ->
                     adapter.submitList(countries)
 
-                    // Mostrar empty state si no hay países
                     if (countries.isEmpty()) {
                         binding.emptyView.root.visibility = View.VISIBLE
                         binding.recyclerCountries.visibility = View.GONE
@@ -108,14 +100,13 @@ class CountriesFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoading.collect { isLoading ->
-                    // TODO: Mostrar loading indicator si es necesario
+                    // TODO: Mostrar loading indicator
                 }
             }
         }
     }
 
     private fun onCountrySelected(country: CountryRow) {
-        // Navegar a PackagesFragment con los datos del país
         val action = CountriesFragmentDirections.actionCountriesToPackages(
             countryCode = country.countryCode,
             countryName = country.countryName,

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Offline Banner (Compose) -->
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/composeOfflineBanner"
         android:layout_width="0dp"
@@ -14,7 +13,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Navigation Host Fragment -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -27,7 +25,6 @@
         app:layout_constraintTop_toBottomOf="@id/composeOfflineBanner"
         app:navGraph="@navigation/nav_graph" />
 
-    <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="0dp"

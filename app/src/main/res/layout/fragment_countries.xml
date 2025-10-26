@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/bg">
 
-    <!-- Search bar -->
     <EditText
         android:id="@+id/edtSearchCountries"
         android:layout_width="0dp"
@@ -24,7 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Toggle One/Multiple -->
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggleMode"
         android:layout_width="wrap_content"
@@ -50,7 +48,6 @@
             android:text="@string/toggle_multiple" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCountries"
         android:layout_width="0dp"
@@ -64,7 +61,6 @@
         app:layout_constraintTop_toBottomOf="@id/toggleMode"
         tools:listitem="@layout/item_country" />
 
-    <!-- Empty state -->
     <include
         android:id="@+id/emptyView"
         layout="@layout/view_empty"

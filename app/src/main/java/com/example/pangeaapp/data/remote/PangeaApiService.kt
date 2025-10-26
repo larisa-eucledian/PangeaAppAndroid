@@ -25,21 +25,19 @@ interface PangeaApiService {
     ): List<CountryDto>
 
     // Packages
-    @GET("packages")
+    @GET("tenant/packages")
     suspend fun getPackages(): Map<String, List<PackageDto>>
 
-    @GET("packages")
+    @GET("tenant/packages")
     suspend fun getPackagesByCountry(
-        @Query("country") countryCode: String
-    ): Map<String, List<PackageDto>>
+        @Query("country_code") countryCode: String
+    ): List<PackageDto>
 }
 
-// Request models
 data class LoginRequest(val identifier: String, val password: String)
 data class RegisterRequest(val username: String, val email: String, val password: String)
 data class ForgotPasswordRequest(val email: String)
 
-// Response models
 data class AuthResponse(val jwt: String, val user: AuthUser)
 data class AuthUser(
     val id: Int,

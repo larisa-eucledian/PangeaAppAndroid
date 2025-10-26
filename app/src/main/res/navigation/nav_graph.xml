@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/countriesFragment">
 
-    <!-- Countries Fragment (Explore tab) -->
     <fragment
         android:id="@+id/countriesFragment"
         android:name="com.example.pangeaapp.ui.countries.CountriesFragment"
@@ -21,7 +20,6 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
-    <!-- Packages Fragment -->
     <fragment
         android:id="@+id/packagesFragment"
         android:name="com.example.pangeaapp.ui.packages.PackagesFragment"
@@ -42,20 +40,18 @@
             app:nullable="true" />
     </fragment>
 
-    <!-- eSIMs Fragment (eSIMs tab) -->
     <fragment
         android:id="@+id/esimsFragment"
         android:name="com.example.pangeaapp.ui.EsimsFragment"
         android:label="@string/title_esims"
         tools:layout="@layout/fragment_esims" />
 
-    <!-- Settings Fragment (Settings tab) -->
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.pangeaapp.ui.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
-    <!-- Login Fragment -->
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.pangeaapp.ui.auth.LoginFragment"
@@ -73,7 +69,6 @@
             app:popUpToInclusive="false" />
     </fragment>
 
-    <!-- Register Fragment -->
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.pangeaapp.ui.auth.RegisterFragment"

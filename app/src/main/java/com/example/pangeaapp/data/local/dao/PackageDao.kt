@@ -11,12 +11,9 @@ interface PackageDao {
     fun getAllPackagesFlow(): Flow<List<PackageEntity>>
 
     @Query("""
-        SELECT DISTINCT p.* FROM packages p
-        WHERE EXISTS (
-            SELECT 1 FROM json_each(p.coverage) 
-            WHERE json_each.value = :countryCode COLLATE NOCASE
-        )
-    """)
+    SELECT * FROM packages 
+    WHERE coverage LIKE '%"' || :countryCode || '"%' COLLATE NOCASE
+""")
     fun getPackagesByCountry(countryCode: String): Flow<List<PackageEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

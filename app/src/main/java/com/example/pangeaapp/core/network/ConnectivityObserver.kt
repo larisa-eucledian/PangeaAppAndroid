@@ -44,7 +44,6 @@ class ConnectivityObserver @Inject constructor(
 
         connectivityManager.registerNetworkCallback(request, callback)
 
-        // Emit estado inicial
         val isOnline = isOnline()
         trySend(if (isOnline) NetworkStatus.Available else NetworkStatus.Unavailable)
 

@@ -15,16 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PangeaApp">
         <activity
-            android:name=".ui.EsimsSettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.PackagesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.CountriesActivity"
-            android:exported="true">
-        </activity>
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.PangeaApp">
