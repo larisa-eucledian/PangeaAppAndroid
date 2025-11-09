@@ -11,7 +11,7 @@
         android:id="@+id/imgFlag"
         android:layout_width="60dp"
         android:layout_height="40dp"
-        android:contentDescription="country flag"
+        android:contentDescription="@string/country_flag"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"

@@ -4,7 +4,7 @@ data class PackageRow(
     val id: Int,
     val documentId: String,
     val packageId: String,
-    val `package`: String,
+    val packageName: String,
     val validityDays: Int,
     val pricePublic: Double,
     val dataAmount: String,

@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
-    <!-- Títulos -->
-    <string name="app_name">PangeaApp</string>
-    <string name="title_countries">Explora</string>
+    <string name="offline_message">Sin conexión a internet</string>
+    <!-- Titles -->
+    <string name="app_name">Pangea App</string>
+    <string name="title_countries">Explorar</string>
     <string name="title_packages">Paquetes</string>
     <string name="title_my_esims">Mis eSIMs</string>
-    <string name="title_settings">Ajustes</string>
+    <string name="title_esims">eSIMs</string>
+    <string name="title_settings">Configuración</string>
 
     <!-- Bottom nav -->
-    <string name="nav_explore">Explora</string>
+    <string name="nav_explore">Explorar</string>
     <string name="nav_esims">eSIMs</string>
-    <string name="nav_settings">Ajustes</string>
+    <string name="nav_settings">Configuración</string>
 
-    <!-- Búsqueda / vacíos -->
+    <!-- Search / empty -->
     <string name="hint_search_countries">Buscar países</string>
     <string name="hint_search_packages">Buscar paquetes</string>
     <string name="empty_countries">No se encontraron países</string>
     <string name="empty_packages">No se encontraron paquetes</string>
-    <string name="empty_view">Sin Información</string>
+    <string name="empty_view">Sin información</string>
 
-    <!-- Toggle Uno/Múltiples -->
+    <!-- Toggle One/Multiple -->
     <string name="toggle_one_country">Un país</string>
     <string name="toggle_multiple">Varios países</string>
 
-    <!-- Filtros rápidos -->
+    <!-- Quick filters -->
     <string name="filter_only_data">Solo datos</string>
     <string name="filter_data_calls">Datos y llamadas</string>
     <string name="filter_unlimited">Ilimitado</string>
@@ -32,12 +33,58 @@
     <!-- Features -->
     <string name="feature_calls">Llamadas</string>
     <string name="feature_sms">SMS</string>
-    <string name="feature_hotspot">Comparte Internet</string>
-    <string name="unlimited">Datos Ilimitados</string>
+    <string name="feature_hotspot">Hotspot</string>
+    <string name="unlimited">Datos ilimitados</string>
 
     <!-- Plurals -->
     <plurals name="countries_count">
         <item quantity="one">%d país</item>
         <item quantity="other">%d países</item>
     </plurals>
+
+    <!-- Auth Screens -->
+    <string name="auth_welcome">Bienvenido a Pangea</string>
+    <string name="auth_login">Iniciar sesión</string>
+    <string name="auth_register">Registrarse</string>
+    <string name="auth_login_subtitle">Inicia sesión para continuar</string>
+    <string name="auth_register_subtitle">Crea tu cuenta</string>
+    <string name="auth_logout">Cerrar sesión</string>
+
+    <!-- Input Hints -->
+    <string name="auth_identifier_hint">Correo o nombre de usuario</string>
+    <string name="auth_username_hint">Nombre de usuario</string>
+    <string name="auth_email_hint">Correo electrónico</string>
+    <string name="auth_password_hint">Contraseña</string>
+
+    <!-- Actions -->
+    <string name="auth_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="auth_no_account">¿No tienes cuenta?</string>
+    <string name="auth_have_account">¿Ya tienes cuenta?</string>
+
+    <!-- Messages -->
+    <string name="auth_password_requirements">Al menos 8 caracteres</string>
+    <string name="auth_forgot_password_message">Ingresa tu correo para recibir instrucciones para restablecer tu contraseña</string>
+    <string name="auth_email_sent">Revisa tu correo para las instrucciones</string>
+    <string name="auth_login_success">¡Bienvenido de nuevo!</string>
+    <string name="auth_register_success">¡Cuenta creada con éxito!</string>
+
+    <!-- Errors -->
+    <string name="auth_error_invalid_credentials">Correo/nombre de usuario o contraseña inválidos</string>
+    <string name="auth_error_user_exists">El usuario ya existe</string>
+    <string name="auth_error_email_not_found">Correo no encontrado</string>
+    <string name="auth_error_network">Error de red. Intenta nuevamente</string>
+    <string name="auth_error_invalid_email">Formato de correo inválido</string>
+    <string name="auth_error_password_short">La contraseña debe tener al menos 8 caracteres</string>
+    <string name="auth_error_username_short">El nombre de usuario debe tener al menos 3 caracteres</string>
+    <string name="auth_error_required_field">Este campo es obligatorio</string>
+    <string name="error_unknown">Error</string>
+
+    <!-- Common -->
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_send">Enviar</string>
+    <string name="common_ok">Aceptar</string>
+    <string name="common_loading">Cargando…</string>
+    <string name="logged_in">Sesión iniciada</string>
+    <string name="version_1_0_0">Versión 1.0.0</string>
+    <string name="country_flag">country flag</string>
 </resources>

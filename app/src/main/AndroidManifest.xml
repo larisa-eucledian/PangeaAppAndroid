@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application
         android:name=".PangeaApp"
         android:allowBackup="true"
@@ -15,17 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PangeaApp">
         <activity
-            android:name=".ui.EsimsSettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.PackagesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.CountriesActivity"
-            android:exported="true">
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.PangeaApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
