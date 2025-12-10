@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.navigation.safeargs)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -101,6 +102,14 @@ dependencies {
     // Image Loading
     implementation(libs.coil)
     implementation(libs.glide)
+
+    // Stripe Payment
+    implementation("com.stripe:stripe-android:20.49.0")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
     // Testing
     testImplementation(libs.junit)
