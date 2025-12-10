@@ -32,6 +32,12 @@ interface PangeaApiService {
     suspend fun getPackagesByCountry(
         @Query("country_code") countryCode: String
     ): List<PackageDto>
+
+    // Transactions
+    @POST("transactions")
+    suspend fun createTransaction(
+        @Body request: TransactionRequest
+    ): TransactionResponse
 }
 
 data class LoginRequest(val identifier: String, val password: String)
