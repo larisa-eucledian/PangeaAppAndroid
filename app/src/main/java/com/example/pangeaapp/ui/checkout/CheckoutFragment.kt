@@ -88,7 +88,9 @@ class CheckoutFragment : Fragment() {
 
         args.coverage.forEach { countryCode ->
             val chip = Chip(requireContext()).apply {
-                text = getCountryFlagEmoji(countryCode)
+                val flag = getCountryFlagEmoji(countryCode)
+                val name = getCountryName(countryCode)
+                text = "$flag $name"
                 isClickable = false
                 isCheckable = false
             }
@@ -169,7 +171,7 @@ class CheckoutFragment : Fragment() {
     private fun handlePaymentSuccess() {
         Toast.makeText(
             requireContext(),
-            "Payment successful!",
+            R.string.payment_success,
             Toast.LENGTH_SHORT
         ).show()
 
@@ -183,6 +185,17 @@ class CheckoutFragment : Fragment() {
         val secondLetter = Character.codePointAt(countryCode.uppercase(), 1) - 0x41 + 0x1F1E6
 
         return String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
+    }
+
+    private fun getCountryName(countryCode: String): String {
+        if (countryCode.length != 2) return countryCode
+
+        return try {
+            val locale = java.util.Locale("", countryCode.uppercase())
+            locale.displayCountry
+        } catch (e: Exception) {
+            countryCode.uppercase()
+        }
     }
 
     override fun onDestroyView() {

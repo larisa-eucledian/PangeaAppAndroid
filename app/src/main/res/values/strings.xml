@@ -21,6 +21,10 @@
     <string name="empty_countries">No countries found</string>
     <string name="empty_packages">No packages found</string>
     <string name="empty_view">No Information</string>
+    <string name="empty_esims">You don\'t have any eSIMs yet.\nBuy a package to get started!</string>
+
+    <!-- Payment -->
+    <string name="payment_success">Payment successful!</string>
 
     <!-- Toggle One/Multiple -->
     <string name="toggle_one_country">One Country</string>

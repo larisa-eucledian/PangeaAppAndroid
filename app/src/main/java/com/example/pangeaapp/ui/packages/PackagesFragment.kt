@@ -127,7 +127,11 @@ class PackagesFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isLoading.collect { isLoading ->
-                // TODO: Mostrar loading indicator
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+                if (isLoading) {
+                    binding.recyclerPackages.visibility = View.GONE
+                    binding.emptyView.root.visibility = View.GONE
+                }
             }
         }
     }

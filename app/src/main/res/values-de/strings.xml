@@ -20,6 +20,10 @@
     <string name="empty_countries">Keine Länder gefunden</string>
     <string name="empty_packages">Keine Pakete gefunden</string>
     <string name="empty_view">Keine Informationen</string>
+    <string name="empty_esims">Sie haben noch keine eSIMs.\nKaufen Sie ein Paket, um loszulegen!</string>
+
+    <!-- Payment -->
+    <string name="payment_success">Zahlung erfolgreich!</string>
 
     <!-- Toggle One/Multiple -->
     <string name="toggle_one_country">Ein Land</string>

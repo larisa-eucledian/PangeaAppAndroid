@@ -22,7 +22,7 @@ class EsimsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         b.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        b.empty.text = getString(R.string.empty_view)
+        b.empty.text = getString(R.string.empty_esims)
         b.empty.visibility = View.VISIBLE
         b.recycler.visibility = View.GONE
 
