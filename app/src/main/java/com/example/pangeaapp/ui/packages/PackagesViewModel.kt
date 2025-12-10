@@ -50,12 +50,7 @@ class PackagesViewModel @Inject constructor(
                     is Resource.Success -> {
                         _isLoading.value = false
 
-                        allPackages = filterByCountry(
-                            packages = res.data,
-                            countryCode = countryCode,
-                            countryName = countryName,
-                            coverageCodes = coverageCodes
-                        )
+                        allPackages = res.data
 
                         currentFilter = getSavedFilter()
                         applyFilters()

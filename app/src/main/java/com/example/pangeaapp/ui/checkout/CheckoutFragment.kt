@@ -191,7 +191,9 @@ class CheckoutFragment : Fragment() {
         if (countryCode.length != 2) return countryCode
 
         return try {
-            val locale = java.util.Locale("", countryCode.uppercase())
+            val locale = java.util.Locale.Builder()
+                .setRegion(countryCode.uppercase())
+                .build()
             locale.displayCountry
         } catch (e: Exception) {
             countryCode.uppercase()
