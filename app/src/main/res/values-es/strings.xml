@@ -91,4 +91,8 @@
     <!-- Settings -->
     <string name="settings_help_video">Video de Ayuda</string>
     <string name="settings_support">Soporte WhatsApp</string>
+    <string name="settings_logout_title">Cerrar sesión</string>
+    <string name="settings_logout_message">¿Estás seguro de que quieres cerrar sesión?</string>
+    <string name="settings_error_video">No se pudo abrir el video</string>
+    <string name="settings_error_whatsapp">WhatsApp no está instalado</string>
 </resources>

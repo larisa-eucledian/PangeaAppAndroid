@@ -17,7 +17,7 @@ class RealTransactionRepository @Inject constructor(
     ): Result<TransactionResponse> = try {
         val request = TransactionRequest(
             amount = amount,
-            currency = "MXN",  // Always MXN per requirements
+            currency = "MXN",
             packageId = packageId,
             paymentMethod = "stripe"
         )

@@ -91,6 +91,10 @@
     <!-- Settings -->
     <string name="settings_help_video">Help Video</string>
     <string name="settings_support">WhatsApp Support</string>
+    <string name="settings_logout_title">Logout</string>
+    <string name="settings_logout_message">Are you sure you want to logout?</string>
+    <string name="settings_error_video">Could not open video</string>
+    <string name="settings_error_whatsapp">WhatsApp not installed</string>
     <string name="youtube_video_url">https://www.youtube.com/watch?v=84QqDXsUaL8</string>
     <string name="whatsapp_support_url">https://api.whatsapp.com/send/?phone=5628298160</string>
 

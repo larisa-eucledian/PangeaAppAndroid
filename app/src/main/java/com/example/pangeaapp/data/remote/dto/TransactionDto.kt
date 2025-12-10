@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TransactionRequest(
     val amount: Double,
-    val currency: String = "MXN",  // Always MXN per requirements
+    val currency: String = "MXN",
     @SerializedName("package_id")
     val packageId: String,
     @SerializedName("payment_method")

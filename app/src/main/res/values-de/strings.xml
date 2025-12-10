@@ -91,4 +91,8 @@
     <!-- Settings -->
     <string name="settings_help_video">Hilfevideo</string>
     <string name="settings_support">WhatsApp-Support</string>
+    <string name="settings_logout_title">Abmelden</string>
+    <string name="settings_logout_message">Möchten Sie sich wirklich abmelden?</string>
+    <string name="settings_error_video">Video konnte nicht geöffnet werden</string>
+    <string name="settings_error_whatsapp">WhatsApp ist nicht installiert</string>
 </resources>

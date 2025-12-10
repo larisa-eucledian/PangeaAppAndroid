@@ -50,19 +50,18 @@ class SettingsFragment : Fragment() {
 
     private fun showLogoutConfirmation() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Logout")
-            .setMessage("Are you sure you want to logout?")
-            .setPositiveButton("Logout") { _, _ ->
+            .setTitle(R.string.settings_logout_title)
+            .setMessage(R.string.settings_logout_message)
+            .setPositiveButton(R.string.auth_logout) { _, _ ->
                 performLogout()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(R.string.common_cancel, null)
             .show()
     }
 
     private fun performLogout() {
         lifecycleScope.launch {
             sessionManager.logout()
-
             findNavController().navigate(R.id.loginFragment)
         }
     }
@@ -72,7 +71,7 @@ class SettingsFragment : Fragment() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.youtube_video_url)))
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(context, "Could not open video", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.settings_error_video, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -81,7 +80,7 @@ class SettingsFragment : Fragment() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.whatsapp_support_url)))
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(context, "WhatsApp not installed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.settings_error_whatsapp, Toast.LENGTH_SHORT).show()
         }
     }
 }
