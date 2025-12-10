@@ -101,7 +101,7 @@ class CheckoutFragment : Fragment() {
         )
         binding.btnPay.text = payButtonText
         binding.btnPay.setOnClickListener {
-            viewModel.createPaymentIntent(args.price, args.packageId)
+            viewModel.createPaymentIntent(args.price.toDouble(), args.packageId)
         }
     }
 
