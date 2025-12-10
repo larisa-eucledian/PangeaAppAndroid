@@ -88,4 +88,10 @@
     <string name="version_1_0_0">Version 1.0.0</string>
     <string name="country_flag">country flag</string>
 
+    <!-- Settings -->
+    <string name="settings_help_video">Help Video</string>
+    <string name="settings_support">WhatsApp Support</string>
+    <string name="youtube_video_url">https://www.youtube.com/watch?v=84QqDXsUaL8</string>
+    <string name="whatsapp_support_url">https://api.whatsapp.com/send/?phone=5628298160</string>
+
 </resources>

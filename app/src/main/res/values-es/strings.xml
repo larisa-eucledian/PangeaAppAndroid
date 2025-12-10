@@ -87,4 +87,8 @@
     <string name="logged_in">Sesión iniciada</string>
     <string name="version_1_0_0">Versión 1.0.0</string>
     <string name="country_flag">country flag</string>
+
+    <!-- Settings -->
+    <string name="settings_help_video">Video de Ayuda</string>
+    <string name="settings_support">Soporte WhatsApp</string>
 </resources>

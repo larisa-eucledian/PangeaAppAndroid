@@ -87,4 +87,8 @@
     <string name="logged_in">Angemeldet</string>
     <string name="version_1_0_0">Version 1.0.0</string>
     <string name="country_flag">country flag</string>
+
+    <!-- Settings -->
+    <string name="settings_help_video">Hilfevideo</string>
+    <string name="settings_support">WhatsApp-Support</string>
 </resources>
