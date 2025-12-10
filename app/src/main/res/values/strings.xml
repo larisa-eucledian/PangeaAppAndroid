@@ -98,4 +98,19 @@
     <string name="youtube_video_url">https://www.youtube.com/watch?v=84QqDXsUaL8</string>
     <string name="whatsapp_support_url">https://api.whatsapp.com/send/?phone=5628298160</string>
 
+    <!-- Checkout -->
+    <string name="checkout_title">Checkout</string>
+    <string name="checkout_summary">Summary</string>
+    <string name="checkout_details">Details</string>
+    <string name="checkout_validity">Validity</string>
+    <string name="checkout_validity_days">%d days from activation</string>
+    <string name="checkout_data">Data</string>
+    <string name="checkout_calls">Calls</string>
+    <string name="checkout_sms">SMS</string>
+    <string name="checkout_features">Features</string>
+    <string name="checkout_coverage">Coverage</string>
+    <string name="checkout_pay">Pay %s</string>
+    <string name="checkout_secure_payment">Secure payment powered by Stripe</string>
+    <string name="checkout_price_mxn">$%.2f MXN</string>
+
 </resources>
