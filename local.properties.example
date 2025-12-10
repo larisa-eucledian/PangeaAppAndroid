@@ -1,0 +1,9 @@
+## This file is a template for local.properties
+# Copy this file to local.properties and fill in your actual values
+# local.properties is gitignored and will not be committed
+
+# Stripe API Keys
+STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_STRIPE_PUBLISHABLE_KEY_HERE
+
+# Tenant API Key
+TENANT_API_KEY=your_tenant_api_key_here

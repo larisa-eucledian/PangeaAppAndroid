@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,6 +9,13 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.navigation.safeargs)
     id("com.google.gms.google-services")
+}
+
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        load(localPropertiesFile.inputStream())
+    }
 }
 
 android {
@@ -21,6 +30,17 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "STRIPE_PUBLISHABLE_KEY",
+            "\"${localProperties.getProperty("STRIPE_PUBLISHABLE_KEY", "")}\""
+        )
+        buildConfigField(
+            "String",
+            "TENANT_API_KEY",
+            "\"${localProperties.getProperty("TENANT_API_KEY", "")}\""
+        )
     }
 
     buildTypes {

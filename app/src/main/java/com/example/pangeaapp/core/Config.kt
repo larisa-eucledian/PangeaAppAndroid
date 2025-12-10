@@ -5,5 +5,6 @@ object Config {
     const val BASE_URL = "https://stage.pangeamovil.com/api/"
     val DEBUG = BuildConfig.DEBUG
 
-    const val STRIPE_PUBLISHABLE_KEY = "pk_test_YOUR_KEY_HERE"
+    val STRIPE_PUBLISHABLE_KEY = BuildConfig.STRIPE_PUBLISHABLE_KEY
+    val TENANT_API_KEY = BuildConfig.TENANT_API_KEY
 }
