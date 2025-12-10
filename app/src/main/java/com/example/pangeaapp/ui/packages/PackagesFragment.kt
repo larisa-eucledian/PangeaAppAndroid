@@ -28,7 +28,9 @@ class PackagesFragment : Fragment() {
 
     private val args: PackagesFragmentArgs by navArgs()
 
-    private val adapter = PackageAdapter()
+    private val adapter = PackageAdapter { packageRow ->
+        navigateToCheckout(packageRow)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -128,6 +130,43 @@ class PackagesFragment : Fragment() {
                 // TODO: Mostrar loading indicator
             }
         }
+    }
+
+    private fun navigateToCheckout(packageRow: com.example.pangeaapp.core.PackageRow) {
+        val countryCode = args.countryCode ?: packageRow.coverage?.firstOrNull() ?: ""
+
+        val callsLabel = if (packageRow.withCall == true) {
+            packageRow.callAmount?.let { amount ->
+                val unit = packageRow.callUnit ?: ""
+                "$amount $unit".trim()
+            } ?: getString(R.string.feature_calls)
+        } else null
+
+        val smsLabel = if (packageRow.withSMS == true) {
+            packageRow.smsAmount?.let { amount ->
+                val unit = packageRow.smsUnit ?: ""
+                "$amount $unit".trim()
+            } ?: getString(R.string.feature_sms)
+        } else null
+
+        val features = packageRow.featuresList().joinToString(" • ")
+        val coverage = packageRow.coverage?.toTypedArray() ?: emptyArray()
+
+        val action = PackagesFragmentDirections.actionPackagesToCheckout(
+            packageId = packageRow.packageId,
+            packageName = packageRow.packageName,
+            countryName = packageRow.countryName,
+            countryCode = countryCode,
+            price = packageRow.pricePublic.toFloat(),
+            validity = packageRow.validityDays,
+            data = packageRow.dataLabel(),
+            calls = callsLabel,
+            sms = smsLabel,
+            features = features,
+            coverage = coverage
+        )
+
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
