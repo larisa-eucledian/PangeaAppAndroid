@@ -95,4 +95,19 @@
     <string name="settings_logout_message">¿Estás seguro de que quieres cerrar sesión?</string>
     <string name="settings_error_video">No se pudo abrir el video</string>
     <string name="settings_error_whatsapp">WhatsApp no está instalado</string>
+
+    <!-- Checkout -->
+    <string name="checkout_title">Pago</string>
+    <string name="checkout_summary">Resumen</string>
+    <string name="checkout_details">Detalles</string>
+    <string name="checkout_validity">Vigencia</string>
+    <string name="checkout_validity_days">%d días desde activación</string>
+    <string name="checkout_data">Datos</string>
+    <string name="checkout_calls">Llamadas</string>
+    <string name="checkout_sms">SMS</string>
+    <string name="checkout_features">Características</string>
+    <string name="checkout_coverage">Cobertura</string>
+    <string name="checkout_pay">Pagar %s</string>
+    <string name="checkout_secure_payment">Pago seguro con Stripe</string>
+    <string name="checkout_price_mxn">$%.2f MXN</string>
 </resources>
