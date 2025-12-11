@@ -40,6 +40,12 @@ class EsimsFragment : Fragment() {
         observeState()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Refresh the list when returning from detail screen
+        viewModel.refresh()
+    }
+
     private fun setupRecyclerView() {
         adapter = ESimAdapter { esim ->
             val action = EsimsFragmentDirections.actionEsimsToDetail(esim.esimId)

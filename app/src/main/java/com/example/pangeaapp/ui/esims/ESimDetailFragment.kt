@@ -1,7 +1,9 @@
 package com.example.pangeaapp.ui.esims
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +21,7 @@ import com.example.pangeaapp.databinding.FragmentEsimDetailBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
+import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -49,6 +52,12 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        binding.installButton.setOnClickListener {
+            viewModel.esim.value?.let { esim ->
+                installESim(esim)
+            }
+        }
+
         binding.activateButton.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.esim_activate)
@@ -116,6 +125,7 @@ class ESimDetailFragment : Fragment() {
 
         displayQRCode(esim)
         displayInfo(esim)
+        setupInstallButton(esim)
         setupActivateButton(esim)
     }
 
@@ -146,9 +156,11 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun loadQRFromUrl(url: String) {
-        // For production, use Coil or Glide to load the image
-        // For now, just show placeholder
-        binding.qrCodeImage.setImageResource(android.R.drawable.ic_menu_gallery)
+        binding.qrCodeImage.load(url) {
+            crossfade(true)
+            placeholder(android.R.drawable.ic_menu_gallery)
+            error(android.R.drawable.ic_menu_close_clear_cancel)
+        }
     }
 
     private fun generateQRCode(data: String) {
@@ -193,7 +205,7 @@ class ESimDetailFragment : Fragment() {
             }
             ESimStatus.READY_FOR_ACTIVATION -> {
                 esim.createdAt?.let {
-                    addInfoRow(getString(R.string.esim_info_created), formatDate(it))
+                    addInfoRow(getString(R.string.esim_info_purchased), formatDate(it))
                 }
             }
             ESimStatus.EXPIRED -> {
@@ -243,11 +255,54 @@ class ESimDetailFragment : Fragment() {
         binding.infoContainer.addView(row)
     }
 
+    private fun setupInstallButton(esim: com.example.pangeaapp.core.ESimRow) {
+        // Show install button only for READY eSIMs with activation data
+        val hasActivationData = esim.lpaCode != null ||
+                (esim.activationCode != null && esim.smdpAddress != null)
+
+        binding.installButton.visibility = if (esim.status == ESimStatus.READY_FOR_ACTIVATION && hasActivationData) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
+
     private fun setupActivateButton(esim: com.example.pangeaapp.core.ESimRow) {
         binding.activateButton.visibility = if (esim.status == ESimStatus.READY_FOR_ACTIVATION) {
             View.VISIBLE
         } else {
             View.GONE
+        }
+    }
+
+    private fun installESim(esim: com.example.pangeaapp.core.ESimRow) {
+        try {
+            // Build LPA code from eSIM data
+            val lpaString = when {
+                esim.lpaCode != null && esim.lpaCode.isNotEmpty() -> esim.lpaCode
+                esim.activationCode != null && esim.smdpAddress != null -> {
+                    "LPA:1\$${esim.smdpAddress}\$${esim.activationCode}"
+                }
+                else -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Missing activation data",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return
+                }
+            }
+
+            // Launch Android's native eSIM installation UI
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(lpaString)
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                "Unable to install eSIM. Please install manually using the QR code.",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

@@ -140,12 +140,13 @@
     <!-- eSIM Detail -->
     <string name="esim_scan_qr_code">Escanea este código QR para instalar tu eSIM</string>
     <string name="esim_activate">Activar eSIM</string>
+    <string name="esim_install">Instalar eSIM</string>
     <string name="esim_activation_success">¡eSIM activada exitosamente!</string>
     <string name="esim_info_iccid">ICCID</string>
     <string name="esim_info_activation_code">Código de Activación</string>
     <string name="esim_info_smdp_address">Dirección SM-DP+</string>
     <string name="esim_info_lpa_code">Código LPA</string>
-    <string name="esim_info_created">Creada</string>
+    <string name="esim_info_purchased">Comprada</string>
     <string name="esim_info_coverage">Cobertura</string>
 
 </resources>
