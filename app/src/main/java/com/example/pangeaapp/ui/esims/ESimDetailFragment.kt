@@ -1,10 +1,14 @@
 package com.example.pangeaapp.ui.esims
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -131,59 +135,16 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun displayQRCode(esim: com.example.pangeaapp.core.ESimRow) {
-        val qrData = when {
-            esim.qrCodeUrl != null && esim.qrCodeUrl.isNotEmpty() -> {
-                binding.qrSection.visibility = View.VISIBLE
-                loadQRFromUrl(esim.qrCodeUrl)
-                return
-            }
-            esim.lpaCode != null && esim.lpaCode.isNotEmpty() -> esim.lpaCode
-            esim.activationCode != null && esim.activationCode.isNotEmpty() -> {
-                if (esim.smdpAddress != null) {
-                    "LPA:1\$${esim.smdpAddress}\$${esim.activationCode}"
-                } else {
-                    esim.activationCode
-                }
-            }
-            else -> null
-        }
-
-        if (qrData != null && esim.status == ESimStatus.READY_FOR_ACTIVATION) {
+        // Only show QR code if provided by backend (qrCodeUrl)
+        // We don't generate QR codes locally since they can't be scanned from the same device
+        if (esim.qrCodeUrl != null && esim.qrCodeUrl.isNotEmpty()) {
             binding.qrSection.visibility = View.VISIBLE
-            generateQRCode(qrData)
-        } else {
-            binding.qrSection.visibility = View.GONE
-        }
-    }
-
-    private fun loadQRFromUrl(url: String) {
-        binding.qrCodeImage.load(url) {
-            crossfade(true)
-            placeholder(android.R.drawable.ic_menu_gallery)
-            error(android.R.drawable.ic_menu_close_clear_cancel)
-        }
-    }
-
-    private fun generateQRCode(data: String) {
-        try {
-            val writer = QRCodeWriter()
-            val bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, 512, 512)
-            val width = bitMatrix.width
-            val height = bitMatrix.height
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-
-            for (x in 0 until width) {
-                for (y in 0 until height) {
-                    bitmap.setPixel(
-                        x,
-                        y,
-                        if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
-                    )
-                }
+            binding.qrCodeImage.load(esim.qrCodeUrl) {
+                crossfade(true)
+                placeholder(android.R.drawable.ic_menu_gallery)
+                error(android.R.drawable.ic_menu_close_clear_cancel)
             }
-
-            binding.qrCodeImage.setImageBitmap(bitmap)
-        } catch (e: Exception) {
+        } else {
             binding.qrSection.visibility = View.GONE
         }
     }
@@ -258,6 +219,7 @@ class ESimDetailFragment : Fragment() {
 
     private fun setupInstallButton(esim: com.example.pangeaapp.core.ESimRow) {
         // Show install button for INSTALLED (ACTIVE) eSIMs
+        // User needs to physically install on device after backend activation
         binding.installButton.visibility = if (esim.status == ESimStatus.INSTALLED) {
             View.VISIBLE
         } else {
@@ -274,63 +236,44 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun installESim(esim: com.example.pangeaapp.core.ESimRow) {
-        try {
-            // Build LPA code from eSIM data
-            val lpaString = when {
-                esim.lpaCode != null && esim.lpaCode.isNotEmpty() -> esim.lpaCode
-                esim.activationCode != null && esim.smdpAddress != null -> {
-                    "LPA:1\$${esim.smdpAddress}\$${esim.activationCode}"
-                }
-                else -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Missing activation data",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return
-                }
+        // Build LPA code from eSIM data
+        val lpaString = when {
+            esim.lpaCode != null && esim.lpaCode.isNotEmpty() -> esim.lpaCode
+            esim.activationCode != null && esim.smdpAddress != null -> {
+                "LPA:1\$${esim.smdpAddress}\$${esim.activationCode}"
             }
-
-            // Try to launch Android's eSIM provisioning UI
-            // Method 1: Try the standard eSIM provisioning action
-            val intent = Intent("android.telephony.euicc.action.PROVISION_EMBEDDED_SUBSCRIPTION")
-            intent.putExtra("android.telephony.euicc.extra.USE_QR_SCANNER", false)
-
-            // Parse the LPA code to extract components
-            // Format: LPA:1$SM-DP-ADDRESS$ACTIVATION-CODE or LPA:1$SM-DP-ADDRESS$ACTIVATION-CODE$ICCID
-            val lpaComponents = lpaString.removePrefix("LPA:1$").split("$")
-            if (lpaComponents.size >= 2) {
-                intent.putExtra("android.telephony.euicc.extra.ACTIVATION_CODE", lpaComponents[1])
-                intent.putExtra("android.telephony.euicc.extra.SM_DP_ADDRESS", lpaComponents[0])
-                if (lpaComponents.size >= 3) {
-                    intent.putExtra("android.telephony.euicc.extra.CONFIRMATION_CODE", lpaComponents[2])
-                }
+            else -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.esim_error_missing_activation_data),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return
             }
-
-            // Check if there's an activity that can handle this intent
-            if (intent.resolveActivity(requireContext().packageManager) != null) {
-                startActivity(intent)
-            } else {
-                // Fallback: Show instructions to manually install
-                showManualInstallDialog(lpaString)
-            }
-        } catch (e: Exception) {
-            showManualInstallDialog(null)
-        }
-    }
-
-    private fun showManualInstallDialog(lpaCode: String?) {
-        val message = if (lpaCode != null) {
-            getString(R.string.esim_install_dialog_message_with_code, lpaCode)
-        } else {
-            getString(R.string.esim_install_dialog_message)
         }
 
+        // Copy LPA code to clipboard
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("eSIM Activation Code", lpaString)
+        clipboard.setPrimaryClip(clip)
+
+        // Show dialog with instructions and button to open Settings
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.esim_install_dialog_title)
-            .setMessage(message)
-            .setPositiveButton(R.string.common_ok, null)
+            .setMessage(getString(R.string.esim_install_instructions, lpaString))
+            .setPositiveButton(R.string.esim_install_go_to_settings) { _, _ ->
+                // Open wireless settings where user can add eSIM
+                val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                startActivity(intent)
+            }
+            .setNegativeButton(R.string.common_cancel, null)
             .show()
+
+        Toast.makeText(
+            requireContext(),
+            R.string.esim_code_copied,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun getFlagEmoji(countryCode: String): String {

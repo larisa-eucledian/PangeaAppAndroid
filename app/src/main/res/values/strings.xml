@@ -149,8 +149,10 @@
     <string name="esim_activate_dialog_confirm">Activate</string>
     <string name="esim_activate_dialog_cancel">Cancel</string>
     <string name="esim_install_dialog_title">Install eSIM</string>
-    <string name="esim_install_dialog_message_with_code">To install this eSIM, please:\n\n1. Go to Settings > Network &amp; Internet > SIMs\n2. Tap \'Add eSIM\'\n3. Scan the QR code above\n\nOr enter this code manually:\n%s</string>
-    <string name="esim_install_dialog_message">To install this eSIM, please scan the QR code above in:\nSettings > Network &amp; Internet > SIMs > Add eSIM</string>
+    <string name="esim_install_instructions">✅ Activation code copied!\n\nTo install this eSIM:\n\n1. Tap \"Go to Settings\" below\n2. Navigate to: Mobile Network → Add eSIM → Enter code manually\n3. Paste the code and confirm\n\nActivation code:\n%s</string>
+    <string name="esim_install_go_to_settings">Go to Settings</string>
+    <string name="esim_code_copied">Activation code copied to clipboard</string>
+    <string name="esim_error_missing_activation_data">Missing activation data</string>
     <string name="esim_info_iccid">ICCID</string>
     <string name="esim_info_activation_code">Activation Code</string>
     <string name="esim_info_smdp_address">SM-DP+ Address</string>
