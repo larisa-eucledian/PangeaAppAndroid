@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pangeaapp.databinding.FragmentEsimsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,13 +42,8 @@ class EsimsFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter = ESimAdapter { esim ->
-            // TODO: Navigate to eSIM detail screen
-            // For now, just show a toast
-            Toast.makeText(
-                requireContext(),
-                "Tap to view ${esim.packageName} details",
-                Toast.LENGTH_SHORT
-            ).show()
+            val action = EsimsFragmentDirections.actionEsimsToDetail(esim.esimId)
+            findNavController().navigate(action)
         }
 
         b.recycler.apply {
