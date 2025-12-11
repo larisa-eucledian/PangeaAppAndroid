@@ -95,7 +95,7 @@
 
     <fragment
         android:id="@+id/esimsFragment"
-        android:name="com.example.pangeaapp.ui.EsimsFragment"
+        android:name="com.example.pangeaapp.ui.esims.EsimsFragment"
         android:label="@string/title_esims"
         tools:layout="@layout/fragment_esims" />
 

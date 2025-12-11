@@ -117,4 +117,26 @@
     <string name="checkout_secure_payment">Secure payment powered by Stripe</string>
     <string name="checkout_price_mxn">$%.2f MXN</string>
 
+    <!-- eSIM Status -->
+    <string name="esim_status_ready">READY</string>
+    <string name="esim_status_active">ACTIVE</string>
+    <string name="esim_status_expired">EXPIRED</string>
+    <string name="esim_status_unknown">UNKNOWN</string>
+
+    <!-- eSIM Info -->
+    <string name="esim_activated_on">Activated: %s</string>
+    <string name="esim_expires_on">Expires: %s</string>
+    <string name="esim_expired_on">Expired: %s</string>
+    <string name="esim_purchased_on">Purchased: %s</string>
+
+    <!-- eSIM Actions -->
+    <string name="esim_tap_to_activate">Tap to view QR code and activation details →</string>
+    <string name="esim_tap_to_check_usage">Tap to check usage →</string>
+    <string name="esim_tap_to_view_details">Tap to view details →</string>
+
+    <!-- eSIM Errors -->
+    <string name="esim_error_offline_title">No Connection</string>
+    <string name="esim_error_offline_message">Unable to load your eSIMs. Please check your internet connection and try again.</string>
+    <string name="esim_error_activation_failed">Activation failed. Please try again.</string>
+
 </resources>
