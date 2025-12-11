@@ -60,12 +60,12 @@ class ESimDetailFragment : Fragment() {
 
         binding.activateButton.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.esim_activate)
-                .setMessage("Are you sure you want to activate this eSIM?")
-                .setPositiveButton("Activate") { _, _ ->
+                .setTitle(R.string.esim_activate_dialog_title)
+                .setMessage(R.string.esim_activate_dialog_message)
+                .setPositiveButton(R.string.esim_activate_dialog_confirm) { _, _ ->
                     viewModel.activateESim()
                 }
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.esim_activate_dialog_cancel, null)
                 .show()
         }
     }
@@ -102,7 +102,8 @@ class ESimDetailFragment : Fragment() {
                             Toast.LENGTH_LONG
                         ).show()
                         viewModel.clearActivationSuccess()
-                        findNavController().popBackStack()
+                        // Don't navigate away, just reload the eSIM data
+                        // The UI will update automatically via the Flow
                     }
                 }
             }
@@ -256,8 +257,8 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun setupInstallButton(esim: com.example.pangeaapp.core.ESimRow) {
-        // Show install button for READY eSIMs
-        binding.installButton.visibility = if (esim.status == ESimStatus.READY_FOR_ACTIVATION) {
+        // Show install button for INSTALLED (ACTIVE) eSIMs
+        binding.installButton.visibility = if (esim.status == ESimStatus.INSTALLED) {
             View.VISIBLE
         } else {
             View.GONE

@@ -115,7 +115,7 @@
     <string name="checkout_price_mxn">$%.2f MXN</string>
 
     <!-- eSIM Status -->
-    <string name="esim_status_ready">BEREIT</string>
+    <string name="esim_status_ready">NICHT AKTIVIERT</string>
     <string name="esim_status_active">AKTIV</string>
     <string name="esim_status_expired">ABGELAUFEN</string>
     <string name="esim_status_unknown">UNBEKANNT</string>
@@ -141,6 +141,10 @@
     <string name="esim_activate">eSIM aktivieren</string>
     <string name="esim_install">eSIM installieren</string>
     <string name="esim_activation_success">eSIM erfolgreich aktiviert!</string>
+    <string name="esim_activate_dialog_title">eSIM aktivieren</string>
+    <string name="esim_activate_dialog_message">Möchten Sie diese eSIM wirklich aktivieren?</string>
+    <string name="esim_activate_dialog_confirm">Aktivieren</string>
+    <string name="esim_activate_dialog_cancel">Abbrechen</string>
     <string name="esim_info_iccid">ICCID</string>
     <string name="esim_info_activation_code">Aktivierungscode</string>
     <string name="esim_info_smdp_address">SM-DP+ Adresse</string>

@@ -38,6 +38,19 @@ class EsimsFragment : Fragment() {
         setupRecyclerView()
         setupSwipeRefresh()
         observeState()
+        checkForPolling()
+    }
+
+    private fun checkForPolling() {
+        // Check if we need to start polling for new eSIM after purchase
+        findNavController().currentBackStackEntry?.savedStateHandle?.let { handle ->
+            handle.getLiveData<Boolean>("start_polling").observe(viewLifecycleOwner) { shouldPoll ->
+                if (shouldPoll == true) {
+                    viewModel.startRetryPollingAfterPurchase()
+                    handle.remove<Boolean>("start_polling")
+                }
+            }
+        }
     }
 
     override fun onResume() {
