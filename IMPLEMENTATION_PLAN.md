@@ -69,23 +69,42 @@
   - ✅ DataUnwrapTypeAdapterFactory fix (skip auto-unwrap para ResponseDto)
   - ✅ Retry polling post-compra implementado
 
+### eSIM Detail Screen (COMPLETO - Listo para validación)
+- ✅ Navigation setup:
+  - ✅ Safe Args con esimId parameter
+  - ✅ Action desde esimsFragment
+- ✅ Backend:
+  - ✅ getESimById() en repository
+  - ✅ activateESim() endpoint
+- ✅ ViewModel:
+  - ✅ ESimDetailViewModel con StateFlows
+  - ✅ Activación con manejo de estados
+- ✅ Fragment & Layout:
+  - ✅ Header (flag, nombre, status badge)
+  - ✅ QR code generation con ZXing
+  - ✅ QR desde URL o generado de LPA/activation code
+  - ✅ Info dinámica por status (READY/INSTALLED/EXPIRED)
+  - ✅ Botón activación (solo READY)
+  - ✅ Confirmation dialog antes de activar
+  - ✅ Info rows: ICCID, Activation Code, SM-DP+, LPA, Coverage
+  - ✅ Coverage con banderas y nombres
+- ✅ QR Code library (ZXing 3.5.3)
+- ✅ Strings localizados EN/ES-MX/DE
+- ✅ Navigation wiring desde lista
+
 ### UX Improvements
 - ✅ Empty state mejorado en eSIMs screen
 - ✅ Mensaje de éxito de pago localizado
 - ✅ Pull-to-refresh en eSIMs
+- ✅ Confirmation dialog antes de activar eSIM
+- ✅ Auto-cierre al activar exitosamente
 
 ---
 
 ## 🚀 PRÓXIMOS PASOS PRIORITARIOS
 
 ### Pendiente Inmediato:
-1. **🔴 P0: eSIM Detail Screen** - Ver QR code y detalles de activación (3-4h)
-   - Mostrar QR code para instalación
-   - Información de ICCID, estado, fechas
-   - Botón de activación si está READY
-   - Instrucciones de instalación
-
-2. **🔴 OBLIGATORIO: Migración a Tink** - Requerimiento académico (4-5h)
+1. **🔴 OBLIGATORIO: Migración a Tink** - Requerimiento académico (4-5h)
    - Migrar de EncryptedSharedPreferences a Tink
    - Migración automática de datos existentes
    - Detalles en FASE 1, Task 1.1
@@ -99,12 +118,13 @@
    - Loading states adicionales
    - Error handling mejorado
 
-### Features Completados y Validados:
+### Features Completados (Listos para validación final):
 - ✅ Settings completo
 - ✅ Firebase Analytics integrado
 - ✅ Checkout con Stripe (flujo completo funcional)
 - ✅ Packages loading (todos los tipos de geografía)
 - ✅ eSIMs Screen con network-first strategy
+- ✅ eSIM Detail Screen con QR codes y activación
 
 ---
 
