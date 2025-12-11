@@ -38,6 +38,15 @@ interface PangeaApiService {
     suspend fun createTransaction(
         @Body request: TransactionRequest
     ): TransactionResponse
+
+    // eSIMs
+    @GET("esims")
+    suspend fun getESims(): ESimsResponseDto
+
+    @POST("esim/activate")
+    suspend fun activateESim(
+        @Body request: ActivateESimRequest
+    ): ActivateESimResponse
 }
 
 data class LoginRequest(val identifier: String, val password: String)

@@ -1,0 +1,89 @@
+package com.example.pangeaapp.data.esim
+
+import com.example.pangeaapp.core.ESimRow
+import com.example.pangeaapp.core.network.ConnectivityObserver
+import com.example.pangeaapp.data.Resource
+import com.example.pangeaapp.data.local.dao.ESimDao
+import com.example.pangeaapp.data.mappers.toDomain
+import com.example.pangeaapp.data.mappers.toEntity
+import com.example.pangeaapp.data.remote.PangeaApiService
+import com.example.pangeaapp.data.remote.dto.ActivateESimRequest
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+import javax.inject.Singleton
+
+/**
+ * Real implementation of ESimsRepository with network-first strategy
+ */
+@Singleton
+class RealESimsRepository @Inject constructor(
+    private val apiService: PangeaApiService,
+    private val esimDao: ESimDao,
+    private val connectivityObserver: ConnectivityObserver
+) : ESimsRepository {
+
+    override fun getESimsFlow(): Flow<Resource<List<ESimRow>>> = flow {
+        // 1. Emit Loading with cached data (if available)
+        val cachedEsims = esimDao.getAllESimsFlow().first().map { it.toDomain() }
+        if (cachedEsims.isNotEmpty()) {
+            emit(Resource.Loading(cachedEsims))
+        } else {
+            emit(Resource.Loading(null))
+        }
+
+        // 2. NETWORK FIRST: Always try to fetch from network first
+        if (connectivityObserver.isOnline()) {
+            try {
+                val response = apiService.getESims()
+                val freshEsims = response.data
+
+                // Save to cache
+                esimDao.deleteAll()
+                esimDao.insertAll(freshEsims.map { it.toEntity() })
+
+                // Emit fresh data
+                val domainEsims = freshEsims.map { it.toDomain() }
+                emit(Resource.Success(domainEsims))
+            } catch (e: Exception) {
+                // Network failed - use cache as fallback
+                if (cachedEsims.isNotEmpty()) {
+                    emit(Resource.Success(cachedEsims))
+                } else {
+                    emit(Resource.Error(e.message ?: "Unknown error"))
+                }
+            }
+        } else {
+            // Offline - use cache
+            if (cachedEsims.isNotEmpty()) {
+                emit(Resource.Success(cachedEsims))
+            } else {
+                emit(Resource.Error("No internet connection"))
+            }
+        }
+    }
+
+    override suspend fun activateESim(esimId: String): Result<ESimRow> = try {
+        val request = ActivateESimRequest(esimId = esimId)
+        val response = apiService.activateESim(request)
+
+        // Update cache
+        val entity = response.esim.toEntity()
+        esimDao.update(entity)
+
+        Result.success(entity.toDomain())
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+
+    override suspend fun invalidateCache() {
+        esimDao.deleteAll()
+    }
+
+    override suspend fun refresh() {
+        // Trigger manual refresh by invalidating cache
+        // The Flow will automatically refetch when re-collected
+        invalidateCache()
+    }
+}

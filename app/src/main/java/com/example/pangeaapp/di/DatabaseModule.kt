@@ -30,4 +30,7 @@ object DatabaseModule {
 
     @Provides
     fun providePackageDao(database: PangeaDatabase) = database.packageDao()
+
+    @Provides
+    fun provideESimDao(database: PangeaDatabase) = database.esimDao()
 }
