@@ -129,6 +129,9 @@ dependencies {
     // Stripe Payment
     implementation("com.stripe:stripe-android:20.49.0")
 
+    // QR Code
+    implementation("com.google.zxing:core:3.5.3")
+
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("com.google.firebase:firebase-analytics-ktx")

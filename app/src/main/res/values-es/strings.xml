@@ -137,4 +137,15 @@
     <string name="esim_error_offline_message">No se pudieron cargar tus eSIMs. Verifica tu conexión a internet e intenta de nuevo.</string>
     <string name="esim_error_activation_failed">Activación fallida. Intenta de nuevo.</string>
 
+    <!-- eSIM Detail -->
+    <string name="esim_scan_qr_code">Escanea este código QR para instalar tu eSIM</string>
+    <string name="esim_activate">Activar eSIM</string>
+    <string name="esim_activation_success">¡eSIM activada exitosamente!</string>
+    <string name="esim_info_iccid">ICCID</string>
+    <string name="esim_info_activation_code">Código de Activación</string>
+    <string name="esim_info_smdp_address">Dirección SM-DP+</string>
+    <string name="esim_info_lpa_code">Código LPA</string>
+    <string name="esim_info_created">Creada</string>
+    <string name="esim_info_coverage">Cobertura</string>
+
 </resources>

@@ -140,3 +140,14 @@
     <string name="esim_error_activation_failed">Activation failed. Please try again.</string>
 
 </resources>
+    <!-- eSIM Detail -->
+    <string name="esim_scan_qr_code">Scan this QR code to install your eSIM</string>
+    <string name="esim_activate">Activate eSIM</string>
+    <string name="esim_activation_success">eSIM activated successfully!</string>
+    <string name="esim_info_iccid">ICCID</string>
+    <string name="esim_info_activation_code">Activation Code</string>
+    <string name="esim_info_smdp_address">SM-DP+ Address</string>
+    <string name="esim_info_lpa_code">LPA Code</string>
+    <string name="esim_info_created">Created</string>
+    <string name="esim_info_coverage">Coverage</string>
+
