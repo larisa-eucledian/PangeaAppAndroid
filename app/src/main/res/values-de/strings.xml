@@ -145,6 +145,9 @@
     <string name="esim_activate_dialog_message">Möchten Sie diese eSIM wirklich aktivieren?</string>
     <string name="esim_activate_dialog_confirm">Aktivieren</string>
     <string name="esim_activate_dialog_cancel">Abbrechen</string>
+    <string name="esim_install_dialog_title">eSIM installieren</string>
+    <string name="esim_install_dialog_message_with_code">Um diese eSIM zu installieren, gehen Sie bitte wie folgt vor:\n\n1. Gehen Sie zu Einstellungen > Netzwerk &amp; Internet > SIMs\n2. Tippen Sie auf \'eSIM hinzufügen\'\n3. Scannen Sie den obigen QR-Code\n\nOder geben Sie diesen Code manuell ein:\n%s</string>
+    <string name="esim_install_dialog_message">Um diese eSIM zu installieren, scannen Sie bitte den obigen QR-Code unter:\nEinstellungen > Netzwerk &amp; Internet > SIMs > eSIM hinzufügen</string>
     <string name="esim_info_iccid">ICCID</string>
     <string name="esim_info_activation_code">Aktivierungscode</string>
     <string name="esim_info_smdp_address">SM-DP+ Adresse</string>

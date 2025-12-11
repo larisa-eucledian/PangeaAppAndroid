@@ -291,17 +291,46 @@ class ESimDetailFragment : Fragment() {
                 }
             }
 
-            // Launch Android's native eSIM installation UI
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(lpaString)
-            startActivity(intent)
+            // Try to launch Android's eSIM provisioning UI
+            // Method 1: Try the standard eSIM provisioning action
+            val intent = Intent("android.telephony.euicc.action.PROVISION_EMBEDDED_SUBSCRIPTION")
+            intent.putExtra("android.telephony.euicc.extra.USE_QR_SCANNER", false)
+
+            // Parse the LPA code to extract components
+            // Format: LPA:1$SM-DP-ADDRESS$ACTIVATION-CODE or LPA:1$SM-DP-ADDRESS$ACTIVATION-CODE$ICCID
+            val lpaComponents = lpaString.removePrefix("LPA:1$").split("$")
+            if (lpaComponents.size >= 2) {
+                intent.putExtra("android.telephony.euicc.extra.ACTIVATION_CODE", lpaComponents[1])
+                intent.putExtra("android.telephony.euicc.extra.SM_DP_ADDRESS", lpaComponents[0])
+                if (lpaComponents.size >= 3) {
+                    intent.putExtra("android.telephony.euicc.extra.CONFIRMATION_CODE", lpaComponents[2])
+                }
+            }
+
+            // Check if there's an activity that can handle this intent
+            if (intent.resolveActivity(requireContext().packageManager) != null) {
+                startActivity(intent)
+            } else {
+                // Fallback: Show instructions to manually install
+                showManualInstallDialog(lpaString)
+            }
         } catch (e: Exception) {
-            Toast.makeText(
-                requireContext(),
-                "Unable to install eSIM. Please install manually using the QR code.",
-                Toast.LENGTH_LONG
-            ).show()
+            showManualInstallDialog(null)
         }
+    }
+
+    private fun showManualInstallDialog(lpaCode: String?) {
+        val message = if (lpaCode != null) {
+            getString(R.string.esim_install_dialog_message_with_code, lpaCode)
+        } else {
+            getString(R.string.esim_install_dialog_message)
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.esim_install_dialog_title)
+            .setMessage(message)
+            .setPositiveButton(R.string.common_ok, null)
+            .show()
     }
 
     private fun getFlagEmoji(countryCode: String): String {
