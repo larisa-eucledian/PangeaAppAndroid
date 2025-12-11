@@ -97,7 +97,23 @@
         android:id="@+id/esimsFragment"
         android:name="com.example.pangeaapp.ui.esims.EsimsFragment"
         android:label="@string/title_esims"
-        tools:layout="@layout/fragment_esims" />
+        tools:layout="@layout/fragment_esims">
+
+        <action
+            android:id="@+id/action_esims_to_detail"
+            app:destination="@id/esimDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/esimDetailFragment"
+        android:name="com.example.pangeaapp.ui.esims.ESimDetailFragment"
+        android:label="eSIM Details"
+        tools:layout="@layout/fragment_esim_detail">
+
+        <argument
+            android:name="esimId"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"

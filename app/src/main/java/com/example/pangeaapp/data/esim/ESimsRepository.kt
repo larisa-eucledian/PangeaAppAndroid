@@ -18,6 +18,11 @@ interface ESimsRepository {
     fun getESimsFlow(): Flow<Resource<List<ESimRow>>>
 
     /**
+     * Get a specific eSIM by its ID
+     */
+    suspend fun getESimById(esimId: String): ESimRow?
+
+    /**
      * Activate an eSIM
      * @param esimId The eSIM ID to activate
      * @return Result with updated eSIM or error

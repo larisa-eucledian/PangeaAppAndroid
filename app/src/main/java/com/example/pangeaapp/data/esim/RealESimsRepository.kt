@@ -62,11 +62,18 @@ class RealESimsRepository @Inject constructor(
         }
     }
 
+    override suspend fun getESimById(esimId: String): ESimRow? {
+        return try {
+            esimDao.getESimById(esimId)?.toDomain()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     override suspend fun activateESim(esimId: String): Result<ESimRow> = try {
         val request = ActivateESimRequest(esimId = esimId)
         val response = apiService.activateESim(request)
 
-        // Update cache
         val entity = response.esim.toEntity()
         esimDao.update(entity)
 
