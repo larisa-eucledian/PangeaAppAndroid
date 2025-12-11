@@ -41,21 +41,27 @@ class PackagesViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val code = countryCode ?: ""
+            android.util.Log.d("PackagesVM", "Loading packages for country: $code")
 
             plansRepository.getPackagesByCountryFlow(code).collect { res ->
+                android.util.Log.d("PackagesVM", "Resource received: ${res::class.simpleName}")
                 when (res) {
                     is Resource.Loading -> {
+                        android.util.Log.d("PackagesVM", "Loading state, cached data: ${res.data?.size ?: 0}")
                         _isLoading.value = true
                     }
                     is Resource.Success -> {
+                        android.util.Log.d("PackagesVM", "Success! Packages: ${res.data.size}")
                         _isLoading.value = false
 
                         allPackages = res.data
+                        android.util.Log.d("PackagesVM", "All packages set: ${allPackages.size}")
 
-                        currentFilter = getSavedFilter()
+                        currentFilter = PackageFilter.NONE
                         applyFilters()
                     }
                     is Resource.Error -> {
+                        android.util.Log.e("PackagesVM", "Error: ${res.message}")
                         _isLoading.value = false
                         allPackages = emptyList()
                         applyFilters()
