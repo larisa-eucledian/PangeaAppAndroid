@@ -175,7 +175,6 @@ class CheckoutFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
 
-        // Navigate to eSIMs and trigger polling for new eSIM
         findNavController().navigate(R.id.esimsFragment)
         findNavController().currentBackStackEntry?.savedStateHandle?.set("start_polling", true)
     }

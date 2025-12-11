@@ -101,8 +101,6 @@ class ESimDetailFragment : Fragment() {
                             Toast.LENGTH_LONG
                         ).show()
                         viewModel.clearActivationSuccess()
-                        // Don't navigate away, just reload the eSIM data
-                        // The UI will update automatically via the Flow
                     }
                 }
             }
@@ -130,8 +128,6 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun displayQRCode(esim: com.example.pangeaapp.core.ESimRow) {
-        // Only show QR code if provided by backend (qrCodeUrl)
-        // We don't generate QR codes locally since they can't be scanned from the same device
         if (esim.qrCodeUrl != null && esim.qrCodeUrl.isNotEmpty()) {
             binding.qrSection.visibility = View.VISIBLE
             binding.qrCodeImage.load(esim.qrCodeUrl) {
@@ -213,8 +209,6 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun setupInstallButton(esim: com.example.pangeaapp.core.ESimRow) {
-        // Show install button for INSTALLED (ACTIVE) eSIMs
-        // User needs to physically install on device after backend activation
         binding.installButton.visibility = if (esim.status == ESimStatus.INSTALLED) {
             View.VISIBLE
         } else {
@@ -231,7 +225,6 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun installESim(esim: com.example.pangeaapp.core.ESimRow) {
-        // Build LPA code from eSIM data
         val lpaString = when {
             esim.lpaCode != null && esim.lpaCode.isNotEmpty() -> esim.lpaCode
             esim.activationCode != null && esim.smdpAddress != null -> {
@@ -247,17 +240,14 @@ class ESimDetailFragment : Fragment() {
             }
         }
 
-        // Copy LPA code to clipboard
         val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(getString(R.string.esim_clipboard_label), lpaString)
         clipboard.setPrimaryClip(clip)
 
-        // Show dialog with instructions and button to open Settings
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.esim_install_dialog_title)
             .setMessage(getString(R.string.esim_install_instructions, lpaString))
             .setPositiveButton(R.string.esim_install_go_to_settings) { _, _ ->
-                // Open wireless settings where user can add eSIM
                 val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
                 startActivity(intent)
             }

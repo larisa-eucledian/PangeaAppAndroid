@@ -42,7 +42,6 @@ class EsimsFragment : Fragment() {
     }
 
     private fun checkForPolling() {
-        // Check if we need to start polling for new eSIM after purchase
         findNavController().currentBackStackEntry?.savedStateHandle?.let { handle ->
             handle.getLiveData<Boolean>("start_polling").observe(viewLifecycleOwner) { shouldPoll ->
                 if (shouldPoll == true) {
@@ -55,7 +54,6 @@ class EsimsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Refresh the list when returning from detail screen
         viewModel.refresh()
     }
 
@@ -79,7 +77,6 @@ class EsimsFragment : Fragment() {
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            // Observe eSIMs
             launch {
                 viewModel.esims.collect { esims ->
                     if (esims.isEmpty()) {
@@ -93,14 +90,12 @@ class EsimsFragment : Fragment() {
                 }
             }
 
-            // Observe loading state
             launch {
                 viewModel.isLoading.collect { isLoading ->
                     b.swipeRefresh?.isRefreshing = isLoading
                 }
             }
 
-            // Observe errors
             launch {
                 viewModel.error.collect { error ->
                     error?.let {
