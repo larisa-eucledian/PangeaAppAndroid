@@ -41,9 +41,10 @@ class PackagesViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val code = countryCode ?: ""
-            android.util.Log.d("PackagesVM", "Loading packages for country: $code")
+            val name = countryName ?: ""
+            android.util.Log.d("PackagesVM", "Loading packages for country: $name (code: $code)")
 
-            plansRepository.getPackagesByCountryFlow(code).collect { res ->
+            plansRepository.getPackagesByCountryFlow(name, code).collect { res ->
                 android.util.Log.d("PackagesVM", "Resource received: ${res::class.simpleName}")
                 when (res) {
                     is Resource.Loading -> {

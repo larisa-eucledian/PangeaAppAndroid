@@ -30,7 +30,7 @@ interface PangeaApiService {
 
     @GET("tenant/packages")
     suspend fun getPackagesByCountry(
-        @Query("country_code") countryCode: String
+        @Query("country") countryName: String
     ): List<PackageDto>
 
     // Transactions

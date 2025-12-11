@@ -11,8 +11,8 @@ interface PackageDao {
     fun getAllPackagesFlow(): Flow<List<PackageEntity>>
 
     @Query("""
-    SELECT * FROM packages 
-    WHERE coverage LIKE '%"' || :countryCode || '"%' COLLATE NOCASE
+    SELECT * FROM packages
+    WHERE coverage LIKE '%' || :countryCode || '%' COLLATE NOCASE
 """)
     fun getPackagesByCountry(countryCode: String): Flow<List<PackageEntity>>
 

@@ -65,19 +65,19 @@ class RealPlansRepository @Inject constructor(
         )
     }
 
-    override fun getPackagesByCountryFlow(code: String): Flow<Resource<List<PackageRow>>> {
-        android.util.Log.d("RealPlansRepo", "getPackagesByCountryFlow called for: $code")
+    override fun getPackagesByCountryFlow(countryName: String, countryCode: String): Flow<Resource<List<PackageRow>>> {
+        android.util.Log.d("RealPlansRepo", "getPackagesByCountryFlow called for: $countryName (code: $countryCode)")
         return networkBoundResource(
             query = {
-                android.util.Log.d("RealPlansRepo", "Query: Fetching from DB for country: $code")
-                packageDao.getPackagesByCountry(code).map { entities ->
+                android.util.Log.d("RealPlansRepo", "Query: Fetching from DB for country code: $countryCode")
+                packageDao.getPackagesByCountry(countryCode).map { entities ->
                     android.util.Log.d("RealPlansRepo", "DB returned ${entities.size} entities")
                     entities.map { it.toDomain() }
                 }
             },
             fetch = {
-                android.util.Log.d("RealPlansRepo", "Fetch: Calling API for country: $code")
-                val result = apiService.getPackagesByCountry(code)
+                android.util.Log.d("RealPlansRepo", "Fetch: Calling API for country name: $countryName")
+                val result = apiService.getPackagesByCountry(countryName)
                 android.util.Log.d("RealPlansRepo", "API returned ${result.size} packages")
                 result
             },
