@@ -10,6 +10,10 @@ class DataUnwrapTypeAdapterFactory : TypeAdapterFactory {
         val delegate: TypeAdapter<T> = gson.getDelegateAdapter(this, type)
         val elementAdapter: TypeAdapter<JsonElement> = gson.getAdapter(JsonElement::class.java)
 
+        // Skip unwrapping for types that already handle the wrapper themselves
+        val typeName = type.rawType.simpleName
+        val skipUnwrap = typeName.endsWith("ResponseDto") || typeName.endsWith("Response")
+
         return object : TypeAdapter<T>() {
             override fun write(out: JsonWriter, value: T) {
                 delegate.write(out, value)
@@ -17,12 +21,17 @@ class DataUnwrapTypeAdapterFactory : TypeAdapterFactory {
 
             override fun read(`in`: JsonReader): T {
                 val jsonElement = elementAdapter.read(`in`)
-                val targetElement = if (jsonElement.isJsonObject) {
+
+                // Skip unwrapping for response DTOs that include their own wrapper
+                val targetElement = if (skipUnwrap) {
+                    jsonElement
+                } else if (jsonElement.isJsonObject) {
                     val obj = jsonElement.asJsonObject
                     if (obj.has("data")) obj.get("data") else jsonElement
                 } else {
                     jsonElement
                 }
+
                 return delegate.fromJsonTree(targetElement)
             }
         }
