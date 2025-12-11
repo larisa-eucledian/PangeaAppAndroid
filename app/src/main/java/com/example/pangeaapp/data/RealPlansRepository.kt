@@ -82,8 +82,9 @@ class RealPlansRepository @Inject constructor(
                 result
             },
             saveFetchResult = { packagesList ->
-                android.util.Log.d("RealPlansRepo", "Saving ${packagesList.size} packages to DB")
+                android.util.Log.d("RealPlansRepo", "Clearing old packages and saving ${packagesList.size} new packages to DB")
                 val entities = packagesList.map { it.toEntity() }
+                packageDao.deleteAll()
                 packageDao.insertAll(entities)
                 android.util.Log.d("RealPlansRepo", "Saved to DB successfully")
             },
