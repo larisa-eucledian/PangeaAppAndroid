@@ -25,53 +25,28 @@ class RealESimsRepository @Inject constructor(
 ) : ESimsRepository {
 
     override fun getESimsFlow(): Flow<Resource<List<ESimRow>>> = flow {
-        android.util.Log.d("RealESimsRepo", "=== Starting getESimsFlow ===")
-
-        // 1. Emit Loading with cached data (if available)
         val cachedEsims = try {
             esimDao.getAllESimsFlow().first().map { it.toDomain() }
         } catch (e: Exception) {
-            android.util.Log.e("RealESimsRepo", "Error reading cache: ${e.message}", e)
             emptyList()
         }
 
         if (cachedEsims.isNotEmpty()) {
-            android.util.Log.d("RealESimsRepo", "Found ${cachedEsims.size} cached eSIMs")
             emit(Resource.Loading(cachedEsims))
         } else {
-            android.util.Log.d("RealESimsRepo", "No cached eSIMs found")
             emit(Resource.Loading(null))
         }
 
-        // 2. NETWORK FIRST: Always try to fetch from network first
         if (connectivityObserver.isOnline()) {
             try {
-                android.util.Log.d("RealESimsRepo", "Fetching from network...")
                 val response = apiService.getESims()
                 val freshEsims = response.data
-                android.util.Log.d("RealESimsRepo", "API returned ${freshEsims.size} eSIMs")
 
-                // Save to cache
-                android.util.Log.d("RealESimsRepo", "Saving to cache...")
                 esimDao.deleteAll()
-                val entities = freshEsims.map { dto ->
-                    android.util.Log.d("RealESimsRepo", "Converting DTO to Entity: ${dto.packageName}")
-                    dto.toEntity()
-                }
-                esimDao.insertAll(entities)
-                android.util.Log.d("RealESimsRepo", "Saved to cache successfully")
+                esimDao.insertAll(freshEsims.map { it.toEntity() })
 
-                // Emit fresh data
-                val domainEsims = freshEsims.map { dto ->
-                    android.util.Log.d("RealESimsRepo", "Converting DTO to Domain: ${dto.packageName}")
-                    dto.toDomain()
-                }
-                android.util.Log.d("RealESimsRepo", "Emitting ${domainEsims.size} eSIMs as Success")
-                emit(Resource.Success(domainEsims))
+                emit(Resource.Success(freshEsims.map { it.toDomain() }))
             } catch (e: Exception) {
-                android.util.Log.e("RealESimsRepo", "Network error: ${e.message}", e)
-                e.printStackTrace()
-                // Network failed - use cache as fallback
                 if (cachedEsims.isNotEmpty()) {
                     emit(Resource.Success(cachedEsims))
                 } else {
@@ -79,8 +54,6 @@ class RealESimsRepository @Inject constructor(
                 }
             }
         } else {
-            android.util.Log.d("RealESimsRepo", "Device is offline")
-            // Offline - use cache
             if (cachedEsims.isNotEmpty()) {
                 emit(Resource.Success(cachedEsims))
             } else {

@@ -46,44 +46,65 @@
   - ✅ Países locales (Francia, Suiza, México)
   - ✅ Países regionales (Balkans, Europe, Asia)
   - ✅ Países globales (África, Global)
-- ✅ Debug logs agregados (pendiente remover después de validación completa)
+
+### eSIMs Screen (COMPLETO - Validado)
+- ✅ Backend/Data Layer:
+  - ✅ ESimDto y ESimsResponseDto
+  - ✅ ESimRow domain model con ESimStatus enum
+  - ✅ Room: ESimEntity, ESimDao, PangeaDatabase v2
+  - ✅ Mappers (DTO↔Entity↔Domain)
+  - ✅ RealESimsRepository con network-first strategy
+  - ✅ API endpoint GET /esims integrado
+- ✅ UI Layer:
+  - ✅ ESimsViewModel con StateFlows (esims, isLoading, error)
+  - ✅ ESimAdapter con DiffUtil y status colors
+  - ✅ EsimsFragment con SwipeRefreshLayout
+  - ✅ Material Design 3 layouts (item_esim.xml)
+  - ✅ Localización EN/ES-MX/DE completa
+  - ✅ Status badges color-coded (READY/INSTALLED/EXPIRED)
+  - ✅ Información dinámica según status
+  - ✅ Ordenamiento por prioridad (READY → INSTALLED → EXPIRED)
+- ✅ Fixes:
+  - ✅ SwipeRefreshLayout dependency agregada
+  - ✅ DataUnwrapTypeAdapterFactory fix (skip auto-unwrap para ResponseDto)
+  - ✅ Retry polling post-compra implementado
 
 ### UX Improvements
 - ✅ Empty state mejorado en eSIMs screen
 - ✅ Mensaje de éxito de pago localizado
+- ✅ Pull-to-refresh en eSIMs
 
 ---
 
 ## 🚀 PRÓXIMOS PASOS PRIORITARIOS
 
 ### Pendiente Inmediato:
-1. **🔴 P0: eSIMs Screen** - Mostrar lista de eSIMs compradas (6-8h)
-   - Necesario para completar el flujo de compra
-   - Network-first cache strategy
-   - Detalles en FASE 2, Task 2.3
-
-2. **🔴 P0: eSIM Detail Screen** - Ver QR code y detalles de activación (3-4h)
+1. **🔴 P0: eSIM Detail Screen** - Ver QR code y detalles de activación (3-4h)
    - Mostrar QR code para instalación
    - Información de ICCID, estado, fechas
    - Botón de activación si está READY
+   - Instrucciones de instalación
 
-3. **🔴 OBLIGATORIO: Migración a Tink** - Requerimiento académico (4-5h)
+2. **🔴 OBLIGATORIO: Migración a Tink** - Requerimiento académico (4-5h)
    - Migrar de EncryptedSharedPreferences a Tink
+   - Migración automática de datos existentes
    - Detalles en FASE 1, Task 1.1
 
-4. **🟡 P1: Video Hero en Countries** - Mejorar UX (2-3h)
+3. **🟡 P1: Video Hero en Countries** - Mejorar UX (2-3h)
    - Background video como iOS
    - Detalles en FASE 1, Task 1.2
 
-5. **🟡 P2: Cleanup** - Remover debug logs (30min)
-   - Limpiar logs de PackagesViewModel, RealPlansRepository, NetworkBoundResource
-   - Code review final
+4. **🟡 P2: Refinamientos UI** - Polish final
+   - Animaciones de transición
+   - Loading states adicionales
+   - Error handling mejorado
 
-### Features Completados que Pueden Validarse:
+### Features Completados y Validados:
 - ✅ Settings completo
-- ✅ Firebase Analytics
+- ✅ Firebase Analytics integrado
 - ✅ Checkout con Stripe (flujo completo funcional)
 - ✅ Packages loading (todos los tipos de geografía)
+- ✅ eSIMs Screen con network-first strategy
 
 ---
 
