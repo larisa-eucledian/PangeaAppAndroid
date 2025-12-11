@@ -12,9 +12,9 @@ interface PackageDao {
 
     @Query("""
     SELECT * FROM packages
-    WHERE coverage LIKE '%' || :countryCode || '%' COLLATE NOCASE
+    WHERE countryName = :countryName COLLATE NOCASE
 """)
-    fun getPackagesByCountry(countryCode: String): Flow<List<PackageEntity>>
+    fun getPackagesByCountryName(countryName: String): Flow<List<PackageEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(packages: List<PackageEntity>)

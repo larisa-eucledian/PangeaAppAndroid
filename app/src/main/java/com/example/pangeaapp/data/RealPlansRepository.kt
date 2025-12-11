@@ -69,8 +69,8 @@ class RealPlansRepository @Inject constructor(
         android.util.Log.d("RealPlansRepo", "getPackagesByCountryFlow called for: $countryName (code: $countryCode)")
         return networkBoundResource(
             query = {
-                android.util.Log.d("RealPlansRepo", "Query: Fetching from DB for country code: $countryCode")
-                packageDao.getPackagesByCountry(countryCode).map { entities ->
+                android.util.Log.d("RealPlansRepo", "Query: Fetching from DB for country name: $countryName")
+                packageDao.getPackagesByCountryName(countryName).map { entities ->
                     android.util.Log.d("RealPlansRepo", "DB returned ${entities.size} entities")
                     entities.map { it.toDomain() }
                 }
