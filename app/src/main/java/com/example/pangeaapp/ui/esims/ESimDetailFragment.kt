@@ -256,11 +256,8 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun setupInstallButton(esim: com.example.pangeaapp.core.ESimRow) {
-        // Show install button only for READY eSIMs with activation data
-        val hasActivationData = esim.lpaCode != null ||
-                (esim.activationCode != null && esim.smdpAddress != null)
-
-        binding.installButton.visibility = if (esim.status == ESimStatus.READY_FOR_ACTIVATION && hasActivationData) {
+        // Show install button for READY eSIMs
+        binding.installButton.visibility = if (esim.status == ESimStatus.READY_FOR_ACTIVATION) {
             View.VISIBLE
         } else {
             View.GONE
