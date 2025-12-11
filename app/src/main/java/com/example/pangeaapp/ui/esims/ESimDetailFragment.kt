@@ -4,9 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -23,8 +20,6 @@ import com.example.pangeaapp.R
 import com.example.pangeaapp.core.ESimStatus
 import com.example.pangeaapp.databinding.FragmentEsimDetailBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.qrcode.QRCodeWriter
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -254,7 +249,7 @@ class ESimDetailFragment : Fragment() {
 
         // Copy LPA code to clipboard
         val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("eSIM Activation Code", lpaString)
+        val clip = ClipData.newPlainText(getString(R.string.esim_clipboard_label), lpaString)
         clipboard.setPrimaryClip(clip)
 
         // Show dialog with instructions and button to open Settings

@@ -152,6 +152,7 @@
     <string name="esim_install_instructions">✅ Activation code copied!\n\nTo install this eSIM:\n\n1. Tap \"Go to Settings\" below\n2. Navigate to: Mobile Network → Add eSIM → Enter code manually\n3. Paste the code and confirm\n\nActivation code:\n%s</string>
     <string name="esim_install_go_to_settings">Go to Settings</string>
     <string name="esim_code_copied">Activation code copied to clipboard</string>
+    <string name="esim_clipboard_label">eSIM Activation Code</string>
     <string name="esim_error_missing_activation_data">Missing activation data</string>
     <string name="esim_info_iccid">ICCID</string>
     <string name="esim_info_activation_code">Activation Code</string>
