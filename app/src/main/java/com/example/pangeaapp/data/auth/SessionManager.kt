@@ -2,6 +2,7 @@ package com.example.pangeaapp.data.auth
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.pangeaapp.core.security.TinkManager
@@ -18,6 +19,7 @@ class SessionManager @Inject constructor(
     private val tinkManager: TinkManager
 ) {
     companion object {
+        private const val TAG = "TinkValidation"
         private const val PREFS_NAME = "pangea_session_prefs"
         private const val LEGACY_PREFS_NAME = "pangea_secure_prefs"
         private const val KEY_JWT = "jwt_token"
@@ -63,9 +65,11 @@ class SessionManager @Inject constructor(
 
     private fun migrateFromLegacyIfNeeded() {
         if (prefs.getBoolean(KEY_MIGRATED, false)) {
+            Log.d(TAG, "✓ Migration already completed")
             return
         }
 
+        Log.d(TAG, "→ Checking for legacy data to migrate...")
         legacyPrefs?.let { legacy ->
             val jwt = legacy.getString(KEY_JWT, null)
             val userId = legacy.getInt(KEY_USER_ID, -1)
@@ -73,6 +77,7 @@ class SessionManager @Inject constructor(
             val email = legacy.getString(KEY_EMAIL, null)
 
             if (jwt != null && userId != -1 && username != null && email != null) {
+                Log.d(TAG, "✓ Legacy data found, migrating to Tink...")
                 saveSession(
                     jwt = jwt,
                     user = AuthUser(
@@ -83,6 +88,9 @@ class SessionManager @Inject constructor(
                 )
 
                 legacy.edit().clear().apply()
+                Log.d(TAG, "✓ Legacy data cleared after migration")
+            } else {
+                Log.d(TAG, "→ No legacy data to migrate")
             }
         }
 
@@ -90,14 +98,19 @@ class SessionManager @Inject constructor(
     }
 
     fun saveSession(jwt: String, user: AuthUser) {
+        Log.d(TAG, "→ Encrypting session data with Tink...")
+        val encryptedJwt = tinkManager.encryptToBase64(jwt)
+        Log.d(TAG, "✓ JWT encrypted: ${encryptedJwt.take(30)}... (${encryptedJwt.length} chars)")
+
         prefs.edit().apply {
-            putString(KEY_JWT, tinkManager.encryptToBase64(jwt))
+            putString(KEY_JWT, encryptedJwt)
             putString(KEY_USER_ID, tinkManager.encryptToBase64(user.id.toString()))
             putString(KEY_USERNAME, tinkManager.encryptToBase64(user.username))
             putString(KEY_EMAIL, tinkManager.encryptToBase64(user.email))
             apply()
         }
 
+        Log.d(TAG, "✓ Session saved with Tink encryption for user: ${user.username}")
         _isLoggedIn.value = true
         _currentUser.value = UserInfo(
             id = user.id,
@@ -109,9 +122,14 @@ class SessionManager @Inject constructor(
     fun getJwt(): String? {
         return try {
             prefs.getString(KEY_JWT, null)?.let { encrypted ->
-                tinkManager.decryptFromBase64(encrypted)
+                Log.d(TAG, "→ Decrypting JWT with Tink...")
+                Log.d(TAG, "→ Encrypted value: ${encrypted.take(30)}... (${encrypted.length} chars)")
+                val decrypted = tinkManager.decryptFromBase64(encrypted)
+                Log.d(TAG, "✓ JWT decrypted successfully")
+                decrypted
             }
         } catch (e: Exception) {
+            Log.e(TAG, "✗ Failed to decrypt JWT: ${e.message}")
             null
         }
     }
