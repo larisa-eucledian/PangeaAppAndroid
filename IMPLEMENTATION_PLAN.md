@@ -109,6 +109,7 @@
 - ✅ Status badges claros (NOT ACTIVATED, ACTIVE, EXPIRED)
 - ✅ Purchase date mostrada para eSIMs no activadas
 - ✅ Activation date mostrada para eSIMs activas
+- ✅ Video hero background en Countries screen (looping, muted, optimized)
 
 ---
 
@@ -126,18 +127,15 @@ Todas las funcionalidades críticas del MVP Android están implementadas y funci
 - ✅ 100% localización en 3 idiomas (EN, ES, DE)
 - ✅ Post-purchase polling y auto-refresh
 - ✅ Código limpio (sin logs, sin comentarios innecesarios, sin imports sin usar)
+- ✅ Video hero background en Countries screen
 
 ### Pendientes Opcionales (Nice to Have):
-1. **🟡 Video Hero en Countries** - Mejorar UX (2-3h)
-   - Background video como iOS
-   - Detalles en FASE 1, Task 1.2
-
-2. **🟡 Refinamientos UI** - Polish final
+1. **🟡 Refinamientos UI** - Polish final
    - Animaciones de transición
    - Loading states adicionales
    - Error handling mejorado
 
-3. **🟡 Migración a Tink** - Si es requerimiento académico (4-5h)
+2. **🟡 Migración a Tink** - Si es requerimiento académico (4-5h)
    - Migrar de EncryptedSharedPreferences a Tink
    - Migración automática de datos existentes
    - Detalles en FASE 1, Task 1.1
