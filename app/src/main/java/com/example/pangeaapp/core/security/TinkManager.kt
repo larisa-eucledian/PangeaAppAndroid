@@ -20,7 +20,7 @@ class TinkManager(private val context: Context) {
             .build()
             .keysetHandle
 
-        keysetHandle.getPrimitive(Aead::class.java)
+        keysetHandle.getPrimitive(Aead::class)
     }
 
     fun encrypt(plaintext: String): ByteArray {
