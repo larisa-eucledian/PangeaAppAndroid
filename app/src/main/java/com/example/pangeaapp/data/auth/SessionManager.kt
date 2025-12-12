@@ -49,15 +49,17 @@ class SessionManager @Inject constructor(
         }
     }
 
-    init {
-        migrateFromLegacyIfNeeded()
-    }
-
-    private val _isLoggedIn = MutableStateFlow(hasValidSession())
+    private val _isLoggedIn = MutableStateFlow(false)
     val isLoggedIn: Flow<Boolean> = _isLoggedIn.asStateFlow()
 
-    private val _currentUser = MutableStateFlow(getCurrentUserInfo())
+    private val _currentUser = MutableStateFlow<UserInfo?>(null)
     val currentUser: Flow<UserInfo?> = _currentUser.asStateFlow()
+
+    init {
+        migrateFromLegacyIfNeeded()
+        _isLoggedIn.value = hasValidSession()
+        _currentUser.value = getCurrentUserInfo()
+    }
 
     private fun migrateFromLegacyIfNeeded() {
         if (prefs.getBoolean(KEY_MIGRATED, false)) {
