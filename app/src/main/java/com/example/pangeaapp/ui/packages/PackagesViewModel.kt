@@ -41,23 +41,21 @@ class PackagesViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val code = countryCode ?: ""
+            val name = countryName ?: ""
 
-            plansRepository.getPackagesByCountryFlow(code).collect { res ->
+            plansRepository.getPackagesByCountryFlow(name, code).collect { res ->
                 when (res) {
                     is Resource.Loading -> {
-                        _isLoading.value = true
+                        _isLoading.value = res.data == null
+                        res.data?.let {
+                            allPackages = it
+                            applyFilters()
+                        }
                     }
                     is Resource.Success -> {
                         _isLoading.value = false
-
-                        allPackages = filterByCountry(
-                            packages = res.data,
-                            countryCode = countryCode,
-                            countryName = countryName,
-                            coverageCodes = coverageCodes
-                        )
-
-                        currentFilter = getSavedFilter()
+                        allPackages = res.data
+                        currentFilter = PackageFilter.NONE
                         applyFilters()
                     }
                     is Resource.Error -> {
@@ -69,6 +67,7 @@ class PackagesViewModel @Inject constructor(
             }
         }
     }
+
     fun onFilterChanged(filter: PackageFilter) {
         currentFilter = filter
         saveFilter(filter)

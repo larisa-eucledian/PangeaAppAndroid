@@ -15,15 +15,14 @@ inline fun <ResultType, RequestType> networkBoundResource(
     crossinline shouldFetch: (ResultType?) -> Boolean = { true },
     crossinline onFetchFailed: (Throwable) -> Unit = { }
 ) = flow {
-    emit(Resource.Loading())
-
     val data = query().firstOrNull()
 
     val flow = if (shouldFetch(data)) {
         emit(Resource.Loading(data))
 
         try {
-            saveFetchResult(fetch())
+            val fetchedData = fetch()
+            saveFetchResult(fetchedData)
             query().map { Resource.Success(it) }
         } catch (throwable: Throwable) {
             onFetchFailed(throwable)

@@ -9,7 +9,9 @@ import com.example.pangeaapp.R
 import com.example.pangeaapp.core.PackageRow
 import com.example.pangeaapp.databinding.ItemPackageBinding
 
-class PackageAdapter : ListAdapter<PackageRow, PackageAdapter.VH>(Diff) {
+class PackageAdapter(
+    private val onClick: (PackageRow) -> Unit = {}
+) : ListAdapter<PackageRow, PackageAdapter.VH>(Diff) {
 
     object Diff : DiffUtil.ItemCallback<PackageRow>() {
         override fun areItemsTheSame(o: PackageRow, n: PackageRow) = o.documentId == n.documentId
@@ -44,6 +46,8 @@ class PackageAdapter : ListAdapter<PackageRow, PackageAdapter.VH>(Diff) {
         val amount = String.format(java.util.Locale.getDefault(), "%.2f", p.pricePublic)
         val currency = p.currency.orEmpty()
         holder.b.txtPackagePrice.text = if (currency.isNotEmpty()) "$currency $amount" else amount
+
+        holder.itemView.setOnClickListener { onClick(p) }
     }
 
 }

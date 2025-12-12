@@ -28,7 +28,9 @@ class PackagesFragment : Fragment() {
 
     private val args: PackagesFragmentArgs by navArgs()
 
-    private val adapter = PackageAdapter()
+    private val adapter = PackageAdapter { packageRow ->
+        navigateToCheckout(packageRow)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -112,22 +114,65 @@ class PackagesFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.packages.collect { packages ->
                 adapter.submitList(packages)
-
-                if (packages.isEmpty()) {
-                    binding.emptyView.root.visibility = View.VISIBLE
-                    binding.recyclerPackages.visibility = View.GONE
-                } else {
-                    binding.emptyView.root.visibility = View.GONE
-                    binding.recyclerPackages.visibility = View.VISIBLE
-                }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isLoading.collect { isLoading ->
-                // TODO: Mostrar loading indicator
+            launch {
+                viewModel.packages.collect { packages ->
+                    if (packages.isEmpty()) {
+                        binding.emptyView.root.visibility = View.VISIBLE
+                        binding.recyclerPackages.visibility = View.GONE
+                    } else {
+                        binding.emptyView.root.visibility = View.GONE
+                        binding.recyclerPackages.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            launch {
+                viewModel.isLoading.collect { isLoading ->
+                    binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+                }
             }
         }
+    }
+
+    private fun navigateToCheckout(packageRow: com.example.pangeaapp.core.PackageRow) {
+        val countryCode = args.countryCode ?: packageRow.coverage?.firstOrNull() ?: ""
+
+        val callsLabel = if (packageRow.withCall == true) {
+            packageRow.callAmount?.let { amount ->
+                val unit = packageRow.callUnit ?: ""
+                "$amount $unit".trim()
+            } ?: getString(R.string.feature_calls)
+        } else null
+
+        val smsLabel = if (packageRow.withSMS == true) {
+            packageRow.smsAmount?.let { amount ->
+                val unit = packageRow.smsUnit ?: ""
+                "$amount $unit".trim()
+            } ?: getString(R.string.feature_sms)
+        } else null
+
+        val features = packageRow.featuresList().joinToString(" • ")
+        val coverage = packageRow.coverage?.toTypedArray() ?: emptyArray()
+
+        val action = PackagesFragmentDirections.actionPackagesToCheckout(
+            packageId = packageRow.packageId,
+            packageName = packageRow.packageName,
+            countryName = packageRow.countryName,
+            countryCode = countryCode,
+            price = packageRow.pricePublic.toFloat(),
+            validity = packageRow.validityDays,
+            data = packageRow.dataLabel(),
+            calls = callsLabel,
+            sms = smsLabel,
+            features = features,
+            coverage = coverage
+        )
+
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

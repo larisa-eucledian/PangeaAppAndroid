@@ -38,13 +38,82 @@
             android:name="coverageCodes"
             app:argType="string[]"
             app:nullable="true" />
+
+        <action
+            android:id="@+id/action_packages_to_checkout"
+            app:destination="@id/checkoutFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.pangeaapp.ui.checkout.CheckoutFragment"
+        android:label="@string/checkout_title"
+        tools:layout="@layout/fragment_checkout">
+
+        <argument
+            android:name="packageId"
+            app:argType="string" />
+        <argument
+            android:name="packageName"
+            app:argType="string" />
+        <argument
+            android:name="countryName"
+            app:argType="string" />
+        <argument
+            android:name="countryCode"
+            app:argType="string" />
+        <argument
+            android:name="price"
+            app:argType="float" />
+        <argument
+            android:name="validity"
+            app:argType="integer" />
+        <argument
+            android:name="data"
+            app:argType="string" />
+        <argument
+            android:name="calls"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="sms"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="features"
+            app:argType="string" />
+        <argument
+            android:name="coverage"
+            app:argType="string[]" />
     </fragment>
 
     <fragment
         android:id="@+id/esimsFragment"
-        android:name="com.example.pangeaapp.ui.EsimsFragment"
+        android:name="com.example.pangeaapp.ui.esims.EsimsFragment"
         android:label="@string/title_esims"
-        tools:layout="@layout/fragment_esims" />
+        tools:layout="@layout/fragment_esims">
+
+        <action
+            android:id="@+id/action_esims_to_detail"
+            app:destination="@id/esimDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/esimDetailFragment"
+        android:name="com.example.pangeaapp.ui.esims.ESimDetailFragment"
+        android:label="eSIM Details"
+        tools:layout="@layout/fragment_esim_detail">
+
+        <argument
+            android:name="esimId"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"

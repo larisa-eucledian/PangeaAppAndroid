@@ -65,18 +65,19 @@ class RealPlansRepository @Inject constructor(
         )
     }
 
-    override fun getPackagesByCountryFlow(code: String): Flow<Resource<List<PackageRow>>> {
+    override fun getPackagesByCountryFlow(countryName: String, countryCode: String): Flow<Resource<List<PackageRow>>> {
         return networkBoundResource(
             query = {
-                packageDao.getPackagesByCountry(code).map { entities ->
+                packageDao.getPackagesByCountryName(countryName).map { entities ->
                     entities.map { it.toDomain() }
                 }
             },
             fetch = {
-                apiService.getPackagesByCountry(code)
+                apiService.getPackagesByCountry(countryName)
             },
             saveFetchResult = { packagesList ->
                 val entities = packagesList.map { it.toEntity() }
+                packageDao.deleteAll()
                 packageDao.insertAll(entities)
             },
             shouldFetch = {

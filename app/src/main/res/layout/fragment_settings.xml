@@ -32,6 +32,32 @@
         app:layout_constraintTop_toBottomOf="@id/txtTitle" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHelpVideo"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/settings_help_video"
+        app:icon="@android:drawable/ic_menu_slideshow"
+        app:iconGravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtUserInfo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnWhatsAppSupport"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/settings_support"
+        app:icon="@android:drawable/stat_notify_chat"
+        app:iconGravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnHelpVideo" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="0dp"
@@ -42,7 +68,7 @@
         app:strokeColor="@color/error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtUserInfo" />
+        app:layout_constraintTop_toBottomOf="@id/btnWhatsAppSupport" />
 
     <TextView
         android:id="@+id/txtVersion"

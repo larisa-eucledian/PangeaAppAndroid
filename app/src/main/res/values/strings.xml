@@ -4,6 +4,7 @@
     <string name="offline_message">No internet connection</string>
     <!-- Titles -->
     <string name="app_name">Pangea App</string>
+    <string name="app_slogan">BORDERLESS CONNECTION</string>
     <string name="title_countries">Explore</string>
     <string name="title_packages">Packages</string>
     <string name="title_my_esims">My eSIMs</string>
@@ -21,6 +22,10 @@
     <string name="empty_countries">No countries found</string>
     <string name="empty_packages">No packages found</string>
     <string name="empty_view">No Information</string>
+    <string name="empty_esims">You don\'t have any eSIMs yet.\nBuy a package to get started!</string>
+
+    <!-- Payment -->
+    <string name="payment_success">Payment successful!</string>
 
     <!-- Toggle One/Multiple -->
     <string name="toggle_one_country">One Country</string>
@@ -87,5 +92,74 @@
     <string name="logged_in">Logged in</string>
     <string name="version_1_0_0">Version 1.0.0</string>
     <string name="country_flag">country flag</string>
+
+    <!-- Settings -->
+    <string name="settings_help_video">Help Video</string>
+    <string name="settings_support">WhatsApp Support</string>
+    <string name="settings_logout_title">Logout</string>
+    <string name="settings_logout_message">Are you sure you want to logout?</string>
+    <string name="settings_error_video">Could not open video</string>
+    <string name="settings_error_whatsapp">WhatsApp not installed</string>
+    <string name="youtube_video_url">https://www.youtube.com/watch?v=84QqDXsUaL8</string>
+    <string name="whatsapp_support_url">https://api.whatsapp.com/send/?phone=5628298160</string>
+
+    <!-- Checkout -->
+    <string name="checkout_title">Checkout</string>
+    <string name="checkout_summary">Summary</string>
+    <string name="checkout_details">Details</string>
+    <string name="checkout_validity">Validity</string>
+    <string name="checkout_validity_days">%d days from activation</string>
+    <string name="checkout_data">Data</string>
+    <string name="checkout_calls">Calls</string>
+    <string name="checkout_sms">SMS</string>
+    <string name="checkout_features">Features</string>
+    <string name="checkout_coverage">Coverage</string>
+    <string name="checkout_pay">Pay %s</string>
+    <string name="checkout_secure_payment">Secure payment powered by Stripe</string>
+    <string name="checkout_price_mxn">$%.2f MXN</string>
+
+    <!-- eSIM Status -->
+    <string name="esim_status_ready">NOT ACTIVATED</string>
+    <string name="esim_status_active">ACTIVE</string>
+    <string name="esim_status_expired">EXPIRED</string>
+    <string name="esim_status_unknown">UNKNOWN</string>
+
+    <!-- eSIM Info -->
+    <string name="esim_activated_on">Activated: %s</string>
+    <string name="esim_expires_on">Expires: %s</string>
+    <string name="esim_expired_on">Expired: %s</string>
+    <string name="esim_purchased_on">Purchased: %s</string>
+
+    <!-- eSIM Actions -->
+    <string name="esim_tap_to_activate">Tap to view QR code and activation details →</string>
+    <string name="esim_tap_to_check_usage">Tap to check usage →</string>
+    <string name="esim_tap_to_view_details">Tap to view details →</string>
+
+    <!-- eSIM Errors -->
+    <string name="esim_error_offline_title">No Connection</string>
+    <string name="esim_error_offline_message">Unable to load your eSIMs. Please check your internet connection and try again.</string>
+    <string name="esim_error_activation_failed">Activation failed. Please try again.</string>
+
+    <!-- eSIM Detail -->
+    <string name="esim_scan_qr_code">Scan this QR code to install your eSIM</string>
+    <string name="esim_activate">Activate eSIM</string>
+    <string name="esim_install">Install eSIM</string>
+    <string name="esim_activation_success">eSIM activated successfully!</string>
+    <string name="esim_activate_dialog_title">Activate eSIM</string>
+    <string name="esim_activate_dialog_message">Are you sure you want to activate this eSIM?</string>
+    <string name="esim_activate_dialog_confirm">Activate</string>
+    <string name="esim_activate_dialog_cancel">Cancel</string>
+    <string name="esim_install_dialog_title">Install eSIM</string>
+    <string name="esim_install_instructions">✅ Activation code copied!\n\nTo install this eSIM:\n\n1. Tap \"Go to Settings\" below\n2. Navigate to: Mobile Network → Add eSIM → Enter code manually\n3. Paste the code and confirm\n\nActivation code:\n%s</string>
+    <string name="esim_install_go_to_settings">Go to Settings</string>
+    <string name="esim_code_copied">Activation code copied to clipboard</string>
+    <string name="esim_clipboard_label">eSIM Activation Code</string>
+    <string name="esim_error_missing_activation_data">Missing activation data</string>
+    <string name="esim_info_iccid">ICCID</string>
+    <string name="esim_info_activation_code">Activation Code</string>
+    <string name="esim_info_smdp_address">SM-DP+ Address</string>
+    <string name="esim_info_lpa_code">LPA Code</string>
+    <string name="esim_info_purchased">Purchased</string>
+    <string name="esim_info_coverage">Coverage</string>
 
 </resources>
