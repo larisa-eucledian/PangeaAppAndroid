@@ -30,10 +30,20 @@ binding.videoView.apply {
 ```
 
 #### **Códigos QR para Activación de eSIM**
-- Generación dinámica de códigos QR con ZXing library
-- Códigos QR contienen datos de activación LPA (Local Profile Assistant)
+- Códigos QR cargados desde URL del backend
+- Visualización de QR con **Coil** (image loading library)
+- Los QR contienen datos de activación LPA (Local Profile Assistant)
 - Interfaz dedicada para mostrar y compartir códigos QR
-- Funcionalidad de captura de pantalla para compartir
+- Copia de datos de activación al portapapeles
+
+```kotlin
+// ESimDetailFragment.kt - Carga de QR desde URL
+binding.qrCodeImage.load(esim.qrCodeUrl) {
+    crossfade(true)
+    placeholder(R.drawable.placeholder_qr)
+    error(R.drawable.error_qr)
+}
+```
 
 ### 2. 🔐 Sistema de Autenticación Robusto
 
@@ -542,12 +552,6 @@ androidx-security-crypto = "1.1.0-alpha06"
 stripe-android = "20.49.0"
 ```
 
-### QR Codes
-```gradle
-// ZXing (QR Generation)
-zxing-core = "3.5.3"
-```
-
 ### Firebase
 ```gradle
 // Firebase
@@ -777,8 +781,8 @@ TENANT_API_KEY=tu_api_key_aqui
 
 #### Elementos Multimedia
 - [x] Video hero en pantalla de paquetes (VideoView)
-- [x] Códigos QR generados dinámicamente (ZXing)
-- [x] Logos adaptativos según tema
+- [x] Códigos QR cargados desde URL con Coil
+- [x] Logos adaptativos según tema (dark/light mode)
 
 #### Autenticación
 - [x] Sistema completo de login/registro con JWT
