@@ -4,6 +4,7 @@
     <string name="offline_message">No internet connection</string>
     <!-- Titles -->
     <string name="app_name">Pangea App</string>
+    <string name="app_slogan">BORDERLESS CONNECTION</string>
     <string name="title_countries">Explore</string>
     <string name="title_packages">Packages</string>
     <string name="title_my_esims">My eSIMs</string>
