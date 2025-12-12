@@ -66,32 +66,22 @@ class RealPlansRepository @Inject constructor(
     }
 
     override fun getPackagesByCountryFlow(countryName: String, countryCode: String): Flow<Resource<List<PackageRow>>> {
-        android.util.Log.d("RealPlansRepo", "getPackagesByCountryFlow called for: $countryName (code: $countryCode)")
         return networkBoundResource(
             query = {
-                android.util.Log.d("RealPlansRepo", "Query: Fetching from DB for country name: $countryName")
                 packageDao.getPackagesByCountryName(countryName).map { entities ->
-                    android.util.Log.d("RealPlansRepo", "DB returned ${entities.size} entities")
                     entities.map { it.toDomain() }
                 }
             },
             fetch = {
-                android.util.Log.d("RealPlansRepo", "Fetch: Calling API for country name: $countryName")
-                val result = apiService.getPackagesByCountry(countryName)
-                android.util.Log.d("RealPlansRepo", "API returned ${result.size} packages")
-                result
+                apiService.getPackagesByCountry(countryName)
             },
             saveFetchResult = { packagesList ->
-                android.util.Log.d("RealPlansRepo", "Clearing old packages and saving ${packagesList.size} new packages to DB")
                 val entities = packagesList.map { it.toEntity() }
                 packageDao.deleteAll()
                 packageDao.insertAll(entities)
-                android.util.Log.d("RealPlansRepo", "Saved to DB successfully")
             },
             shouldFetch = {
-                val online = connectivityObserver.isOnline()
-                android.util.Log.d("RealPlansRepo", "Should fetch? Online: $online")
-                online
+                connectivityObserver.isOnline()
             }
         )
     }

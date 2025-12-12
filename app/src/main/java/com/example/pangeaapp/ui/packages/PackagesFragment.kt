@@ -114,23 +114,25 @@ class PackagesFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.packages.collect { packages ->
                 adapter.submitList(packages)
-
-                if (packages.isEmpty()) {
-                    binding.emptyView.root.visibility = View.VISIBLE
-                    binding.recyclerPackages.visibility = View.GONE
-                } else {
-                    binding.emptyView.root.visibility = View.GONE
-                    binding.recyclerPackages.visibility = View.VISIBLE
-                }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isLoading.collect { isLoading ->
-                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-                if (isLoading) {
-                    binding.recyclerPackages.visibility = View.GONE
-                    binding.emptyView.root.visibility = View.GONE
+            launch {
+                viewModel.packages.collect { packages ->
+                    if (packages.isEmpty()) {
+                        binding.emptyView.root.visibility = View.VISIBLE
+                        binding.recyclerPackages.visibility = View.GONE
+                    } else {
+                        binding.emptyView.root.visibility = View.GONE
+                        binding.recyclerPackages.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            launch {
+                viewModel.isLoading.collect { isLoading ->
+                    binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
                 }
             }
         }
