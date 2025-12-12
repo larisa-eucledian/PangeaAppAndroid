@@ -1,5 +1,7 @@
 package com.example.pangeaapp.ui.countries
 
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -42,12 +44,29 @@ class CountriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupVideoBackground()
         setupRecyclerView()
         setupSearch()
         setupToggle()
         observeViewModel()
 
         viewModel.loadCountries()
+    }
+
+    private fun setupVideoBackground() {
+        val uri = Uri.parse("android.resource://${requireContext().packageName}/${R.raw.background_travel}")
+
+        binding.videoBackground.apply {
+            setVideoURI(uri)
+            setOnPreparedListener { mediaPlayer ->
+                mediaPlayer.isLooping = true
+                mediaPlayer.setVolume(0f, 0f)
+                mediaPlayer.start()
+            }
+            setOnErrorListener { _, _, _ ->
+                true
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -115,8 +134,19 @@ class CountriesFragment : Fragment() {
         findNavController().navigate(action)
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.videoBackground.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.videoBackground.pause()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.videoBackground.stopPlayback()
         _binding = null
     }
 }
