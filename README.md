@@ -149,11 +149,6 @@ inline fun <ResultType, RequestType> networkBoundResource(
 - Confirmación de pago y creación automática de eSIM
 - Manejo de errores de pago con mensajes claros
 
-#### **Historial de Transacciones**
-- Listado de compras con fecha, monto y estado
-- Detalles de cada transacción
-- Estados: pendiente, completado, fallido
-
 ---
 
 ## 📱 Funcionalidades Principales
@@ -177,7 +172,7 @@ inline fun <ResultType, RequestType> networkBoundResource(
 - Estados: Instalada, Activa, Expirada, Pendiente de Instalación
 - Códigos QR para activación LPA
 - Detalles de consumo y expiración
-- Renovación de planes
+- Botón para instalar eSIM directamente
 
 ### 🎨 Interfaz Adaptativa
 - **Tema oscuro/claro** automático según preferencias del sistema
@@ -189,7 +184,6 @@ inline fun <ResultType, RequestType> networkBoundResource(
 
 ### ⚙️ Configuración
 - Perfil de usuario
-- Cambio de idioma
 - Cerrar sesión con confirmación
 
 ---
@@ -240,14 +234,13 @@ inline fun <ResultType, RequestType> networkBoundResource(
 - **CountriesViewModel**: Gestión de países, búsqueda, filtrado
 - **PackagesViewModel**: Catálogo de paquetes, filtros
 - **ESimsViewModel**: Gestión de eSIMs, estados
+- **ESimDetailViewModel**: Detalles y activación de eSIM
 - **CheckoutViewModel**: Proceso de pago con Stripe
-- **TransactionViewModel**: Historial de compras
 
 #### **3. Repository Layer**
 - **RealAuthRepository**: Autenticación, sesión, tokens
 - **RealPlansRepository**: Países y paquetes (cache-first)
 - **RealESimsRepository**: Gestión de eSIMs
-- **RealTransactionRepository**: Historial de transacciones
 
 #### **4. Data Sources**
 
@@ -418,7 +411,7 @@ stripe.confirmPayment(intent) { result ->
 **Estados:**
 - Instalación fallida: "Error al instalar eSIM, contacta soporte"
 - Código QR inválido: "Código QR corrupto, solicita nuevo"
-- eSIM expirada: "Tu plan ha expirado, ¿deseas renovar?"
+- eSIM expirada: "Tu plan ha expirado"
 
 ### Mensajes Claros y Contextuales
 
@@ -530,7 +523,6 @@ activity-compose = "1.9.3"
 material = "1.12.0"
 
 // Image Loading
-glide = "4.16.0"
 coil = "2.5.0"
 
 // SwipeRefreshLayout
@@ -557,7 +549,6 @@ stripe-android = "20.49.0"
 // Firebase
 firebase-bom = "32.7.4"
 firebase-analytics-ktx
-firebase-messaging-ktx
 ```
 
 ### Testing
@@ -599,9 +590,6 @@ app/
 │   │   │   ├── esim/
 │   │   │   │   ├── ESimsRepository.kt
 │   │   │   │   └── RealESimsRepository.kt
-│   │   │   ├── transaction/
-│   │   │   │   ├── TransactionRepository.kt
-│   │   │   │   └── RealTransactionRepository.kt
 │   │   │   ├── local/
 │   │   │   │   ├── PangeaDatabase.kt
 │   │   │   │   ├── dao/
@@ -643,9 +631,6 @@ app/
 │   │   │   ├── checkout/
 │   │   │   │   ├── CheckoutViewModel.kt
 │   │   │   │   └── CheckoutFragment.kt
-│   │   │   ├── transactions/
-│   │   │   │   ├── TransactionViewModel.kt
-│   │   │   │   └── TransactionsFragment.kt
 │   │   │   ├── settings/
 │   │   │   │   └── SettingsFragment.kt
 │   │   │   └── components/
@@ -697,7 +682,7 @@ app/
 
 1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/PangeaAppAndroid.git
+git clone https://github.com/larisa-eucledian/PangeaAppAndroid.git
 cd PangeaAppAndroid
 ```
 
@@ -705,8 +690,8 @@ cd PangeaAppAndroid
 
 Crear archivo `local.properties` en la raíz del proyecto:
 ```properties
-STRIPE_PUBLISHABLE_KEY=pk_test_tu_clave_aqui
-TENANT_API_KEY=tu_api_key_aqui
+STRIPE_PUBLISHABLE_KEY=pk_test_51QNGDuKxqD1Y3GG3Qksx0H9eEGCmO0tSCNf3Q0pNVP5u11HYKoxSb47qPi2iTRCWVdjuL4KEBa42Wv5RZjlZrfow00XN8pfPIr
+TENANT_API_KEY=VsXl6LmtxwvqPztPBTaqDwbT3YB9hcYSBb7qdacmslS
 ```
 
 3. **Sincronizar dependencias**
@@ -724,7 +709,38 @@ TENANT_API_KEY=tu_api_key_aqui
 ### Configuración de Firebase (Opcional)
 1. Descargar `google-services.json` desde Firebase Console
 2. Colocarlo en `app/google-services.json`
-3. Habilitar Firebase Analytics y Cloud Messaging
+3. Firebase Analytics está configurado automáticamente
+
+---
+
+## 💳 Tarjetas de Prueba (Stripe)
+
+Para probar la funcionalidad de pagos, usa las siguientes tarjetas de prueba de Stripe:
+
+### Tarjetas que Funcionan
+
+**Tarjeta de Prueba Principal:**
+```
+Número: 4242 4242 4242 4242
+Fecha: Cualquier fecha futura (ej: 12/34)
+CVC: Cualquier 3 dígitos (ej: 123)
+```
+
+**Otras Tarjetas de Prueba:**
+```
+Visa:           4000 0566 5566 5556
+Mastercard:     5555 5555 5555 4444
+American Express: 3782 822463 10005
+```
+
+### Tarjetas que Fallan (para probar errores)
+
+```
+Tarjeta Rechazada:        4000 0000 0000 0002
+Fondos Insuficientes:     4000 0000 0000 9995
+CVC Inválido:             4000 0000 0000 0127
+Tarjeta Expirada:         4000 0000 0000 0069
+```
 
 ---
 
@@ -756,103 +772,15 @@ TENANT_API_KEY=tu_api_key_aqui
 
 3. **Compra de eSIM**
    - Selección de paquete
-   - Checkout con Stripe
-   - Generación de código QR
-   - Activación de eSIM
+   - Checkout con Stripe (usa tarjetas de prueba)
+   - Visualización de código QR
+   - Instalación de eSIM
 
 4. **Temas y Localización**
    - Cambio entre dark/light mode
    - Verificar logos adaptativos
    - Cambio de idioma del sistema
    - Verificar ausencia de hardcoded strings
-
----
-
-## 📊 Cumplimiento de Requisitos de Evaluación
-
-### ✅ Documento/README.md (20 puntos)
-- [x] Descripción completa del proyecto
-- [x] Explicación de arquitectura y patrones
-- [x] Documentación de funcionalidades implementadas
-- [x] Instrucciones de instalación y configuración
-- [x] Listado de tecnologías y dependencias
-
-### ✅ Implementación de Funcionalidades del Módulo (55 puntos)
-
-#### Elementos Multimedia
-- [x] Video hero en pantalla de paquetes (VideoView)
-- [x] Códigos QR cargados desde URL con Coil
-- [x] Logos adaptativos según tema (dark/light mode)
-
-#### Autenticación
-- [x] Sistema completo de login/registro con JWT
-- [x] Encriptación con Google Tink y Android Keystore
-- [x] Gestión segura de sesión (SessionManager)
-- [x] Tokens en headers HTTP automáticos
-- [x] Recuperación de contraseña
-
-#### Procesos en Segundo Plano
-- [x] Coroutines y Flow para operaciones asíncronas
-- [x] ViewModelScope para gestión de ciclo de vida
-- [x] NetworkBoundResource con cache-first strategy
-- [x] ConnectivityObserver monitoreando red en tiempo real
-- [x] Sincronización automática de datos
-
-### ✅ Manejo de Errores (15 puntos)
-- [x] Try-catch en todas las capas
-- [x] Estados específicos de error (Resource.Error)
-- [x] Mensajes claros y contextuales para el usuario
-- [x] Logging para debugging
-- [x] Validaciones en tiempo real
-- [x] Reintentos automáticos
-- [x] Fallbacks y degradación elegante
-
-### ✅ Ausencia de Hardcoded Strings (10 puntos)
-- [x] 100% strings en archivos XML localizados
-- [x] Soporte para 3 idiomas (EN, ES, DE)
-- [x] Nombres descriptivos de recursos
-- [x] Mensajes de error localizados
-- [x] UI completamente internacionalizada
-
----
-
-## 🔮 Roadmap y Mejoras Futuras
-
-### Versión 2.0 (Planificado)
-- [ ] Geolocalización para sugerir paquetes según ubicación
-- [ ] Notificaciones push para vencimiento de eSIMs
-- [ ] Soporte para múltiples métodos de pago (PayPal, Apple Pay)
-- [ ] Estadísticas de consumo de datos
-- [ ] Compartir códigos QR directamente
-
-### Optimizaciones Técnicas
-- [ ] ProGuard/R8 para ofuscación en release
-- [ ] Crash reporting con Firebase Crashlytics
-- [ ] Analytics para tracking de eventos
-- [ ] App size optimization
-- [ ] Performance profiling
-
----
-
-## 👨‍💻 Autor
-
-**Larisa CC**
-- GitHub: [@larisa-eucledian](https://github.com/larisa-eucledian)
-
----
-
-## 📄 Licencia
-
-Este proyecto fue desarrollado como parte del curso de Desarrollo de Aplicaciones Móviles Nativas.
-
----
-
-## 🙏 Agradecimientos
-
-- **Android Jetpack** por las librerías de arquitectura
-- **Google Tink** por la solución de encriptación robusta
-- **Stripe** por el SDK de pagos
-- **Material Design** por las guías de UI/UX
 
 ---
 
