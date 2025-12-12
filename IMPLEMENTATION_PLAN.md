@@ -21,12 +21,13 @@
   - Push down de search y filtros
   - Mejor separación de contenido
 
-### Branding & Splash
-- ✅ **Splash Screen** - Idéntico a iOS:
-  - Logo centrado (80dp height, 46dp margins)
-  - Slogan "BORDERLESS CONNECTION" localizado (EN/ES/DE)
-  - 2 segundos de duración
-  - SplashActivity como LAUNCHER
+### Branding
+- ✅ **Splash Screen** - Android 12+ Native API:
+  - Theme.PangeaApp.Splash configurado
+  - Logo animado con 2s duración
+  - installSplashScreen() en MainActivity
+  - Eliminado legacy SplashActivity
+  - Mejor para académico (no penalización)
 - ✅ **App Logo en Header**:
   - Logo 120x40dp centrado arriba
   - Visible en todas las pantallas
@@ -42,6 +43,15 @@
   - Todos los textos visibles en strings.xml
   - Localizados en 3 idiomas (EN, ES, DE)
   - Fallback strings para errores
+
+### Security & Modern APIs
+- ✅ **Tink Migration** - From EncryptedSharedPreferences:
+  - TinkManager con AES256-GCM encryption
+  - Android Keystore integration
+  - Automatic migration from legacy storage
+  - SecurityModule para Hilt DI
+  - SessionManager migrado completamente
+  - Mejor performance y seguridad
 
 ---
 
