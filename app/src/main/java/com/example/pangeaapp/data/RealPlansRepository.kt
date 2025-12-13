@@ -1,5 +1,6 @@
 package com.example.pangeaapp.data
 
+import android.util.Log
 import com.example.pangeaapp.core.CountryRow
 import com.example.pangeaapp.core.PackageRow
 import com.example.pangeaapp.core.network.ConnectivityObserver
@@ -20,6 +21,10 @@ class RealPlansRepository @Inject constructor(
     private val packageDao: PackageDao,
     private val connectivityObserver: ConnectivityObserver
 ) : PlansRepository {
+
+    companion object {
+        private const val TAG = "RealPlansRepository"
+    }
 
     override fun getCountriesFlow(): Flow<Resource<List<CountryRow>>> {
         return networkBoundResource(
@@ -88,13 +93,19 @@ class RealPlansRepository @Inject constructor(
 
     override suspend fun getPackageById(packageId: String): Result<PackageRow> {
         return try {
+            Log.d(TAG, "Fetching package by ID: $packageId")
             val packages = apiService.getPackageById(packageId)
+            Log.d(TAG, "Package response received: ${packages.size} packages")
             if (packages.isNotEmpty()) {
-                Result.success(packages.first().toDomain())
+                val packageRow = packages.first().toDomain()
+                Log.d(TAG, "Package mapped to domain: $packageRow")
+                Result.success(packageRow)
             } else {
+                Log.w(TAG, "No package found for ID: $packageId")
                 Result.failure(Exception("Package not found"))
             }
         } catch (e: Exception) {
+            Log.e(TAG, "Error fetching package by ID: $packageId", e)
             Result.failure(e)
         }
     }

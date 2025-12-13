@@ -1,5 +1,6 @@
 package com.example.pangeaapp.data.esim
 
+import android.util.Log
 import com.example.pangeaapp.core.ESimRow
 import com.example.pangeaapp.core.ESimUsage
 import com.example.pangeaapp.core.network.ConnectivityObserver
@@ -25,6 +26,10 @@ class RealESimsRepository @Inject constructor(
     private val esimDao: ESimDao,
     private val connectivityObserver: ConnectivityObserver
 ) : ESimsRepository {
+
+    companion object {
+        private const val TAG = "RealESimsRepository"
+    }
 
     override fun getESimsFlow(): Flow<Resource<List<ESimRow>>> = flow {
         val cachedEsims = try {
@@ -85,9 +90,14 @@ class RealESimsRepository @Inject constructor(
     }
 
     override suspend fun getUsage(esimId: String): Result<ESimUsage> = try {
+        Log.d(TAG, "Fetching usage for esimId: $esimId")
         val response = apiService.getESimUsage(esimId)
-        Result.success(response.toDomain())
+        Log.d(TAG, "Usage response received: $response")
+        val usage = response.toDomain()
+        Log.d(TAG, "Usage mapped to domain: $usage")
+        Result.success(usage)
     } catch (e: Exception) {
+        Log.e(TAG, "Error fetching usage for esimId: $esimId", e)
         Result.failure(e)
     }
 

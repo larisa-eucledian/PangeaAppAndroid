@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,10 @@ import java.util.*
 
 @AndroidEntryPoint
 class ESimDetailFragment : Fragment() {
+
+    companion object {
+        private const val TAG = "ESimDetailFragment"
+    }
 
     private var _binding: FragmentEsimDetailBinding? = null
     private val binding get() = _binding!!
@@ -107,12 +112,14 @@ class ESimDetailFragment : Fragment() {
 
             launch {
                 viewModel.packageData.collect { packageRow ->
+                    Log.d(TAG, "Package data received: $packageRow")
                     packageRow?.let { displayPackageDetails(it) }
                 }
             }
 
             launch {
                 viewModel.usage.collect { usage ->
+                    Log.d(TAG, "Usage data received: $usage")
                     usage?.let { displayUsageData(it) }
                 }
             }
@@ -221,6 +228,7 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun displayPackageDetails(packageRow: com.example.pangeaapp.core.PackageRow) {
+        Log.d(TAG, "Displaying package details: $packageRow")
         val details = mutableListOf<String>()
 
         details.add(getString(R.string.esim_package_data, packageRow.dataLabel()))
@@ -245,13 +253,17 @@ class ESimDetailFragment : Fragment() {
         details.add(getString(R.string.esim_package_hotspot, hotspotText))
 
         val packageInfo = details.joinToString(" • ")
+        Log.d(TAG, "Package info to display: $packageInfo")
         addInfoRow(getString(R.string.esim_info_package_details), packageInfo)
     }
 
     private fun displayUsageData(usage: com.example.pangeaapp.core.ESimUsage) {
+        Log.d(TAG, "Displaying usage data: $usage")
         val dataConsumed = formatDataAmount(usage.dataConsumed)
         val dataRemaining = formatDataAmount(usage.remainingData)
         val dataPercentage = usage.dataUsagePercentage
+
+        Log.d(TAG, "Data usage: consumed=$dataConsumed, remaining=$dataRemaining, percentage=$dataPercentage%")
 
         addInfoRow(
             getString(R.string.esim_usage_data),
@@ -259,6 +271,7 @@ class ESimDetailFragment : Fragment() {
         )
 
         if (usage.allowedSms > 0) {
+            Log.d(TAG, "SMS usage: consumed=${usage.smsConsumed}, remaining=${usage.remainingSms}")
             addInfoRow(
                 getString(R.string.esim_usage_sms),
                 getString(R.string.esim_usage_sms_format, usage.smsConsumed, usage.remainingSms)
@@ -266,6 +279,7 @@ class ESimDetailFragment : Fragment() {
         }
 
         if (usage.allowedVoice > 0) {
+            Log.d(TAG, "Voice usage: consumed=${usage.voiceConsumed}, remaining=${usage.remainingVoice}")
             addInfoRow(
                 getString(R.string.esim_usage_voice),
                 getString(R.string.esim_usage_voice_format, usage.voiceConsumed, usage.remainingVoice)
