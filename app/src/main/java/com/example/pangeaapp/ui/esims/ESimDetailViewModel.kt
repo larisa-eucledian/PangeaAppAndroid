@@ -4,6 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pangeaapp.core.ESimRow
+import com.example.pangeaapp.core.ESimUsage
+import com.example.pangeaapp.core.PackageRow
+import com.example.pangeaapp.data.PlansRepository
 import com.example.pangeaapp.data.esim.ESimsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ESimDetailViewModel @Inject constructor(
     private val esimsRepository: ESimsRepository,
+    private val plansRepository: PlansRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -33,6 +37,12 @@ class ESimDetailViewModel @Inject constructor(
     private val _activationSuccess = MutableStateFlow(false)
     val activationSuccess: StateFlow<Boolean> = _activationSuccess.asStateFlow()
 
+    private val _package = MutableStateFlow<PackageRow?>(null)
+    val packageData: StateFlow<PackageRow?> = _package.asStateFlow()
+
+    private val _usage = MutableStateFlow<ESimUsage?>(null)
+    val usage: StateFlow<ESimUsage?> = _usage.asStateFlow()
+
     init {
         loadESim()
     }
@@ -42,11 +52,41 @@ class ESimDetailViewModel @Inject constructor(
             _isLoading.value = true
             val result = esimsRepository.getESimById(esimId)
             _esim.value = result
-            _isLoading.value = false
 
             if (result == null) {
                 _error.value = "eSIM not found"
+                _isLoading.value = false
+            } else {
+                loadPackageDetails(result.packageId)
+                loadUsage(result.esimId)
+                _isLoading.value = false
             }
+        }
+    }
+
+    private fun loadPackageDetails(packageId: String) {
+        viewModelScope.launch {
+            plansRepository.getPackageById(packageId).fold(
+                onSuccess = { packageRow ->
+                    _package.value = packageRow
+                },
+                onFailure = { error ->
+                    // Package details are optional, don't show error
+                }
+            )
+        }
+    }
+
+    private fun loadUsage(esimId: String) {
+        viewModelScope.launch {
+            esimsRepository.getUsage(esimId).fold(
+                onSuccess = { usageData ->
+                    _usage.value = usageData
+                },
+                onFailure = { error ->
+                    // Usage data is optional, don't show error
+                }
+            )
         }
     }
 

@@ -161,5 +161,23 @@
     <string name="esim_info_lpa_code">LPA Code</string>
     <string name="esim_info_purchased">Purchased</string>
     <string name="esim_info_coverage">Coverage</string>
+    <string name="esim_info_package_details">Package Details</string>
+
+    <!-- eSIM Package Details -->
+    <string name="esim_package_data">%s</string>
+    <string name="esim_package_calls">%d min calls</string>
+    <string name="esim_package_sms">%d SMS</string>
+    <string name="esim_package_validity">%d days</string>
+    <string name="esim_package_hotspot">Hotspot: %s</string>
+    <string name="esim_package_hotspot_yes">Yes</string>
+    <string name="esim_package_hotspot_no">No</string>
+
+    <!-- eSIM Usage -->
+    <string name="esim_usage_data">Data Usage</string>
+    <string name="esim_usage_data_format">%s used of %s remaining (%d%%)</string>
+    <string name="esim_usage_sms">SMS Usage</string>
+    <string name="esim_usage_sms_format">%d used, %d remaining</string>
+    <string name="esim_usage_voice">Voice Usage</string>
+    <string name="esim_usage_voice_format">%d min used, %d min remaining</string>
 
 </resources>

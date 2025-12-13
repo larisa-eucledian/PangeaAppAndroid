@@ -1,6 +1,7 @@
 package com.example.pangeaapp.data.esim
 
 import com.example.pangeaapp.core.ESimRow
+import com.example.pangeaapp.core.ESimUsage
 import com.example.pangeaapp.core.network.ConnectivityObserver
 import com.example.pangeaapp.data.Resource
 import com.example.pangeaapp.data.local.dao.ESimDao
@@ -8,6 +9,7 @@ import com.example.pangeaapp.data.mappers.toDomain
 import com.example.pangeaapp.data.mappers.toEntity
 import com.example.pangeaapp.data.remote.PangeaApiService
 import com.example.pangeaapp.data.remote.dto.ActivateESimRequest
+import com.example.pangeaapp.data.remote.dto.toDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -78,6 +80,13 @@ class RealESimsRepository @Inject constructor(
         esimDao.update(entity)
 
         Result.success(entity.toDomain())
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+
+    override suspend fun getUsage(esimId: String): Result<ESimUsage> = try {
+        val response = apiService.getESimUsage(esimId)
+        Result.success(response.toDomain())
     } catch (e: Exception) {
         Result.failure(e)
     }

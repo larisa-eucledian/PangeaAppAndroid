@@ -8,5 +8,5 @@ interface PlansRepository {
     fun getCountriesFlow(): Flow<Resource<List<CountryRow>>>
     fun getPackagesFlow(): Flow<Resource<List<PackageRow>>>
     fun getPackagesByCountryFlow(countryName: String, countryCode: String): Flow<Resource<List<PackageRow>>>
-
+    suspend fun getPackageById(packageId: String): Result<PackageRow>
 }

@@ -85,4 +85,17 @@ class RealPlansRepository @Inject constructor(
             }
         )
     }
+
+    override suspend fun getPackageById(packageId: String): Result<PackageRow> {
+        return try {
+            val packages = apiService.getPackageById(packageId)
+            if (packages.isNotEmpty()) {
+                Result.success(packages.first().toDomain())
+            } else {
+                Result.failure(Exception("Package not found"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

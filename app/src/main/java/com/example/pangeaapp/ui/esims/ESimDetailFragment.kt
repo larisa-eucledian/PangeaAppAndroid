@@ -104,6 +104,18 @@ class ESimDetailFragment : Fragment() {
                     }
                 }
             }
+
+            launch {
+                viewModel.packageData.collect { packageRow ->
+                    packageRow?.let { displayPackageDetails(it) }
+                }
+            }
+
+            launch {
+                viewModel.usage.collect { usage ->
+                    usage?.let { displayUsageData(it) }
+                }
+            }
         }
     }
 
@@ -206,6 +218,68 @@ class ESimDetailFragment : Fragment() {
         }
 
         binding.infoContainer.addView(row)
+    }
+
+    private fun displayPackageDetails(packageRow: com.example.pangeaapp.core.PackageRow) {
+        val details = mutableListOf<String>()
+
+        val dataAmount = formatDataAmount(packageRow.data)
+        details.add(getString(R.string.esim_package_data, dataAmount))
+
+        if (packageRow.calls > 0) {
+            details.add(getString(R.string.esim_package_calls, packageRow.calls))
+        }
+
+        if (packageRow.sms > 0) {
+            details.add(getString(R.string.esim_package_sms, packageRow.sms))
+        }
+
+        if (packageRow.validity > 0) {
+            details.add(getString(R.string.esim_package_validity, packageRow.validity))
+        }
+
+        val hotspotText = if (packageRow.hotspot) {
+            getString(R.string.esim_package_hotspot_yes)
+        } else {
+            getString(R.string.esim_package_hotspot_no)
+        }
+        details.add(getString(R.string.esim_package_hotspot, hotspotText))
+
+        val packageInfo = details.joinToString(" • ")
+        addInfoRow(getString(R.string.esim_info_package_details), packageInfo)
+    }
+
+    private fun displayUsageData(usage: com.example.pangeaapp.core.ESimUsage) {
+        val dataConsumed = formatDataAmount(usage.dataConsumed)
+        val dataRemaining = formatDataAmount(usage.remainingData)
+        val dataPercentage = usage.dataUsagePercentage
+
+        addInfoRow(
+            getString(R.string.esim_usage_data),
+            getString(R.string.esim_usage_data_format, dataConsumed, dataRemaining, dataPercentage)
+        )
+
+        if (usage.allowedSms > 0) {
+            addInfoRow(
+                getString(R.string.esim_usage_sms),
+                getString(R.string.esim_usage_sms_format, usage.smsConsumed, usage.remainingSms)
+            )
+        }
+
+        if (usage.allowedVoice > 0) {
+            addInfoRow(
+                getString(R.string.esim_usage_voice),
+                getString(R.string.esim_usage_voice_format, usage.voiceConsumed, usage.remainingVoice)
+            )
+        }
+    }
+
+    private fun formatDataAmount(bytes: Long): String {
+        return when {
+            bytes >= 1_000_000_000 -> String.format("%.1f GB", bytes / 1_000_000_000.0)
+            bytes >= 1_000_000 -> String.format("%.1f MB", bytes / 1_000_000.0)
+            else -> String.format("%.1f KB", bytes / 1_000.0)
+        }
     }
 
     private fun setupInstallButton(esim: com.example.pangeaapp.core.ESimRow) {

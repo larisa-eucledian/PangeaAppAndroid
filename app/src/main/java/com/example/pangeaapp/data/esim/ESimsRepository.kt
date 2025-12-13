@@ -1,6 +1,7 @@
 package com.example.pangeaapp.data.esim
 
 import com.example.pangeaapp.core.ESimRow
+import com.example.pangeaapp.core.ESimUsage
 import com.example.pangeaapp.data.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -28,6 +29,13 @@ interface ESimsRepository {
      * @return Result with updated eSIM or error
      */
     suspend fun activateESim(esimId: String): Result<ESimRow>
+
+    /**
+     * Get usage data for an eSIM
+     * @param esimId The eSIM ID to fetch usage for
+     * @return Result with usage data or error
+     */
+    suspend fun getUsage(esimId: String): Result<ESimUsage>
 
     /**
      * Invalidate the cache (force refresh on next call)
