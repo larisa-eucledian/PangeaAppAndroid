@@ -16,11 +16,11 @@ data class ESimUsageResponseDto(
 
 /**
  * Wrapper that contains the nested data
- * Note: The API returns a "status" field here, but we don't need it
+ * IMPORTANT: We MUST include ALL fields from the JSON or Gson won't parse correctly
  */
 data class UsageWrapperDto(
+    @SerializedName("status") val status: String,  // "success" - MUST include or Gson fails
     @SerializedName("data") val details: UsageDetailsDto?
-    // Ignoring "status" field - we don't use it
 )
 
 /**
