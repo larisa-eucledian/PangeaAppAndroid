@@ -58,7 +58,10 @@ class ESimDetailViewModel @Inject constructor(
                 _isLoading.value = false
             } else {
                 loadPackageDetails(result.packageId)
-                loadUsage(result.esimId)
+                // Only load usage for installed eSIMs
+                if (result.status == com.example.pangeaapp.core.ESimStatus.INSTALLED) {
+                    loadUsage(result.esimId)
+                }
                 _isLoading.value = false
             }
         }
