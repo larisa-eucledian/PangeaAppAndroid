@@ -106,12 +106,6 @@ class ESimDetailFragment : Fragment() {
             }
 
             launch {
-                viewModel.packageData.collect { packageRow ->
-                    packageRow?.let { displayPackageDetails(it) }
-                }
-            }
-
-            launch {
                 viewModel.usage.collect { usage ->
                     android.util.Log.d("ESimDetailFragment", "Usage collected: $usage")
                     usage?.let { displayUsageData(it) }
@@ -219,33 +213,6 @@ class ESimDetailFragment : Fragment() {
         }
 
         binding.infoContainer.addView(row)
-    }
-
-    private fun displayPackageDetails(packageRow: com.example.pangeaapp.core.PackageRow) {
-        // Add package features as individual rows in info section (matches iOS)
-        addInfoRow(getString(R.string.package_data), packageRow.dataLabel())
-
-        if (packageRow.withCall == true) {
-            val callsValue = if (!packageRow.callAmount.isNullOrEmpty()) {
-                getString(R.string.esim_package_calls, packageRow.callAmount)
-            } else {
-                getString(R.string.package_included)
-            }
-            addInfoRow(getString(R.string.package_calls_label), callsValue)
-        }
-
-        if (packageRow.withSMS == true) {
-            val smsValue = if (!packageRow.smsAmount.isNullOrEmpty()) {
-                getString(R.string.esim_package_sms, packageRow.smsAmount)
-            } else {
-                getString(R.string.package_included)
-            }
-            addInfoRow(getString(R.string.package_sms_label), smsValue)
-        }
-
-        if (packageRow.withHotspot == true) {
-            addInfoRow(getString(R.string.package_hotspot_label), getString(R.string.package_available))
-        }
     }
 
     private fun displayUsageData(usage: com.example.pangeaapp.core.ESimUsage) {

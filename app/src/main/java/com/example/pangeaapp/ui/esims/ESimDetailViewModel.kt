@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.pangeaapp.core.ESimRow
 import com.example.pangeaapp.core.ESimStatus
 import com.example.pangeaapp.core.ESimUsage
-import com.example.pangeaapp.core.PackageRow
-import com.example.pangeaapp.data.PlansRepository
 import com.example.pangeaapp.data.esim.ESimsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ESimDetailViewModel @Inject constructor(
     private val esimsRepository: ESimsRepository,
-    private val plansRepository: PlansRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -38,9 +35,6 @@ class ESimDetailViewModel @Inject constructor(
 
     private val _activationSuccess = MutableStateFlow(false)
     val activationSuccess: StateFlow<Boolean> = _activationSuccess.asStateFlow()
-
-    private val _package = MutableStateFlow<PackageRow?>(null)
-    val packageData: StateFlow<PackageRow?> = _package.asStateFlow()
 
     private val _usage = MutableStateFlow<ESimUsage?>(null)
     val usage: StateFlow<ESimUsage?> = _usage.asStateFlow()
@@ -61,7 +55,8 @@ class ESimDetailViewModel @Inject constructor(
                 _error.value = "eSIM not found"
                 _isLoading.value = false
             } else {
-                loadPackageDetails(result.packageId)
+                // Don't load package details - package may have changed since purchase
+                // All package info is already in packageName field
                 if (result.status == ESimStatus.INSTALLED) {
                     Log.d("ESimDetailVM", "eSIM is INSTALLED - calling loadUsage(${result.esimId})")
                     loadUsage(result.esimId)
@@ -70,19 +65,6 @@ class ESimDetailViewModel @Inject constructor(
                 }
                 _isLoading.value = false
             }
-        }
-    }
-
-    private fun loadPackageDetails(packageId: String) {
-        viewModelScope.launch {
-            plansRepository.getPackageById(packageId).fold(
-                onSuccess = { packageRow ->
-                    _package.value = packageRow
-                },
-                onFailure = { _ ->
-                    // Package details failed to load, but don't show error to user
-                }
-            )
         }
     }
 
