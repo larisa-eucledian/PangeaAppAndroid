@@ -17,7 +17,7 @@ data class ESimUsageResponseDto(
  */
 data class UsageDataDto(
     @SerializedName("status") val status: String,
-    @SerializedName("data") val data: UsageDetailsDto
+    @SerializedName("data") val data: UsageDetailsDto?
 )
 
 /**
@@ -26,12 +26,12 @@ data class UsageDataDto(
 data class UsageDetailsDto(
     @SerializedName("iccid") val iccid: String,
     @SerializedName("status") val status: String,
-    @SerializedName("started_at") val startedAt: Long?,
-    @SerializedName("expired_at") val expiredAt: Long?,
-    @SerializedName("allowed_data") val allowedData: Long,
-    @SerializedName("remaining_data") val remainingData: Long,
-    @SerializedName("allowed_sms") val allowedSms: Int,
-    @SerializedName("remaining_sms") val remainingSms: Int,
-    @SerializedName("allowed_voice") val allowedVoice: Int,
-    @SerializedName("remaining_voice") val remainingVoice: Int
+    @SerializedName("startedAt") val startedAt: Long?,
+    @SerializedName("expiredAt") val expiredAt: Long?,
+    @SerializedName("allowedData") val allowedData: Long,
+    @SerializedName("remainingData") val remainingData: Long,
+    @SerializedName("allowedSms") val allowedSms: Int,
+    @SerializedName("remainingSms") val remainingSms: Int,
+    @SerializedName("allowedVoice") val allowedVoice: Int,
+    @SerializedName("remainingVoice") val remainingVoice: Int
 )

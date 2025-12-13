@@ -6,18 +6,21 @@ import com.example.pangeaapp.core.ESimUsage
  * Map ESimUsageResponseDto to domain model ESimUsage
  */
 fun ESimUsageResponseDto.toDomain(): ESimUsage {
+    val usageData = this.usage.data
+        ?: throw IllegalStateException("Usage data is not available for eSIM ${this.esimId}")
+
     return ESimUsage(
         esimId = this.esimId,
         iccid = this.iccid,
         packageName = this.packageName,
-        status = this.usage.status,
-        startedAt = this.usage.data.startedAt,
-        expiredAt = this.usage.data.expiredAt,
-        allowedData = this.usage.data.allowedData,
-        remainingData = this.usage.data.remainingData,
-        allowedSms = this.usage.data.allowedSms,
-        remainingSms = this.usage.data.remainingSms,
-        allowedVoice = this.usage.data.allowedVoice,
-        remainingVoice = this.usage.data.remainingVoice
+        status = usageData.status,
+        startedAt = usageData.startedAt,
+        expiredAt = usageData.expiredAt,
+        allowedData = usageData.allowedData,
+        remainingData = usageData.remainingData,
+        allowedSms = usageData.allowedSms,
+        remainingSms = usageData.remainingSms,
+        allowedVoice = usageData.allowedVoice,
+        remainingVoice = usageData.remainingVoice
     )
 }
