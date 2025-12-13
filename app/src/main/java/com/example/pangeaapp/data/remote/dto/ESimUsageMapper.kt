@@ -1,13 +1,22 @@
 package com.example.pangeaapp.data.remote.dto
 
+import android.util.Log
 import com.example.pangeaapp.core.ESimUsage
 
 /**
  * Map ESimUsageResponseDto to domain model ESimUsage
  */
 fun ESimUsageResponseDto.toDomain(): ESimUsage {
+    Log.d("ESimUsageMapper", "=== MAPPER START ===")
+    Log.d("ESimUsageMapper", "esimId: $esimId")
+    Log.d("ESimUsageMapper", "usage.status: ${usage.status}")
+    Log.d("ESimUsageMapper", "usage.data: ${usage.data}")
+
     val usageData = this.usage.data
         ?: throw IllegalStateException("Usage data is not available for eSIM ${this.esimId}")
+
+    Log.d("ESimUsageMapper", "usageData.allowedData: ${usageData.allowedData}")
+    Log.d("ESimUsageMapper", "usageData.remainingData: ${usageData.remainingData}")
 
     return ESimUsage(
         esimId = this.esimId,
