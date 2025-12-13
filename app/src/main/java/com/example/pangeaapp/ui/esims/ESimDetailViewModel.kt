@@ -1,6 +1,5 @@
 package com.example.pangeaapp.ui.esims
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,10 +21,6 @@ class ESimDetailViewModel @Inject constructor(
     private val plansRepository: PlansRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    companion object {
-        private const val TAG = "ESimDetailViewModel"
-    }
 
     private val esimId: String = savedStateHandle.get<String>("esimId")
         ?: throw IllegalStateException("esimId is required")
@@ -71,30 +66,22 @@ class ESimDetailViewModel @Inject constructor(
 
     private fun loadPackageDetails(packageId: String) {
         viewModelScope.launch {
-            Log.d(TAG, "Loading package details for packageId: $packageId")
             plansRepository.getPackageById(packageId).fold(
                 onSuccess = { packageRow ->
-                    Log.d(TAG, "Package details loaded successfully: $packageRow")
                     _package.value = packageRow
                 },
-                onFailure = { error ->
-                    Log.e(TAG, "Failed to load package details: ${error.message}", error)
-                }
+                onFailure = { /* Package details are optional */ }
             )
         }
     }
 
     private fun loadUsage(esimId: String) {
         viewModelScope.launch {
-            Log.d(TAG, "Loading usage for esimId: $esimId")
             esimsRepository.getUsage(esimId).fold(
                 onSuccess = { usageData ->
-                    Log.d(TAG, "Usage data loaded successfully: $usageData")
                     _usage.value = usageData
                 },
-                onFailure = { error ->
-                    Log.e(TAG, "Failed to load usage data: ${error.message}", error)
-                }
+                onFailure = { /* Usage data is optional */ }
             )
         }
     }
