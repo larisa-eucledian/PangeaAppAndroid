@@ -173,11 +173,19 @@
     <string name="esim_package_hotspot_no">No</string>
 
     <!-- eSIM Usage -->
-    <string name="esim_usage_data">Data Usage</string>
+    <string name="esim_usage_data">Data</string>
     <string name="esim_usage_data_format">%s used of %s remaining (%d%%)</string>
-    <string name="esim_usage_sms">SMS Usage</string>
+    <string name="esim_usage_sms">SMS</string>
     <string name="esim_usage_sms_format">%d used, %d remaining</string>
-    <string name="esim_usage_voice">Voice Usage</string>
+    <string name="esim_usage_voice">Voice</string>
     <string name="esim_usage_voice_format">%d min used, %d min remaining</string>
+
+    <!-- Package Info Labels -->
+    <string name="package_data">Data</string>
+    <string name="package_calls_label">Calls</string>
+    <string name="package_sms_label">SMS</string>
+    <string name="package_hotspot_label">Hotspot</string>
+    <string name="package_included">Included</string>
+    <string name="package_available">Available</string>
 
 </resources>

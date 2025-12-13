@@ -221,127 +221,100 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun displayPackageDetails(packageRow: com.example.pangeaapp.core.PackageRow) {
-        val details = mutableListOf<String>()
+        // Add package features as individual rows in info section (matches iOS)
+        addInfoRow(getString(R.string.package_data), packageRow.dataLabel())
 
-        details.add(packageRow.dataLabel())
-
-        if (packageRow.withCall == true && !packageRow.callAmount.isNullOrEmpty()) {
-            details.add(getString(R.string.esim_package_calls, packageRow.callAmount))
+        if (packageRow.withCall == true) {
+            val callsValue = if (!packageRow.callAmount.isNullOrEmpty()) {
+                getString(R.string.esim_package_calls, packageRow.callAmount)
+            } else {
+                getString(R.string.package_included)
+            }
+            addInfoRow(getString(R.string.package_calls_label), callsValue)
         }
 
-        if (packageRow.withSMS == true && !packageRow.smsAmount.isNullOrEmpty()) {
-            details.add(getString(R.string.esim_package_sms, packageRow.smsAmount))
+        if (packageRow.withSMS == true) {
+            val smsValue = if (!packageRow.smsAmount.isNullOrEmpty()) {
+                getString(R.string.esim_package_sms, packageRow.smsAmount)
+            } else {
+                getString(R.string.package_included)
+            }
+            addInfoRow(getString(R.string.package_sms_label), smsValue)
         }
 
-        if (packageRow.validityDays > 0) {
-            details.add(getString(R.string.esim_package_validity, packageRow.validityDays))
+        if (packageRow.withHotspot == true) {
+            addInfoRow(getString(R.string.package_hotspot_label), getString(R.string.package_available))
         }
-
-        val hotspotText = if (packageRow.withHotspot == true) {
-            getString(R.string.esim_package_hotspot_yes)
-        } else {
-            getString(R.string.esim_package_hotspot_no)
-        }
-        details.add(getString(R.string.esim_package_hotspot, hotspotText))
-
-        val packageInfo = details.joinToString(" • ")
-        binding.packageDetailsText.text = packageInfo
-        binding.packageCard.visibility = View.VISIBLE
     }
 
     private fun displayUsageData(usage: com.example.pangeaapp.core.ESimUsage) {
         binding.usageContainer.removeAllViews()
 
-        // Add title
-        val title = TextView(requireContext()).apply {
-            text = getString(R.string.esim_usage_data)
-            textSize = 16f
-            setTypeface(null, android.graphics.Typeface.BOLD)
-            setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
-        }
-        binding.usageContainer.addView(title)
+        // Convert bytes to GB (matches iOS)
+        val dataConsumedGB = usage.dataConsumed / 1_000_000_000.0
+        val dataAllowedGB = usage.allowedData / 1_000_000_000.0
+        val dataPercentage = usage.dataUsagePercentage
 
-        // Spacer
-        val spacer = View(requireContext()).apply {
-            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 16)
-        }
-        binding.usageContainer.addView(spacer)
-
-        // Data usage
+        // Data usage - Format: "0.50 GB / 1.00 GB (50%)"
         addUsageRow(
             getString(R.string.esim_usage_data),
-            formatDataAmount(usage.dataConsumed),
-            formatDataAmount(usage.remainingData),
-            usage.dataUsagePercentage
+            String.format("%.2f GB / %.2f GB (%d%%)", dataConsumedGB, dataAllowedGB, dataPercentage)
         )
 
-        // SMS usage
+        // SMS usage - Format: "150 / 500"
         if (usage.allowedSms > 0) {
             addUsageRow(
                 getString(R.string.esim_usage_sms),
-                "${usage.smsConsumed}",
-                "${usage.remainingSms}",
-                usage.smsUsagePercentage
+                "${usage.remainingSms} / ${usage.allowedSms}"
             )
         }
 
-        // Voice usage
+        // Voice usage - Format: "180 / 300 min"
         if (usage.allowedVoice > 0) {
             addUsageRow(
                 getString(R.string.esim_usage_voice),
-                "${usage.voiceConsumed} min",
-                "${usage.remainingVoice} min",
-                usage.voiceUsagePercentage
+                "${usage.remainingVoice} / ${usage.allowedVoice} min"
             )
         }
 
         binding.usageCard.visibility = View.VISIBLE
     }
 
-    private fun addUsageRow(label: String, consumed: String, remaining: String, percentage: Int) {
-        val container = LinearLayout(requireContext()).apply {
-            orientation = LinearLayout.VERTICAL
+    private fun addUsageRow(title: String, value: String) {
+        // Simple horizontal layout (matches iOS)
+        val row = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
             layoutParams = ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply {
-                bottomMargin = 24
+                bottomMargin = 12
             }
         }
 
-        // Label and values
-        val labelText = TextView(requireContext()).apply {
-            text = label
-            textSize = 12f
-            setTextColor(ContextCompat.getColor(requireContext(), R.color.textMuted))
-        }
-        container.addView(labelText)
-
-        val valuesText = TextView(requireContext()).apply {
-            text = "$consumed used • $remaining remaining ($percentage%)"
+        val titleLabel = TextView(requireContext()).apply {
+            text = title
             textSize = 14f
+            typeface = android.graphics.Typeface.create(null, android.graphics.Typeface.NORMAL)
             setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
-            setPadding(0, 4, 0, 8)
-        }
-        container.addView(valuesText)
-
-        // Progress bar
-        val progressBar = android.widget.ProgressBar(
-            requireContext(),
-            null,
-            android.R.attr.progressBarStyleHorizontal
-        ).apply {
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                16
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
             )
-            max = 100
-            progress = percentage
-            progressDrawable = ContextCompat.getDrawable(requireContext(), android.R.drawable.progress_horizontal)
         }
-        container.addView(progressBar)
+        row.addView(titleLabel)
 
-        binding.usageContainer.addView(container)
+        val valueLabel = TextView(requireContext()).apply {
+            text = value
+            textSize = 14f
+            typeface = android.graphics.Typeface.create(null, android.graphics.Typeface.BOLD)
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.primary))
+            gravity = android.view.Gravity.END
+        }
+        row.addView(valueLabel)
+
+        binding.usageContainer.addView(row)
     }
 
     private fun formatDataAmount(bytes: Long): String {
