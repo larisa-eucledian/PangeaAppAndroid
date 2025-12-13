@@ -223,7 +223,7 @@ class ESimDetailFragment : Fragment() {
     private fun displayPackageDetails(packageRow: com.example.pangeaapp.core.PackageRow) {
         val details = mutableListOf<String>()
 
-        details.add(getString(R.string.esim_package_data, packageRow.dataLabel()))
+        details.add(packageRow.dataLabel())
 
         if (packageRow.withCall == true && !packageRow.callAmount.isNullOrEmpty()) {
             details.add(getString(R.string.esim_package_calls, packageRow.callAmount))
@@ -245,32 +245,103 @@ class ESimDetailFragment : Fragment() {
         details.add(getString(R.string.esim_package_hotspot, hotspotText))
 
         val packageInfo = details.joinToString(" • ")
-        addInfoRow(getString(R.string.esim_info_package_details), packageInfo)
+        binding.packageDetailsText.text = packageInfo
+        binding.packageCard.visibility = View.VISIBLE
     }
 
     private fun displayUsageData(usage: com.example.pangeaapp.core.ESimUsage) {
-        val dataConsumed = formatDataAmount(usage.dataConsumed)
-        val dataRemaining = formatDataAmount(usage.remainingData)
-        val dataPercentage = usage.dataUsagePercentage
+        binding.usageContainer.removeAllViews()
 
-        addInfoRow(
+        // Add title
+        val title = TextView(requireContext()).apply {
+            text = getString(R.string.esim_usage_data)
+            textSize = 16f
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
+        }
+        binding.usageContainer.addView(title)
+
+        // Spacer
+        val spacer = View(requireContext()).apply {
+            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 16)
+        }
+        binding.usageContainer.addView(spacer)
+
+        // Data usage
+        addUsageRow(
             getString(R.string.esim_usage_data),
-            getString(R.string.esim_usage_data_format, dataConsumed, dataRemaining, dataPercentage)
+            formatDataAmount(usage.dataConsumed),
+            formatDataAmount(usage.remainingData),
+            usage.dataUsagePercentage
         )
 
+        // SMS usage
         if (usage.allowedSms > 0) {
-            addInfoRow(
+            addUsageRow(
                 getString(R.string.esim_usage_sms),
-                getString(R.string.esim_usage_sms_format, usage.smsConsumed, usage.remainingSms)
+                "${usage.smsConsumed}",
+                "${usage.remainingSms}",
+                usage.smsUsagePercentage
             )
         }
 
+        // Voice usage
         if (usage.allowedVoice > 0) {
-            addInfoRow(
+            addUsageRow(
                 getString(R.string.esim_usage_voice),
-                getString(R.string.esim_usage_voice_format, usage.voiceConsumed, usage.remainingVoice)
+                "${usage.voiceConsumed} min",
+                "${usage.remainingVoice} min",
+                usage.voiceUsagePercentage
             )
         }
+
+        binding.usageCard.visibility = View.VISIBLE
+    }
+
+    private fun addUsageRow(label: String, consumed: String, remaining: String, percentage: Int) {
+        val container = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                bottomMargin = 24
+            }
+        }
+
+        // Label and values
+        val labelText = TextView(requireContext()).apply {
+            text = label
+            textSize = 12f
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.textMuted))
+        }
+        container.addView(labelText)
+
+        val valuesText = TextView(requireContext()).apply {
+            text = "$consumed used • $remaining remaining ($percentage%)"
+            textSize = 14f
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
+            setPadding(0, 4, 0, 8)
+        }
+        container.addView(valuesText)
+
+        // Progress bar
+        val progressBar = android.widget.ProgressBar(
+            requireContext(),
+            null,
+            android.R.attr.progressBarStyleHorizontal
+        ).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                16
+            )
+            max = 100
+            progress = percentage
+            progressDrawable = ContextCompat.getDrawable(requireContext(), android.R.drawable.progress_horizontal)
+        }
+        container.addView(progressBar)
+
+        binding.usageContainer.addView(container)
     }
 
     private fun formatDataAmount(bytes: Long): String {
