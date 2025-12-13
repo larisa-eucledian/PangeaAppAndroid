@@ -113,6 +113,7 @@ class ESimDetailFragment : Fragment() {
 
             launch {
                 viewModel.usage.collect { usage ->
+                    android.util.Log.d("ESimDetailFragment", "Usage collected: $usage")
                     usage?.let { displayUsageData(it) }
                 }
             }
@@ -248,12 +249,17 @@ class ESimDetailFragment : Fragment() {
     }
 
     private fun displayUsageData(usage: com.example.pangeaapp.core.ESimUsage) {
+        android.util.Log.d("ESimDetailFragment", "=== displayUsageData called ===")
+        android.util.Log.d("ESimDetailFragment", "dataConsumed: ${usage.dataConsumed}, allowedData: ${usage.allowedData}")
+
         binding.usageContainer.removeAllViews()
 
         // Convert bytes to GB (matches iOS)
         val dataConsumedGB = usage.dataConsumed / 1_000_000_000.0
         val dataAllowedGB = usage.allowedData / 1_000_000_000.0
         val dataPercentage = usage.dataUsagePercentage
+
+        android.util.Log.d("ESimDetailFragment", "Displaying: $dataConsumedGB GB / $dataAllowedGB GB ($dataPercentage%)")
 
         // Data usage - Format: "0.50 GB / 1.00 GB (50%)"
         addUsageRow(
@@ -277,6 +283,7 @@ class ESimDetailFragment : Fragment() {
             )
         }
 
+        android.util.Log.d("ESimDetailFragment", "Setting usageCard visibility to VISIBLE")
         binding.usageCard.visibility = View.VISIBLE
     }
 
