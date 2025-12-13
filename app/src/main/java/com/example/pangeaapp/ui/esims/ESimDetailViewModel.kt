@@ -1,9 +1,11 @@
 package com.example.pangeaapp.ui.esims
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pangeaapp.core.ESimRow
+import com.example.pangeaapp.core.ESimStatus
 import com.example.pangeaapp.core.ESimUsage
 import com.example.pangeaapp.core.PackageRow
 import com.example.pangeaapp.data.PlansRepository
@@ -24,6 +26,10 @@ class ESimDetailViewModel @Inject constructor(
 
     private val esimId: String = savedStateHandle.get<String>("esimId")
         ?: throw IllegalStateException("esimId is required")
+
+    init {
+        Log.e("ESimDetailViewModel", "======== DETAIL SCREEN OPENED FOR ESIM: $esimId ========")
+    }
 
     private val _esim = MutableStateFlow<ESimRow?>(null)
     val esim: StateFlow<ESimRow?> = _esim.asStateFlow()
@@ -53,14 +59,19 @@ class ESimDetailViewModel @Inject constructor(
             val result = esimsRepository.getESimById(esimId)
             _esim.value = result
 
+            Log.e("ESimDetailViewModel", "eSIM loaded: id=${result?.esimId}, status=${result?.status}")
+
             if (result == null) {
                 _error.value = "eSIM not found"
                 _isLoading.value = false
             } else {
                 loadPackageDetails(result.packageId)
                 // Only load usage for installed eSIMs
-                if (result.status == com.example.pangeaapp.core.ESimStatus.INSTALLED) {
+                if (result.status == ESimStatus.INSTALLED) {
+                    Log.e("ESimDetailViewModel", "eSIM is INSTALLED - fetching usage for: ${result.esimId}")
                     loadUsage(result.esimId)
+                } else {
+                    Log.e("ESimDetailViewModel", "eSIM status is ${result.status} - NOT fetching usage")
                 }
                 _isLoading.value = false
             }
@@ -69,22 +80,30 @@ class ESimDetailViewModel @Inject constructor(
 
     private fun loadPackageDetails(packageId: String) {
         viewModelScope.launch {
+            Log.e("ESimDetailViewModel", "Fetching package details for: $packageId")
             plansRepository.getPackageById(packageId).fold(
                 onSuccess = { packageRow ->
+                    Log.e("ESimDetailViewModel", "Package details SUCCESS: ${packageRow.packageName}")
                     _package.value = packageRow
                 },
-                onFailure = { /* Package details are optional */ }
+                onFailure = { error ->
+                    Log.e("ESimDetailViewModel", "Package details FAILED: ${error.message}", error)
+                }
             )
         }
     }
 
     private fun loadUsage(esimId: String) {
         viewModelScope.launch {
+            Log.e("ESimDetailViewModel", "Fetching usage for ONLY THIS eSIM: $esimId")
             esimsRepository.getUsage(esimId).fold(
                 onSuccess = { usageData ->
+                    Log.e("ESimDetailViewModel", "Usage data SUCCESS: consumed=${usageData.dataConsumed}, remaining=${usageData.remainingData}")
                     _usage.value = usageData
                 },
-                onFailure = { /* Usage data is optional */ }
+                onFailure = { error ->
+                    Log.e("ESimDetailViewModel", "Usage data FAILED: ${error.message}", error)
+                }
             )
         }
     }
