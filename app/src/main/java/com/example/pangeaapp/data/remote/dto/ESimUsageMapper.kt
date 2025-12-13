@@ -9,27 +9,28 @@ import com.example.pangeaapp.core.ESimUsage
 fun ESimUsageResponseDto.toDomain(): ESimUsage {
     Log.d("ESimUsageMapper", "=== MAPPER START ===")
     Log.d("ESimUsageMapper", "esimId: $esimId")
-    Log.d("ESimUsageMapper", "usage.responseStatus: ${usage.responseStatus}")
-    Log.d("ESimUsageMapper", "usage.data: ${usage.data}")
+    Log.d("ESimUsageMapper", "usage.apiStatus: ${usage.apiStatus}")
+    Log.d("ESimUsageMapper", "usage.details: ${usage.details}")
 
-    val usageData = this.usage.data
+    val usageDetails = usage.details
         ?: throw IllegalStateException("Usage data is not available for eSIM ${this.esimId}")
 
-    Log.d("ESimUsageMapper", "usageData.allowedData: ${usageData.allowedData}")
-    Log.d("ESimUsageMapper", "usageData.remainingData: ${usageData.remainingData}")
+    Log.d("ESimUsageMapper", "usageDetails.esimStatus: ${usageDetails.esimStatus}")
+    Log.d("ESimUsageMapper", "usageDetails.allowedData: ${usageDetails.allowedData}")
+    Log.d("ESimUsageMapper", "usageDetails.remainingData: ${usageDetails.remainingData}")
 
     return ESimUsage(
         esimId = this.esimId,
         iccid = this.iccid,
         packageName = this.packageName,
-        status = usageData.status,
-        startedAt = usageData.startedAt,
-        expiredAt = usageData.expiredAt,
-        allowedData = usageData.allowedData,
-        remainingData = usageData.remainingData,
-        allowedSms = usageData.allowedSms,
-        remainingSms = usageData.remainingSms,
-        allowedVoice = usageData.allowedVoice,
-        remainingVoice = usageData.remainingVoice
+        status = usageDetails.esimStatus,
+        startedAt = usageDetails.startedAt,
+        expiredAt = usageDetails.expiredAt,
+        allowedData = usageDetails.allowedData,
+        remainingData = usageDetails.remainingData,
+        allowedSms = usageDetails.allowedSms,
+        remainingSms = usageDetails.remainingSms,
+        allowedVoice = usageDetails.allowedVoice,
+        remainingVoice = usageDetails.remainingVoice
     )
 }
