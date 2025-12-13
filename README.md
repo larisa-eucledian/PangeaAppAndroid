@@ -690,8 +690,8 @@ cd PangeaAppAndroid
 
 Crear archivo `local.properties` en la raíz del proyecto:
 ```properties
-STRIPE_PUBLISHABLE_KEY=pk_test_51QNGDuKxqD1Y3GG3Qksx0H9eEGCmO0tSCNf3Q0pNVP5u11HYKoxSb47qPi2iTRCWVdjuL4KEBa42Wv5RZjlZrfow00XN8pfPIr
-TENANT_API_KEY=VsXl6LmtxwvqPztPBTaqDwbT3YB9hcYSBb7qdacmslS
+STRIPE_PUBLISHABLE_KEY=pk_test_51RWP9SRJC2fhvSRIg4Hu7MExUGWlRb4019sctM0z0G07y2OiEgsGNcrfuJk4ssgCXCslLl5K2MB8LKwTLrcGDHDF00LH4mFUXB
+TENANT_API_KEY=pga_pangeaapp_123
 ```
 
 3. **Sincronizar dependencias**
@@ -786,4 +786,4 @@ Tarjeta Expirada:         4000 0000 0000 0069
 
 **Desarrollado con ❤️ usando Kotlin y Android Jetpack**
 
-*Última actualización: Diciembre 2024*
+*Última actualización: Diciembre 2025*
