@@ -163,8 +163,8 @@
 
     <!-- eSIM Package Details -->
     <string name="esim_package_data">%s</string>
-    <string name="esim_package_calls">%d min llamadas</string>
-    <string name="esim_package_sms">%d SMS</string>
+    <string name="esim_package_calls">%s llamadas</string>
+    <string name="esim_package_sms">%s SMS</string>
     <string name="esim_package_validity">%d días</string>
     <string name="esim_package_hotspot">Hotspot: %s</string>
     <string name="esim_package_hotspot_yes">Sí</string>

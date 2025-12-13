@@ -223,22 +223,21 @@ class ESimDetailFragment : Fragment() {
     private fun displayPackageDetails(packageRow: com.example.pangeaapp.core.PackageRow) {
         val details = mutableListOf<String>()
 
-        val dataAmount = formatDataAmount(packageRow.data)
-        details.add(getString(R.string.esim_package_data, dataAmount))
+        details.add(getString(R.string.esim_package_data, packageRow.dataLabel()))
 
-        if (packageRow.calls > 0) {
-            details.add(getString(R.string.esim_package_calls, packageRow.calls))
+        if (packageRow.withCall == true && !packageRow.callAmount.isNullOrEmpty()) {
+            details.add(getString(R.string.esim_package_calls, packageRow.callAmount))
         }
 
-        if (packageRow.sms > 0) {
-            details.add(getString(R.string.esim_package_sms, packageRow.sms))
+        if (packageRow.withSMS == true && !packageRow.smsAmount.isNullOrEmpty()) {
+            details.add(getString(R.string.esim_package_sms, packageRow.smsAmount))
         }
 
-        if (packageRow.validity > 0) {
-            details.add(getString(R.string.esim_package_validity, packageRow.validity))
+        if (packageRow.validityDays > 0) {
+            details.add(getString(R.string.esim_package_validity, packageRow.validityDays))
         }
 
-        val hotspotText = if (packageRow.hotspot) {
+        val hotspotText = if (packageRow.withHotspot == true) {
             getString(R.string.esim_package_hotspot_yes)
         } else {
             getString(R.string.esim_package_hotspot_no)
