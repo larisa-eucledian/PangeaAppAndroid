@@ -295,7 +295,6 @@ class ESimDetailFragment : Fragment() {
         val titleLabel = TextView(requireContext()).apply {
             text = title
             textSize = 14f
-            typeface = android.graphics.Typeface.create(null, android.graphics.Typeface.NORMAL)
             setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
             layoutParams = LinearLayout.LayoutParams(
                 0,
@@ -308,7 +307,7 @@ class ESimDetailFragment : Fragment() {
         val valueLabel = TextView(requireContext()).apply {
             text = value
             textSize = 14f
-            typeface = android.graphics.Typeface.create(null, android.graphics.Typeface.BOLD)
+            setTypeface(null, android.graphics.Typeface.BOLD)
             setTextColor(ContextCompat.getColor(requireContext(), R.color.primary))
             gravity = android.view.Gravity.END
         }
