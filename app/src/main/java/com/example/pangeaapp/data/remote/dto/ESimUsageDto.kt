@@ -16,7 +16,7 @@ data class ESimUsageResponseDto(
  * Usage data from API
  */
 data class UsageDataDto(
-    @SerializedName("status") val status: String,
+    @SerializedName("status") val responseStatus: String,  // Renamed to avoid conflict
     @SerializedName("data") val data: UsageDetailsDto?
 )
 
