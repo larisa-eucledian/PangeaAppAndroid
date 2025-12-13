@@ -15,11 +15,12 @@ data class ESimUsageResponseDto(
 )
 
 /**
- * Wrapper that contains status and nested data
+ * Wrapper that contains the nested data
+ * Note: The API returns a "status" field here, but we don't need it
  */
 data class UsageWrapperDto(
-    @SerializedName("status") val apiStatus: String,  // "success" or "error"
     @SerializedName("data") val details: UsageDetailsDto?
+    // Ignoring "status" field - we don't use it
 )
 
 /**

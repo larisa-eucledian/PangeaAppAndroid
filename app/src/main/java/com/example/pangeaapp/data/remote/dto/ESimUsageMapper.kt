@@ -9,7 +9,6 @@ import com.example.pangeaapp.core.ESimUsage
 fun ESimUsageResponseDto.toDomain(): ESimUsage {
     Log.d("ESimUsageMapper", "=== MAPPER START ===")
     Log.d("ESimUsageMapper", "esimId: $esimId")
-    Log.d("ESimUsageMapper", "usage.apiStatus: ${usage.apiStatus}")
     Log.d("ESimUsageMapper", "usage.details: ${usage.details}")
 
     val usageDetails = usage.details
