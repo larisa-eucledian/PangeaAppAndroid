@@ -50,14 +50,14 @@ data class ESimRow(
 
     /**
      * Sort order for status (for UI display)
-     * READY -> INSTALLED -> EXPIRED -> UNKNOWN
+     * INSTALLED -> READY -> EXPIRED -> UNKNOWN
      */
     val statusSortOrder: Int
         get() = when (status) {
-            ESimStatus.READY_FOR_ACTIVATION -> 0
-            ESimStatus.INSTALLED -> 1
-            ESimStatus.EXPIRED -> 2
-            ESimStatus.UNKNOWN -> 3
+            ESimStatus.INSTALLED -> 0             // Active eSIMs first
+            ESimStatus.READY_FOR_ACTIVATION -> 1  // Ready to activate second
+            ESimStatus.EXPIRED -> 2               // Expired third
+            ESimStatus.UNKNOWN -> 3               // Unknown last
         }
 }
 
