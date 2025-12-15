@@ -10,9 +10,11 @@ import com.example.pangeaapp.data.mappers.toEntity
 import com.example.pangeaapp.data.remote.PangeaApiService
 import com.example.pangeaapp.data.remote.dto.ActivateESimRequest
 import com.example.pangeaapp.data.remote.dto.toDomain
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -64,34 +66,38 @@ class RealESimsRepository @Inject constructor(
         }
     }
 
-    override suspend fun getESimById(esimId: String): ESimRow? {
-        return try {
+    override suspend fun getESimById(esimId: String): ESimRow? = withContext(Dispatchers.IO) {
+        return@withContext try {
             esimDao.getESimById(esimId)?.toDomain()
         } catch (e: Exception) {
             null
         }
     }
 
-    override suspend fun activateESim(esimId: String): Result<ESimRow> = try {
-        val request = ActivateESimRequest(esimId = esimId)
-        val response = apiService.activateESim(request)
+    override suspend fun activateESim(esimId: String): Result<ESimRow> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            val request = ActivateESimRequest(esimId = esimId)
+            val response = apiService.activateESim(request)
 
-        val entity = response.esim.toEntity()
-        esimDao.update(entity)
+            val entity = response.esim.toEntity()
+            esimDao.update(entity)
 
-        Result.success(entity.toDomain())
-    } catch (e: Exception) {
-        Result.failure(e)
+            Result.success(entity.toDomain())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
-    override suspend fun getUsage(esimId: String): Result<ESimUsage> = try {
-        val response = apiService.getESimUsage(esimId)
-        Result.success(response.toDomain())
-    } catch (e: Exception) {
-        Result.failure(e)
+    override suspend fun getUsage(esimId: String): Result<ESimUsage> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            val response = apiService.getESimUsage(esimId)
+            Result.success(response.toDomain())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
-    override suspend fun invalidateCache() {
+    override suspend fun invalidateCache() = withContext(Dispatchers.IO) {
         esimDao.deleteAll()
     }
 
