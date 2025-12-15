@@ -1,5 +1,6 @@
 package com.example.pangeaapp.data.remote.dto
 
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -11,7 +12,9 @@ data class ESimUsageResponseDto(
     @SerializedName("esim_id") val esimId: String,
     @SerializedName("iccid") val iccid: String,
     @SerializedName("package_name") val packageName: String,
-    @SerializedName("usage") val usage: UsageWrapperDto
+    @SerializedName("usage")
+    @JsonAdapter(UsageWrapperDtoAdapter::class)  // Use custom adapter to fix Gson bug
+    val usage: UsageWrapperDto
 )
 
 /**
