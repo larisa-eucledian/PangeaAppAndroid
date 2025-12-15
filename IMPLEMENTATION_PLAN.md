@@ -1,11 +1,56 @@
 # Plan de Implementación - PangeaApp Android
 **Fecha:** 2025-12-10
 **Branch de trabajo:** `claude/compare-ios-android-features-01YaTQgDFDcCKYDDKAQCszXa`
-**Última actualización:** 2025-12-12
+**Última actualización:** 2025-12-15
 
 ---
 
-## ✅ COMPLETADO EN ÚLTIMA SESIÓN (2025-12-12)
+## ✅ COMPLETADO EN ÚLTIMA SESIÓN (2025-12-15)
+
+### Critical Bug Fixes
+- ✅ **eSIM Usage Display** - Gson parsing bug fixed:
+  - Root cause: Gson bug with nested duplicate field names ("status" in wrapper and nested object)
+  - Solution: Created custom `UsageWrapperDtoAdapter` with manual JsonReader parsing
+  - Result: Usage data (data, SMS, voice) now displays correctly in eSIM detail screen
+  - Files: `UsageWrapperDtoAdapter.kt`, `ESimUsageDto.kt`, `ESimUsageMapper.kt`
+- ✅ **Package Details in eSIM Detail** - Removed incorrect data:
+  - Problem: Fetching current package by ID showed modified values (not purchase snapshot)
+  - Solution: Removed package details section entirely
+  - Package name (snapshot from purchase) still displayed in header
+  - Only shows: Usage data, eSIM info (ICCID, dates, coverage)
+
+### UX Improvements
+- ✅ **eSIM Sort Order** - Active eSIMs shown first:
+  - Changed `statusSortOrder`: INSTALLED(0) → READY(1) → EXPIRED(2)
+  - Active (INSTALLED) eSIMs now appear at top of list
+  - Better matches user expectations and iOS behavior
+
+### Code Quality
+- ✅ **Hardcoded Strings Removed** - Per professor feedback:
+  - Added content description strings: `cd_qr_code`, `cd_stripe_logo`, `cd_visa_logo`, `cd_mastercard_logo`, `cd_amex_logo`
+  - Fixed fragment_checkout.xml (lines 298, 306, 314, 321)
+  - Fixed fragment_esim_detail.xml (line 102)
+  - All strings localized in 3 languages (EN, ES, DE)
+- ✅ **Debug Logs Removed** - Production-ready:
+  - Cleaned all Log.d/Log.e statements from usage-related files
+  - ESimUsageMapper.kt, ESimDetailFragment.kt, ESimDetailViewModel.kt
+  - Code ready for release
+
+### Documentation
+- ✅ **iOS Issues Documented** - For future session:
+  - Created `IOS_ISSUES_TO_FIX.md` with 4 known issues
+  - Double-loading animation in eSIMs list
+  - Broken country search
+  - Incorrect package info display
+  - Video width issue in Countries screen
+
+### Professor Feedback Addressed
+- ✅ Hardcoded strings fixed in XML layouts
+- ⚠️  Coroutine Dispatchers - Pending review: "Considera que es recomendable asignar adecuadamente los Dispatchers para evitar el uso del hilo principal en procesos de I/O"
+
+---
+
+## ✅ COMPLETADO EN SESIÓN ANTERIOR (2025-12-12)
 
 ### Performance & UX Optimizations
 - ✅ **Cache Performance Fix** - NetworkBoundResource optimizado:
