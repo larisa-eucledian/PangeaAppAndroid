@@ -185,4 +185,11 @@
     <string name="package_included">Enthalten</string>
     <string name="package_available">Verfügbar</string>
 
+    <!-- Content Descriptions -->
+    <string name="cd_qr_code">QR-Code</string>
+    <string name="cd_stripe_logo">Stripe</string>
+    <string name="cd_visa_logo">Visa</string>
+    <string name="cd_mastercard_logo">Mastercard</string>
+    <string name="cd_amex_logo">American Express</string>
+
 </resources>

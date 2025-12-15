@@ -99,7 +99,7 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:scaleType="fitCenter"
-                    android:contentDescription="QR Code"
+                    android:contentDescription="@string/cd_qr_code"
                     tools:src="@android:drawable/ic_menu_gallery" />
 
                 <TextView
