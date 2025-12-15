@@ -46,7 +46,12 @@
 
 ### Professor Feedback Addressed
 - ✅ Hardcoded strings fixed in XML layouts
-- ⚠️  Coroutine Dispatchers - Pending review: "Considera que es recomendable asignar adecuadamente los Dispatchers para evitar el uso del hilo principal en procesos de I/O"
+- ✅ **Coroutine Dispatchers** - I/O operations optimized:
+  - Added explicit `withContext(Dispatchers.IO)` to all I/O operations in RealESimsRepository
+  - Database operations (getESimById, update, deleteAll) now use IO dispatcher
+  - Network operations (activateESim, getUsage) now use IO dispatcher
+  - Follows same pattern as RealAuthRepository
+  - Prevents blocking main thread during I/O operations
 
 ---
 
