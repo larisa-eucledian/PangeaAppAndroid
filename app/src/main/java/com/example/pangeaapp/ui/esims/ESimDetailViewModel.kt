@@ -49,7 +49,6 @@ class ESimDetailViewModel @Inject constructor(
             val result = esimsRepository.getESimById(esimId)
             _esim.value = result
 
-            Log.d("ESimDetailVM", "=== eSIM Loaded: id=${result?.esimId}, status=${result?.status} ===")
 
             if (result == null) {
                 _error.value = "eSIM not found"
@@ -58,10 +57,8 @@ class ESimDetailViewModel @Inject constructor(
                 // Don't load package details - package may have changed since purchase
                 // All package info is already in packageName field
                 if (result.status == ESimStatus.INSTALLED) {
-                    Log.d("ESimDetailVM", "eSIM is INSTALLED - calling loadUsage(${result.esimId})")
                     loadUsage(result.esimId)
                 } else {
-                    Log.d("ESimDetailVM", "eSIM status is ${result.status} - NOT calling loadUsage")
                 }
                 _isLoading.value = false
             }
@@ -70,14 +67,11 @@ class ESimDetailViewModel @Inject constructor(
 
     private fun loadUsage(esimId: String) {
         viewModelScope.launch {
-            Log.d("ESimDetailVM", ">>> Calling API: getUsage($esimId)")
             esimsRepository.getUsage(esimId).fold(
                 onSuccess = { usageData ->
-                    Log.d("ESimDetailVM", "<<< Usage SUCCESS: dataConsumed=${usageData.dataConsumed}, remainingData=${usageData.remainingData}")
                     _usage.value = usageData
                 },
                 onFailure = { error ->
-                    Log.e("ESimDetailVM", "<<< Usage FAILED: ${error.message}", error)
                 }
             )
         }
