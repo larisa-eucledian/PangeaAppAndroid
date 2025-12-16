@@ -111,6 +111,19 @@ class ESimDetailFragment : Fragment() {
                     usage?.let { displayUsageData(it) }
                 }
             }
+
+            launch {
+                viewModel.isLoadingUsage.collect { isLoading ->
+                    if (isLoading) {
+                        binding.usageCard.visibility = View.VISIBLE
+                        binding.usageLoadingIndicator.visibility = View.VISIBLE
+                        binding.usageContainer.visibility = View.GONE
+                    } else {
+                        binding.usageLoadingIndicator.visibility = View.GONE
+                        binding.usageContainer.visibility = View.VISIBLE
+                    }
+                }
+            }
         }
     }
 

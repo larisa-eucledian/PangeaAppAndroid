@@ -39,6 +39,9 @@ class ESimDetailViewModel @Inject constructor(
     private val _usage = MutableStateFlow<ESimUsage?>(null)
     val usage: StateFlow<ESimUsage?> = _usage.asStateFlow()
 
+    private val _isLoadingUsage = MutableStateFlow(false)
+    val isLoadingUsage: StateFlow<Boolean> = _isLoadingUsage.asStateFlow()
+
     init {
         loadESim()
     }
@@ -67,11 +70,14 @@ class ESimDetailViewModel @Inject constructor(
 
     private fun loadUsage(esimId: String) {
         viewModelScope.launch {
+            _isLoadingUsage.value = true
             esimsRepository.getUsage(esimId).fold(
                 onSuccess = { usageData ->
                     _usage.value = usageData
+                    _isLoadingUsage.value = false
                 },
                 onFailure = { error ->
+                    _isLoadingUsage.value = false
                 }
             )
         }
