@@ -33,6 +33,11 @@ interface PangeaApiService {
         @Query("country") countryName: String
     ): List<PackageDto>
 
+    @GET("tenant/packages")
+    suspend fun getPackageById(
+        @Query("package_id") packageId: String
+    ): List<PackageDto>
+
     // Transactions
     @POST("transactions")
     suspend fun createTransaction(
@@ -47,6 +52,11 @@ interface PangeaApiService {
     suspend fun activateESim(
         @Body request: ActivateESimRequest
     ): ActivateESimResponse
+
+    @GET("esim/usage/{esimId}")
+    suspend fun getESimUsage(
+        @Path("esimId") esimId: String
+    ): ESimUsageResponseDto
 }
 
 data class LoginRequest(val identifier: String, val password: String)

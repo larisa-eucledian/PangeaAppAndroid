@@ -786,4 +786,4 @@ Tarjeta Expirada:         4000 0000 0000 0069
 
 **Desarrollado con ❤️ usando Kotlin y Android Jetpack**
 
-*Última actualización: Diciembre 2025*
+*Última actualización: 15 Diciembre 2025*

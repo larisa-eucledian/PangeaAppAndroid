@@ -159,5 +159,38 @@
     <string name="esim_info_lpa_code">Código LPA</string>
     <string name="esim_info_purchased">Comprada</string>
     <string name="esim_info_coverage">Cobertura</string>
+    <string name="esim_info_package_details">Detalles del Paquete</string>
+
+    <!-- eSIM Package Details -->
+    <string name="esim_package_data">%s</string>
+    <string name="esim_package_calls">%s llamadas</string>
+    <string name="esim_package_sms">%s SMS</string>
+    <string name="esim_package_validity">%d días</string>
+    <string name="esim_package_hotspot">Hotspot: %s</string>
+    <string name="esim_package_hotspot_yes">Sí</string>
+    <string name="esim_package_hotspot_no">No</string>
+
+    <!-- eSIM Usage -->
+    <string name="esim_usage_data">Datos</string>
+    <string name="esim_usage_data_format">%s usados de %s restantes (%d%%)</string>
+    <string name="esim_usage_sms">SMS</string>
+    <string name="esim_usage_sms_format">%d usados, %d restantes</string>
+    <string name="esim_usage_voice">Voz</string>
+    <string name="esim_usage_voice_format">%d min usados, %d min restantes</string>
+
+    <!-- Package Info Labels -->
+    <string name="package_data">Datos</string>
+    <string name="package_calls_label">Llamadas</string>
+    <string name="package_sms_label">SMS</string>
+    <string name="package_hotspot_label">Hotspot</string>
+    <string name="package_included">Incluidas</string>
+    <string name="package_available">Disponible</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_qr_code">Código QR</string>
+    <string name="cd_stripe_logo">Stripe</string>
+    <string name="cd_visa_logo">Visa</string>
+    <string name="cd_mastercard_logo">Mastercard</string>
+    <string name="cd_amex_logo">American Express</string>
 
 </resources>

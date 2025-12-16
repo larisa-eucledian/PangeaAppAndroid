@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -101,6 +102,25 @@ class ESimDetailFragment : Fragment() {
                             Toast.LENGTH_LONG
                         ).show()
                         viewModel.clearActivationSuccess()
+                    }
+                }
+            }
+
+            launch {
+                viewModel.usage.collect { usage ->
+                    usage?.let { displayUsageData(it) }
+                }
+            }
+
+            launch {
+                viewModel.isLoadingUsage.collect { isLoading ->
+                    if (isLoading) {
+                        binding.usageCard.visibility = View.VISIBLE
+                        binding.usageLoadingIndicator.visibility = View.VISIBLE
+                        binding.usageContainer.visibility = View.GONE
+                    } else {
+                        binding.usageLoadingIndicator.visibility = View.GONE
+                        binding.usageContainer.visibility = View.VISIBLE
                     }
                 }
             }
@@ -206,6 +226,85 @@ class ESimDetailFragment : Fragment() {
         }
 
         binding.infoContainer.addView(row)
+    }
+
+    private fun displayUsageData(usage: com.example.pangeaapp.core.ESimUsage) {
+
+        binding.usageContainer.removeAllViews()
+
+        // Convert bytes to GB (matches iOS)
+        val dataConsumedGB = usage.dataConsumed / 1_000_000_000.0
+        val dataAllowedGB = usage.allowedData / 1_000_000_000.0
+        val dataPercentage = usage.dataUsagePercentage
+
+
+        // Data usage - Format: "0.50 GB / 1.00 GB (50%)"
+        addUsageRow(
+            getString(R.string.esim_usage_data),
+            String.format("%.2f GB / %.2f GB (%d%%)", dataConsumedGB, dataAllowedGB, dataPercentage)
+        )
+
+        // SMS usage - Format: "150 / 500"
+        if (usage.allowedSms > 0) {
+            addUsageRow(
+                getString(R.string.esim_usage_sms),
+                "${usage.remainingSms} / ${usage.allowedSms}"
+            )
+        }
+
+        // Voice usage - Format: "180 / 300 min"
+        if (usage.allowedVoice > 0) {
+            addUsageRow(
+                getString(R.string.esim_usage_voice),
+                "${usage.remainingVoice} / ${usage.allowedVoice} min"
+            )
+        }
+
+        binding.usageCard.visibility = View.VISIBLE
+    }
+
+    private fun addUsageRow(title: String, value: String) {
+        // Simple horizontal layout (matches iOS)
+        val row = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                bottomMargin = 12
+            }
+        }
+
+        val titleLabel = TextView(requireContext()).apply {
+            text = title
+            textSize = 14f
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+        row.addView(titleLabel)
+
+        val valueLabel = TextView(requireContext()).apply {
+            text = value
+            textSize = 14f
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.primary))
+            gravity = android.view.Gravity.END
+        }
+        row.addView(valueLabel)
+
+        binding.usageContainer.addView(row)
+    }
+
+    private fun formatDataAmount(bytes: Long): String {
+        return when {
+            bytes >= 1_000_000_000 -> String.format("%.1f GB", bytes / 1_000_000_000.0)
+            bytes >= 1_000_000 -> String.format("%.1f MB", bytes / 1_000_000.0)
+            else -> String.format("%.1f KB", bytes / 1_000.0)
+        }
     }
 
     private fun setupInstallButton(esim: com.example.pangeaapp.core.ESimRow) {

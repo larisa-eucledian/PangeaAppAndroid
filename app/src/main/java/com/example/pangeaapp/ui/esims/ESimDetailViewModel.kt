@@ -1,9 +1,12 @@
 package com.example.pangeaapp.ui.esims
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pangeaapp.core.ESimRow
+import com.example.pangeaapp.core.ESimStatus
+import com.example.pangeaapp.core.ESimUsage
 import com.example.pangeaapp.data.esim.ESimsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,6 +36,12 @@ class ESimDetailViewModel @Inject constructor(
     private val _activationSuccess = MutableStateFlow(false)
     val activationSuccess: StateFlow<Boolean> = _activationSuccess.asStateFlow()
 
+    private val _usage = MutableStateFlow<ESimUsage?>(null)
+    val usage: StateFlow<ESimUsage?> = _usage.asStateFlow()
+
+    private val _isLoadingUsage = MutableStateFlow(false)
+    val isLoadingUsage: StateFlow<Boolean> = _isLoadingUsage.asStateFlow()
+
     init {
         loadESim()
     }
@@ -42,11 +51,35 @@ class ESimDetailViewModel @Inject constructor(
             _isLoading.value = true
             val result = esimsRepository.getESimById(esimId)
             _esim.value = result
-            _isLoading.value = false
+
 
             if (result == null) {
                 _error.value = "eSIM not found"
+                _isLoading.value = false
+            } else {
+                // Don't load package details - package may have changed since purchase
+                // All package info is already in packageName field
+                if (result.status == ESimStatus.INSTALLED) {
+                    loadUsage(result.esimId)
+                } else {
+                }
+                _isLoading.value = false
             }
+        }
+    }
+
+    private fun loadUsage(esimId: String) {
+        viewModelScope.launch {
+            _isLoadingUsage.value = true
+            esimsRepository.getUsage(esimId).fold(
+                onSuccess = { usageData ->
+                    _usage.value = usageData
+                    _isLoadingUsage.value = false
+                },
+                onFailure = { error ->
+                    _isLoadingUsage.value = false
+                }
+            )
         }
     }
 
