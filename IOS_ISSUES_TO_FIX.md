@@ -69,11 +69,19 @@ Los detalles del paquete (package details) mostrados en el eSIM detail screen no
 - Se eliminó completamente la sección de package details
 - Solo se muestra el `packageName` en el header (que ya contiene toda la info)
 - Se muestra solo el **usage** (que sí es correcto)
+- **El usage card se muestra DESPUÉS del botón de instalación rápida** (mejor UX)
+
+**Cambios a aplicar en iOS:**
+1. Eliminar la sección de package details (método `addPackageFeatures()`)
+2. Mantener solo el `packageName` en el header
+3. **Mover el usage card para que aparezca DESPUÉS del botón de instalación**
+4. El orden debe ser: Header → QR Code → Botón Install → Usage Card → Info Card
 
 **Archivos a revisar:**
 - `/PangeaApp/Features/ESims/ESimDetailViewController.swift`
-- Método `addPackageFeatures()`
-- Considerar aplicar la misma solución que en Android: eliminar los package details
+- Método `addPackageFeatures()` - eliminar
+- Reordenar las vistas para que usage aparezca después del install button
+- Comparar con Android: `/app/src/main/res/layout/fragment_esim_detail.xml` (líneas 128-168)
 
 ---
 
