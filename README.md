@@ -169,9 +169,12 @@ inline fun <ResultType, RequestType> networkBoundResource(
 
 ### 📱 Gestión de eSIMs
 - Listado de eSIMs activas, expiradas y pendientes
+- **Ordenamiento inteligente**: eSIMs activas (INSTALLED) se muestran primero
 - Estados: Instalada, Activa, Expirada, Pendiente de Instalación
 - Códigos QR para activación LPA
-- Detalles de consumo y expiración
+- **Detalles de consumo en tiempo real** con loading indicator
+- Información de uso: Datos consumidos, SMS, minutos de voz
+- Detalles de activación y expiración
 - Botón para instalar eSIM directamente
 
 ### 🎨 Interfaz Adaptativa
