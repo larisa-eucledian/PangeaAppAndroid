@@ -1,5 +1,5 @@
 # 🌍 Pangea App - Android eSIM Marketplace
-
+URL Repositorio: https://github.com/larisa-eucledian/PangeaAppAndroid
 ## 📖 Descripción del Proyecto
 
 **Pangea App** es una aplicación Android nativa que permite a los usuarios comprar y gestionar planes de datos eSIM para diferentes países y regiones del mundo. La aplicación ofrece autenticación segura, navegación intuitiva, compras mediante Stripe, y gestión completa del ciclo de vida de eSIMs, todo con soporte offline mediante caché local.
